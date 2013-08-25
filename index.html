@@ -32,7 +32,11 @@ body {
 
 .main {
   max-width: 980px;
-  margin: 3em auto;
+  margin-top: 3em;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .main h1 {
@@ -40,6 +44,7 @@ body {
   font-weight: 200;
   font-size: 48px;
   letter-spacing: 0.23em;
+  text-align: center;
 }
 
 .main a:link,
@@ -53,6 +58,13 @@ body {
 
 .main a:active {
   color: #eee;
+}
+
+
+@media (max-width: 479px) {
+  .main h1 {
+    font-size: 30px;
+  }
 }
 
 </style>
@@ -74,15 +86,22 @@ body {
 
   <div class="pure-g-r">
 
-    <div class="pure-u-1">
+    <div class="pure-u">
+
       <h1>negativuserland</h1>
 
       <p>An imprisoned project that will eventually be released.</p>
 
       <address>
-        <a href="http://negativuserland.org/">http://negativuserland.org/</a><br />
-        <a href="https://github.com/jyelloz/negativuserland/">https://github.com/jyelloz/negativuserland/</a>
+        <a href="http://negativuserland.org/">
+          http://negativuserland.org/
+        </a>
+        <br />
+        <a href="https://github.com/jyelloz/negativuserland/">
+          https://github.com/jyelloz/negativuserland/
+        </a>
       </address>
+
     </div>
 
   </div>
