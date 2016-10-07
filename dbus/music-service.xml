@@ -11,6 +11,7 @@
       <arg name="limit" type="t" />
       <arg name="artists" type="as" direction="out" />
     </method>
+    <property name="ArtistsCount" type="t" access="read" />
   </interface>
 
 </node>

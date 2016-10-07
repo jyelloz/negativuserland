@@ -53,6 +53,12 @@ nul_music_service_util_get_skeleton (void)
     NULL
   );
 
+  g_object_set (
+    music,
+    "artists-count", ARTISTS_LENGTH,
+    NULL
+  );
+
   return G_DBUS_INTERFACE_SKELETON (music);
 
 }
