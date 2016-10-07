@@ -24,5 +24,6 @@ deps = [
 ]
 nul_inc = include_directories(['.', './nul'])
 
+subdir('dbus')
 subdir('nul')
 # subdir('tests')

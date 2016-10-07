@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<node name="/Geolocation_Service"
+  xmlns:tp="http://telepathy.freedesktop.org/wiki/DbusSpec#extensions-v0"
+  xmlns:h="http://www.w3.org/1999/xhtml">
+
+  <interface name="org.negativuserland.GeolocationService">
+    <method name="Enable" />
+    <method name="Disable" />
+    <signal name="LocationUpdated">
+      <arg name="lat" type="d" />
+      <arg name="lon" type="d" />
+      <arg name="uncertainty" type="d" />
+    </signal>
+    <property name="lat" type="d" access="read" />
+    <property name="lon" type="d" access="read" />
+    <property name="uncertainty" type="d" access="read" />
+    <property name="LocationStatus" tp:name-form-bindings="Location_Status"
+      type="s" tp:type="Location_Status" access="read" />
+  </interface>
+
+  <tp:enum name="Location_Status"
+    tp:name-for-bindings="Location_Status"
+    type="s">
+    <tp:enumvalue suffix="Available" value="Available">
+      <tp:docstring>
+        <h:p>The geolocation service is running.</h:p>
+      </tp:docstring>
+    </tp:enumvalue>
+    <tp:enumvalue suffix="Waiting" value="Waiting">
+      <tp:docstring>
+        <h:p>The geolocation service is waiting for location information.</h:p>
+      </tp:docstring>
+    </tp:enumvalue>
+    <tp:enumvalue suffix="Disabled" value="Disabled">
+      <tp:docstring>
+        <h:p>The geolocation service is not enabled.</h:p>
+      </tp:docstring>
+    </tp:enumvalue>
+    <tp:docstring>
+      <h:p>The status of the location service. The location values can only be
+        considered reliable while in the Available state.</h:p>
+    </tp:docstring>
+  </tp:enum>
+
+</node>

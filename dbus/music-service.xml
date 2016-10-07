@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<node name="/Music_Service"
+  xmlns:tp="http://telepathy.freedesktop.org/wiki/DbusSpec#extensions-v0"
+  xmlns:h="http://www.w3.org/1999/xhtml">
+
+  <interface name="org.negativuserland.MusicService">
+    <method name="Enable" />
+    <method name="Disable" />
+    <method name="GetArtists">
+      <arg name="offset" type="t" />
+      <arg name="limit" type="t" />
+      <arg name="artists" type="as" direction="out" />
+    </method>
+  </interface>
+
+</node>
