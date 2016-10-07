@@ -5,6 +5,7 @@ libexec_PROGRAMS = nul-service
 
 nul_ui_SOURCES = \
 	nul-ui-main.c \
+	nul-window.c \
 	$(NULL)
 
 nul_service_SOURCES = \
