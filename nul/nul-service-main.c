@@ -6,6 +6,8 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 
+#include "nul-service-application.h"
+
 static void
 nul_service_activate_cb (GApplication *const app,
                          gpointer      const user_data)
@@ -27,22 +29,12 @@ nul_service_shutdown_cb (GApplication *const app,
   g_message ("negativuserland service is shutting down");
 }
 
-static gboolean
-nul_probe_cb            (gpointer      const user_data)
-{
-  g_message ("probe");
-  return TRUE;
-}
-
 gint
 main (const gint          argc,
       const gchar **const argv)
 {
 
-  GApplication *const app = g_application_new (
-    "org.negativuserland.Service",
-    G_APPLICATION_IS_SERVICE
-  );
+  GApplication *const app = nul_service_application_new ();
 
   g_signal_connect (
     app,
@@ -62,12 +54,6 @@ main (const gint          argc,
     app,
     "shutdown",
     G_CALLBACK (nul_service_shutdown_cb),
-    NULL
-  );
-
-  g_timeout_add (
-    1000,
-    nul_probe_cb,
     NULL
   );
 

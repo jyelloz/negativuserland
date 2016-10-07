@@ -13,6 +13,9 @@ nul_service_deps = deps
 nul_service_sources = [
   'nul-media-player.c',
   'nul-service-main.c',
+  'nul-service-application.c',
+  'nul-music-service-util.c',
+  'nul-geolocation-service-util.c',
 ]
 
 executable(

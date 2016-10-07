@@ -1,14 +1,14 @@
 #include "nul-service-application.h"
 
-#include "nul-music-service.h"
-#include "nul-geolocation-service.h"
+#include "nul-music-service-util.h"
+#include "nul-geolocation-service-util.h"
 
 struct _NulServiceApplication
 {
   GApplication parent_instance;
 
-  NulMusicService       *music;
-  NulGeolocationService *geolocation;
+  GDBusInterfaceSkeleton *music;
+  GDBusInterfaceSkeleton *geolocation;
 
 };
 
@@ -53,72 +53,41 @@ nul_service_application_class_init (NulServiceApplicationClass *const cls)
 }
 
 static void
-nul_service_application_init (NulServiceApplication *const self)
-{
-}
-
-#if 0
-/* TODO: integrate with dbus skeletons */
-static gboolean
-handle_get_artists (NulMusicService       *const self,
-                    GDBusMethodInvocation *const invo,
-                    guint64 const                offset,
-                    guint64 const                limit)
+startup_cb (GApplication *const app, gpointer const user_data)
 {
 
-  g_debug ("offset=%lu, limit=%lu", offset, limit);
+  NulServiceApplication *const self = NUL_SERVICE_APPLICATION (app);
+  GDBusConnection *const conn = g_application_get_dbus_connection (app);
 
-  g_dbus_method_invocation_return_value (invo, g_variant_new ("(as)", NULL));
-
-  return TRUE;
-
-}
-
-static inline GDBusConnection *
-get_dbus_connection (NulServiceApplication *const app)
-{
-  return g_application_get_dbus_connection (G_APPLICATION (app));
-}
-
-static gboolean
-setup_music_service (NulServiceApplication *const app,
-                     GError               **const error)
-{
-
-  GDBusConnection *const conn = get_dbus_connection (app);
-  NulMusicService *const music = app->music = nul_music_service_skeleton_new ();
-
-  g_signal_connect (
-    music,
-    "handle-get-artists",
-    G_CALLBACK (handle_get_artists),
+  /* TODO: move these into a dbus_register and add dbus_unregister */
+  g_dbus_interface_skeleton_export (
+    self->music,
+    conn,
+    "/",
     NULL
   );
 
-  return g_dbus_interface_skeleton_export (
-    G_DBUS_INTERFACE_SKELETON (music),
+  g_dbus_interface_skeleton_export (
+    self->geolocation,
     conn,
     "/",
-    error
+    NULL
   );
 
 }
 
-static gboolean
-setup_geolocation_service (NulServiceApplication *const app,
-                           GError               **const error)
+static void
+nul_service_application_init (NulServiceApplication *const self)
 {
 
-  GDBusConnection *const conn = get_dbus_connection (app);
-  NulGeolocationService *const geolocation = app->geolocation =
-    nul_geolocation_service_skeleton_new ();
-
-  return g_dbus_interface_skeleton_export (
-    G_DBUS_INTERFACE_SKELETON (geolocation),
-    conn,
-    "/",
-    error
+  g_signal_connect (
+    self,
+    "startup",
+    G_CALLBACK (startup_cb),
+    NULL
   );
 
+  self->music = nul_music_service_util_get_skeleton ();
+  self->geolocation = nul_geolocation_service_util_get_skeleton ();
+
 }
-#endif
