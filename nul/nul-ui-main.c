@@ -7,7 +7,8 @@
 #include "nul-window.h"
 
 static const gchar css[] =
-".nul-status-box.unavailable {"
+".nul-status-box {"
+"  margin: 16px;"
 "  background-color: red;"
 "  transition: background-color 500ms ease-in-out;"
 "}"
@@ -26,7 +27,6 @@ service_appeared_cb (GDBusConnection *const conn,
 
   GtkStyleContext *const style = gtk_widget_get_style_context (widget);
   gtk_style_context_add_class (style, "available");
-  gtk_style_context_remove_class (style, "unavailable");
 
 }
 
@@ -39,7 +39,6 @@ service_vanished_cb (GDBusConnection *const conn,
   g_message ("service vanished");
 
   GtkStyleContext *const style = gtk_widget_get_style_context (widget);
-  gtk_style_context_add_class (style, "unavailable");
   gtk_style_context_remove_class (style, "available");
 
 }
