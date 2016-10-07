@@ -25,6 +25,8 @@ executable(
     'nul-ui-main.c',
   ],
   dependencies: nul_ui_deps,
+  include_directories: [libnul_dbus_gen_inc],
+  link_with: [libnul_dbus_gen],
 )
 
 executable(
@@ -33,10 +35,14 @@ executable(
     'nul-tui-stfl-main.c',
   ],
   dependencies: nul_tui_stfl_deps,
+  include_directories: [libnul_dbus_gen_inc],
+  link_with: [libnul_dbus_gen],
 )
 
 executable(
   'nul-service',
   sources: nul_service_sources,
   dependencies: nul_service_deps,
+  include_directories: [libnul_dbus_gen_inc],
+  link_with: [libnul_dbus_gen],
 )
