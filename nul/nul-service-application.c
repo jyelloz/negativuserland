@@ -42,52 +42,62 @@ nul_service_application_finalize (GObject *const object)
 
 }
 
-static void
-nul_service_application_class_init (NulServiceApplicationClass *const cls)
+static gboolean
+dbus_register (GApplication    *const app,
+               GDBusConnection *const conn,
+               gchar const     *const path,
+               GError         **const err)
 {
 
-  GObjectClass *const object_class = G_OBJECT_CLASS (cls);
+  NulServiceApplication *const self = NUL_SERVICE_APPLICATION (app);
 
-  object_class->finalize = nul_service_application_finalize;
+  if (!g_dbus_interface_skeleton_export (self->music, conn, path, err)) {
+    return FALSE;
+  }
+
+  if (!g_dbus_interface_skeleton_export (self->geolocation, conn, path, err)) {
+    return FALSE;
+  }
+
+  return G_APPLICATION_CLASS (nul_service_application_parent_class)->
+    dbus_register (app, conn, path, err);
 
 }
 
 static void
-startup_cb (GApplication *const app, gpointer const user_data)
+dbus_unregister (GApplication    *const app,
+                 GDBusConnection *const conn,
+                 gchar const     *const path)
 {
 
   NulServiceApplication *const self = NUL_SERVICE_APPLICATION (app);
-  GDBusConnection *const conn = g_application_get_dbus_connection (app);
 
-  /* TODO: move these into a dbus_register and add dbus_unregister */
-  g_dbus_interface_skeleton_export (
-    self->music,
-    conn,
-    "/",
-    NULL
+  g_dbus_interface_skeleton_unexport (self->music);
+  g_dbus_interface_skeleton_unexport (self->geolocation);
+
+  G_APPLICATION_CLASS (nul_service_application_parent_class)->dbus_unregister (
+    app, conn, path
   );
 
-  g_dbus_interface_skeleton_export (
-    self->geolocation,
-    conn,
-    "/",
-    NULL
-  );
+}
+
+static void
+nul_service_application_class_init (NulServiceApplicationClass *const cls)
+{
+
+  GApplicationClass *const app_class = G_APPLICATION_CLASS (cls);
+  GObjectClass *const object_class = G_OBJECT_CLASS (cls);
+
+  object_class->finalize = nul_service_application_finalize;
+
+  app_class->dbus_register = dbus_register;
+  app_class->dbus_unregister = dbus_unregister;
 
 }
 
 static void
 nul_service_application_init (NulServiceApplication *const self)
 {
-
-  g_signal_connect (
-    self,
-    "startup",
-    G_CALLBACK (startup_cb),
-    NULL
-  );
-
   self->music = nul_music_service_util_get_skeleton ();
   self->geolocation = nul_geolocation_service_util_get_skeleton ();
-
 }
