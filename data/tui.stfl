@@ -1,0 +1,24 @@
+vbox
+  @style_normal:bg=black
+  vbox
+    .expand:0
+    hbox
+      label[title_label]
+        @style_normal:fg=yellow,attr=bold
+        .expand:0
+        .tie:l
+        text[title_label_text]:""
+      label[event_label]
+        .tie:r
+        text[event_label_text]:"▚"
+  vbox
+    @style_normal[status_area_style]:bg=yellow
+    .tie:c
+    table
+      label[status_label]
+        .tie:c
+        .expand:0
+        .border:lrtb
+        .width:16
+        text[status_label_text]:""
+  list[artists]
