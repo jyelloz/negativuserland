@@ -2,7 +2,7 @@
 
 #include "nul-music-service.h"
 
-#include "../artists.c"
+#include "artists.c"
 
 static gboolean
 handle_get_artists (NulMusicService       *const self,

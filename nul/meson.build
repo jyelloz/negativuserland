@@ -43,6 +43,6 @@ executable(
   'nul-service',
   sources: nul_service_sources,
   dependencies: nul_service_deps,
-  include_directories: [libnul_dbus_gen_inc],
+  include_directories: [libnul_dbus_gen_inc, demo_data_inc],
   link_with: [libnul_dbus_gen],
 )
