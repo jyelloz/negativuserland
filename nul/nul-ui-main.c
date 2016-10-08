@@ -5,6 +5,7 @@
 #include <gtk/gtk.h>
 
 #include "nul-window.h"
+#include "nul-music-service.h"
 
 static const gchar css[] =
 ".nul-status-box {"
