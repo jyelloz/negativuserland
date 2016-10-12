@@ -18,6 +18,7 @@ nul_service_deps = [
 executable(
   'nul-ui',
   'nul-window.c',
+  'nul-ui-application.c',
   'nul-ui-main.c',
   dependencies: nul_ui_deps,
 )

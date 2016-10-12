@@ -4,6 +4,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#include "nul-ui-application.h"
 #include "nul-window.h"
 #include "nul-music-service.h"
 
@@ -98,22 +99,15 @@ activate_cb (GApplication *const app,
 }
 
 gint
-main (const gint          argc,
-      const gchar **const argv)
+main (gint const         argc,
+      gchar      **const argv)
 {
 
-  GtkApplication *const app = gtk_application_new (
-    "org.negativuserland.Ui",
-    0
-  );
-  GApplication *const g_app = G_APPLICATION (app);
+  GApplication *const app = G_APPLICATION (nul_ui_application_new ());
 
-  g_signal_connect (g_app, "startup", G_CALLBACK (startup_cb), NULL);
-  g_signal_connect (g_app, "activate", G_CALLBACK (activate_cb), NULL);
+  g_signal_connect (app, "startup", G_CALLBACK (startup_cb), NULL);
+  g_signal_connect (app, "activate", G_CALLBACK (activate_cb), NULL);
 
-  g_application_register (g_app, NULL, NULL);
-  g_application_activate (g_app);
-
-  return g_application_run (g_app, 0, NULL);
+  return g_application_run (app, argc, argv);
 
 }
