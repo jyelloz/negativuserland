@@ -99,14 +99,12 @@ activate_cb (GApplication *const app,
 }
 
 gint
-main (gint const         argc,
-      gchar      **const argv)
+main (gint const argc, gchar **const argv)
 {
 
   GApplication *const app = G_APPLICATION (nul_ui_application_new ());
 
-  g_signal_connect (app, "startup", G_CALLBACK (startup_cb), NULL);
-  g_signal_connect (app, "activate", G_CALLBACK (activate_cb), NULL);
+  g_application_set_default (app);
 
   return g_application_run (app, argc, argv);
 
