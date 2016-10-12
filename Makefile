@@ -7,10 +7,12 @@ BUILD_DIR = build
 BUILD_NINJAFILE = $(BUILD_DIR)/build.ninja
 BUILD_CMD = $(NINJA) -C $(BUILD_DIR)
 
-all: $(BUILD_NINJAFILE)
+all: configure
 	$(BUILD_CMD)
 
-clean:
+configure: builddir-ninja
+
+clean: builddir-ninja
 	$(BUILD_CMD) clean
 
 distclean: remove-builddir
@@ -30,4 +32,4 @@ $(BUILD_NINJAFILE):
 	$(MAKE) $(BUILD_DIR)
 	meson $(BUILD_DIR)
 
-.PHONY: clean distclean remove-builddir builddir
+.PHONY: clean configure distclean remove-builddir builddir
