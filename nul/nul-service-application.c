@@ -3,6 +3,14 @@
 #include "nul-music-service-util.h"
 #include "nul-geolocation-service-util.h"
 
+#if !GLIB_CHECK_VERSION (2, 48, 0)
+#define G_APPLICATION_CAN_OVERRIDE_APP_ID 0
+#endif
+
+#define NUL_APP_ID    "org.negativuserland.Service"
+#define NUL_APP_FLAGS \
+  (G_APPLICATION_IS_SERVICE | G_APPLICATION_CAN_OVERRIDE_APP_ID)
+
 struct _NulServiceApplication
 {
   GApplication parent_instance;
@@ -23,8 +31,8 @@ nul_service_application_new (void)
 {
   return g_object_new (
     NUL_TYPE_SERVICE_APPLICATION,
-    "application-id", "org.negativuserland.Service",
-    "flags", G_APPLICATION_IS_SERVICE,
+    "application-id", NUL_APP_ID,
+    "flags", NUL_APP_FLAGS,
     NULL
   );
 }
@@ -82,6 +90,12 @@ dbus_unregister (GApplication    *const app,
 }
 
 static void
+activate (GApplication *const app)
+{
+  g_debug ("service activated");
+}
+
+static void
 nul_service_application_class_init (NulServiceApplicationClass *const cls)
 {
 
@@ -92,6 +106,7 @@ nul_service_application_class_init (NulServiceApplicationClass *const cls)
 
   app_class->dbus_register = dbus_register;
   app_class->dbus_unregister = dbus_unregister;
+  app_class->activate = activate;
 
 }
 
