@@ -1,12 +1,7 @@
-#include <stddef.h>
-#include <stdlib.h>
-
 #include <glib.h>
 #include <gtk/gtk.h>
 
 #include "nul-ui-application.h"
-#include "nul-window.h"
-#include "nul-music-service.h"
 
 gint
 main (gint const argc, gchar **const argv)
