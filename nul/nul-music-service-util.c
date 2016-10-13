@@ -40,6 +40,26 @@ handle_get_artists (NulMusicService       *const self,
 
 }
 
+static gboolean
+update_music_service (NulMusicService *const music)
+{
+
+  g_object_set (
+    music,
+    "albums-count", (guint) g_random_int_range (9000, 20000),
+    NULL
+  );
+
+  g_object_set (
+    music,
+    "tracks-count", (guint) g_random_int_range (50000, 100000),
+    NULL
+  );
+
+  return G_SOURCE_CONTINUE;
+
+}
+
 GDBusInterfaceSkeleton *
 nul_music_service_util_get_skeleton (void)
 {
@@ -58,6 +78,10 @@ nul_music_service_util_get_skeleton (void)
     "artists-count", ARTISTS_LENGTH,
     NULL
   );
+
+  update_music_service (music);
+
+  g_timeout_add_seconds (1, (GSourceFunc) update_music_service, music);
 
   return G_DBUS_INTERFACE_SKELETON (music);
 
