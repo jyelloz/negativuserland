@@ -11,7 +11,19 @@
       <arg name="limit" type="t" />
       <arg name="artists" type="as" direction="out" />
     </method>
+    <method name="GetAlbums">
+      <arg name="offset" type="t" />
+      <arg name="limit" type="t" />
+      <arg name="albums" type="as" direction="out" />
+    </method>
+    <method name="GetTracks">
+      <arg name="offset" type="t" />
+      <arg name="limit" type="t" />
+      <arg name="tracks" type="as" direction="out" />
+    </method>
     <property name="ArtistsCount" type="t" access="read" />
+    <property name="AlbumsCount" type="t" access="read" />
+    <property name="TracksCount" type="t" access="read" />
   </interface>
 
 </node>
