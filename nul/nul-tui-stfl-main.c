@@ -1,8 +1,12 @@
+#define _POSIX_SOURCE
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 #include <locale.h>
 #include <langinfo.h>
+#include <sys/types.h>
+#include <signal.h>
 
 #include <stfl.h>
 
@@ -11,8 +15,27 @@
 
 #include "nul-music-service.h"
 
+#define NUL_SERVICE_NAME "org.negativuserland.Service"
+#define NUL_SERVICE_PATH "/org/negativuserland/Service"
+
 static struct stfl_form *form = NULL;
 static struct stfl_ipool *ipool = NULL;
+
+static inline wchar_t const *
+create_listitem (gchar const *const text)
+{
+
+  g_autofree wchar_t const *text_wc = stfl_ipool_towc (ipool, text);
+  wchar_t const *text_wc_esc = stfl_quote (text_wc);
+  g_autofree gchar const *text_esc = stfl_ipool_fromwc (ipool, text_wc_esc);
+  g_autofree gchar const *item = g_strdup_printf (
+    "{listitem text:%s}",
+    text_esc
+  );
+
+  return stfl_ipool_towc (ipool, item);
+
+}
 
 static void
 artists_ready_cb (NulMusicService *const proxy,
@@ -31,27 +54,49 @@ artists_ready_cb (NulMusicService *const proxy,
     L"list[artists]"
   );
 
-  for (gchar *const *artist = artists; artist != NULL; artist++) {
+  for (gchar **artist = artists; artist && *artist; artist++) {
 
-    if (*artist == NULL) {
-      break;
-    }
-
-    g_autofree gchar *line = g_strdup_printf (
-      "{listitem text:\"%s\"}",
-      *artist
-    );
-
-    g_autofree wchar_t const *line_stfl = stfl_ipool_towc (
-      ipool,
-      line
-    );
+    g_autofree wchar_t const *line = create_listitem (*artist);
 
     stfl_modify (
       form,
       L"artists",
       L"append",
-      line_stfl
+      line
+    );
+
+  }
+
+  stfl_run (form, -1);
+
+}
+
+static void
+albums_ready_cb (NulMusicService *const proxy,
+                 GAsyncResult    *const result,
+                 gpointer         const user_data)
+{
+
+  g_autofree gchar **albums = NULL;
+
+  nul_music_service_call_get_albums_finish (proxy, &albums, result, NULL);
+
+  stfl_modify (
+    form,
+    L"albums",
+    L"replace",
+    L"list[albums]"
+  );
+
+  for (gchar **album = albums; album && *album; album++) {
+
+    g_autofree wchar_t const *line = create_listitem (*album);
+
+    stfl_modify (
+      form,
+      L"albums",
+      L"append",
+      line
     );
 
   }
@@ -67,10 +112,18 @@ music_service_ready_cb (NulMusicService *const proxy,
 {
   nul_music_service_call_get_artists (
     proxy,
-    1000,
-    50,
+    0,
+    25,
     NULL,
     (GAsyncReadyCallback) artists_ready_cb,
+    NULL
+  );
+  nul_music_service_call_get_albums (
+    proxy,
+    0,
+    25,
+    NULL,
+    (GAsyncReadyCallback) albums_ready_cb,
     NULL
   );
 }
@@ -90,8 +143,8 @@ service_appeared_cb (GDBusConnection *const conn,
   nul_music_service_proxy_new (
     conn,
     G_DBUS_PROXY_FLAGS_NONE,
-    "org.negativuserland.Service",
-    "/org/negativuserland/Service",
+    NUL_SERVICE_NAME,
+    NUL_SERVICE_PATH,
     NULL,
     (GAsyncReadyCallback) music_service_ready_cb,
     user_data
@@ -132,7 +185,7 @@ startup_cb (GApplication *const app,
 
   g_bus_watch_name_on_connection (
     conn,
-    "org.negativuserland.Service",
+    NUL_SERVICE_NAME,
     G_BUS_NAME_WATCHER_FLAGS_NONE,
     (GBusNameAppearedCallback) service_appeared_cb,
     (GBusNameVanishedCallback) service_vanished_cb,
@@ -166,6 +219,20 @@ input_cb (GIOChannel   *const chan,
 
 }
 
+static gboolean
+winch_cb (void)
+{
+  stfl_reset (form);
+  stfl_run (form, -1);
+  return G_SOURCE_REMOVE;
+}
+
+static void
+winch_handler (gint const signum)
+{
+  g_idle_add ((GSourceFunc) winch_cb, NULL);
+}
+
 gint
 main (gint const argc, gchar **const argv)
 {
@@ -177,6 +244,14 @@ main (gint const argc, gchar **const argv)
     G_APPLICATION_IS_SERVICE
   );
   GIOChannel *const stdin_channel = g_io_channel_unix_new (STDIN_FILENO);
+
+  {
+    struct sigaction sa = {
+      .sa_handler = winch_handler,
+    };
+    sigemptyset (&sa.sa_mask);
+    sigaction (SIGWINCH, &sa, NULL);
+  }
 
   g_io_add_watch (stdin_channel, G_IO_IN, (GIOFunc) input_cb, app);
   g_signal_connect (app, "startup", G_CALLBACK (startup_cb), NULL);
