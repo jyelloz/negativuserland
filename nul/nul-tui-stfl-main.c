@@ -167,8 +167,7 @@ input_cb (GIOChannel   *const chan,
 }
 
 gint
-main (gint const          argc,
-      gchar const **const argv)
+main (gint const argc, gchar **const argv)
 {
 
   setlocale (LC_ALL, "");
@@ -186,6 +185,6 @@ main (gint const          argc,
   g_application_set_default (app);
   g_application_hold (app);
 
-  return g_application_run (app, 0, NULL);
+  return g_application_run (app, argc, argv);
 
 }

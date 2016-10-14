@@ -1,3 +1,4 @@
+#include <glib.h>
 #include <gio/gio.h>
 
 #include "nul-service-application.h"
