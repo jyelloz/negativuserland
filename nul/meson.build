@@ -26,6 +26,7 @@ executable(
 executable(
   'nul-tui-stfl',
   'nul-tui-stfl-main.c',
+  c_args: ['-D_POSIX_SOURCE'],
   dependencies: nul_tui_stfl_deps,
 )
 
