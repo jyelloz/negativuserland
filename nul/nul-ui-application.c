@@ -1,6 +1,7 @@
 #include "nul-ui-application.h"
 #include "nul-music-service.h"
 #include "nul-geolocation-service.h"
+#include "nul-ui-service-state-stack.h"
 
 #if !GLIB_CHECK_VERSION (2, 48, 0)
 #define G_APPLICATION_CAN_OVERRIDE_APP_ID 0
@@ -21,10 +22,7 @@ struct _NulUiApplication
   NulMusicService *music;
   NulGeolocationService *geolocation;
 
-  GtkStack *front_page;
-
-  GtkFlowBox *loading_screen;
-  GtkGrid *stats_screen;
+  NulUiServiceStateStack *service_state_stack;
 
   GtkLabel *artists_count_label;
   GtkLabel *albums_count_label;
@@ -62,6 +60,10 @@ activate (GApplication *const app)
     "data/negativuserland.ui"
   );
 
+  self->service_state_stack = nul_ui_service_state_stack_new (
+    GTK_STACK (gtk_builder_get_object (builder, "service-state-stack"))
+  );
+
   self->artists_count_label = GTK_LABEL (
     gtk_builder_get_object (builder, "artists-count-label")
   );
@@ -70,16 +72,6 @@ activate (GApplication *const app)
   );
   self->tracks_count_label = GTK_LABEL (
     gtk_builder_get_object (builder, "tracks-count-label")
-  );
-
-  self->front_page = GTK_STACK (
-    gtk_builder_get_object (builder, "front-page")
-  );
-  self->loading_screen = GTK_FLOW_BOX (
-    gtk_builder_get_object (builder, "loading-screen")
-  );
-  self->stats_screen = GTK_GRID (
-    gtk_builder_get_object (builder, "stats-screen")
   );
 
   GtkWidget *const window = GTK_WIDGET (
@@ -165,10 +157,7 @@ service_appeared_cb (GDBusConnection  *const conn,
 
   g_message ("service appeared");
 
-  gtk_stack_set_visible_child (
-    app->front_page,
-    GTK_WIDGET (app->stats_screen)
-  );
+  nul_ui_service_state_stack_connect (app->service_state_stack);
 
   nul_music_service_proxy_new (
     conn,
@@ -200,10 +189,7 @@ service_vanished_cb (GDBusConnection  *const conn,
 
   g_message ("service vanished");
 
-  gtk_stack_set_visible_child (
-    app->front_page,
-    GTK_WIDGET (app->loading_screen)
-  );
+  nul_ui_service_state_stack_disconnect (app->service_state_stack);
 
   if (app->music)
     g_object_unref (app->music);
@@ -256,6 +242,11 @@ dbus_unregister (GApplication    *const app,
 static void
 nul_ui_application_finalize (GObject *const object)
 {
+  NulUiApplication *const self = NUL_UI_APPLICATION (object);
+
+  if (self->service_state_stack)
+    nul_ui_service_state_stack_free (self->service_state_stack);
+
   G_OBJECT_GET_CLASS (object)->finalize (object);
 }
 
