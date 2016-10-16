@@ -21,4 +21,12 @@ vbox
         .border:lrtb
         .width:16
         text[status_label_text]:""
-  list[artists]
+  hbox
+    .expand:w
+  hbox
+    vbox
+      label .expand:0 .tie:c style_normal:attr=bold text:"Artists"
+      list[artists]
+    vbox
+      label .expand:0 .tie:c style_normal:attr=bold text:"Albums"
+      list[albums]
