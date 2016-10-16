@@ -191,6 +191,10 @@ service_vanished_cb (GDBusConnection  *const conn,
 
   nul_ui_service_state_stack_disconnect (app->service_state_stack);
 
+  gtk_label_set_text (app->artists_count_label, "-");
+  gtk_label_set_text (app->albums_count_label, "-");
+  gtk_label_set_text (app->tracks_count_label, "-");
+
   if (app->music)
     g_object_unref (app->music);
 
