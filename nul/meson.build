@@ -1,7 +1,6 @@
 nul_ui_deps = [
   deps,
   dependency('gtk+-3.0'),
-  libnul_dbus_gen_dep,
 ]
 
 nul_tui_stfl_deps = [
@@ -15,12 +14,24 @@ nul_service_deps = [
   libnul_dbus_gen_dep,
 ]
 
-executable(
-  'nul-ui',
+libnul_ui_gtk = static_library(
+  'libnul-ui-gtk',
   'nul-window.c',
   'nul-ui-application.c',
+  'nul-ui-pagination-util.c',
+  'nul-ui-service-state-stack.c',
+  dependencies: [nul_ui_deps, libnul_dbus_gen_dep],
+)
+
+libnul_ui_gtk_dep = declare_dependency(
+  include_directories: include_directories(['.']),
+  link_with: libnul_ui_gtk,
+)
+
+executable(
+  'nul-ui',
   'nul-ui-main.c',
-  dependencies: nul_ui_deps,
+  dependencies: [nul_ui_deps, libnul_ui_gtk_dep],
 )
 
 executable(
