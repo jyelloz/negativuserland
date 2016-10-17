@@ -11,6 +11,9 @@
 #define NUL_APP_FLAGS \
   (G_APPLICATION_IS_SERVICE | G_APPLICATION_CAN_OVERRIDE_APP_ID)
 
+#define gapp_class G_APPLICATION_CLASS (nul_service_application_parent_class)
+#define gobj_class G_OBJECT_CLASS (nul_service_application_parent_class)
+
 struct _NulServiceApplication
 {
   GApplication parent_instance;
@@ -46,7 +49,7 @@ nul_service_application_finalize (GObject *const object)
   g_object_unref (self->geolocation);
   g_object_unref (self->music);
 
-  G_OBJECT_CLASS (nul_service_application_parent_class)->finalize (object);
+  gobj_class->finalize (object);
 
 }
 
@@ -67,8 +70,7 @@ dbus_register (GApplication    *const app,
     return FALSE;
   }
 
-  return G_APPLICATION_CLASS (nul_service_application_parent_class)->
-    dbus_register (app, conn, path, err);
+  return gapp_class->dbus_register (app, conn, path, err);
 
 }
 
@@ -83,9 +85,7 @@ dbus_unregister (GApplication    *const app,
   g_dbus_interface_skeleton_unexport (self->music);
   g_dbus_interface_skeleton_unexport (self->geolocation);
 
-  G_APPLICATION_CLASS (nul_service_application_parent_class)->dbus_unregister (
-    app, conn, path
-  );
+  gapp_class-> dbus_unregister (app, conn, path);
 
 }
 

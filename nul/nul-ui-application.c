@@ -13,6 +13,9 @@
 #define NUL_SERVICE_APP_ID "org.negativuserland.Service"
 #define NUL_SERVICE_OBJECT_PATH "/org/negativuserland/Service"
 
+#define gapp_class G_APPLICATION_CLASS (nul_ui_application_parent_class)
+#define gobj_class G_OBJECT_CLASS (nul_ui_application_parent_class)
+
 struct _NulUiApplication
 {
   GtkApplication parent_instance;
@@ -222,8 +225,7 @@ dbus_register (GApplication    *const app,
     NULL
   );
 
-  return G_APPLICATION_CLASS (nul_ui_application_parent_class)->
-    dbus_register (app, conn, path, err);
+  return gapp_class->dbus_register (app, conn, path, err);
 
 }
 
@@ -238,8 +240,7 @@ dbus_unregister (GApplication    *const app,
   if (self->bus_watcher > 0)
     g_bus_unwatch_name (self->bus_watcher);
 
-  G_APPLICATION_CLASS (nul_ui_application_parent_class)->
-    dbus_unregister (app, conn, path);
+  gapp_class->dbus_unregister (app, conn, path);
 
 }
 
@@ -251,7 +252,7 @@ nul_ui_application_finalize (GObject *const object)
   if (self->service_state_stack)
     nul_ui_service_state_stack_free (self->service_state_stack);
 
-  G_OBJECT_GET_CLASS (object)->finalize (object);
+  gobj_class->finalize (object);
 }
 
 static void
