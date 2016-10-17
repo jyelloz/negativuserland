@@ -1,0 +1,9 @@
+#mesondefine GETTEXT_PACKAGE
+#mesondefine G_LOG_DOMAIN
+#mesondefine LOCALEDIR
+#mesondefine PACKAGE
+#mesondefine PACKAGE_BUGREPORT
+#mesondefine PACKAGE_NAME
+#mesondefine PACKAGE_TARNAME
+#mesondefine PACKAGE_URL
+#mesondefine PACKAGE_VERSION
