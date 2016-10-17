@@ -1,4 +1,5 @@
 #include <glib.h>
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 
 #include "nul-ui-application.h"
