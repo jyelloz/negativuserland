@@ -1,0 +1,27 @@
+language: c
+sudo: required
+dist: trusty
+os:
+  - linux
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-4.9
+      - clang
+      - python-virtualenv
+      - python3.4
+
+compiler:
+  - gcc-4.9
+
+script:
+  - virtualenv -p /usr/bin/python3 venv
+  - . venv/bin/activate
+  - pip install -U meson
+  - make
+
+notifications:
+  email: false
