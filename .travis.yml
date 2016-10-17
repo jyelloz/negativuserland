@@ -23,7 +23,7 @@ compiler:
   - gcc-4.9
 
 script:
-  - curl -O 'https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip'
+  - curl -L -O 'https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip'
   - bsdtar xf ninja-linux.zip
   - chmod +x ninja
   - virtualenv -p /usr/bin/python3 venv
