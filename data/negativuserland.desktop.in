@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=@PACKAGE_NAME_UNQUOTED@
+Exec=@BINDIR_UNQUOTED@/negativuserland
+TryExec=@BINDIR_UNQUOTED@/negativuserland
+Type=Application
+StartupNotify=true
