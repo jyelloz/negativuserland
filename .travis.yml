@@ -29,6 +29,7 @@ script:
   - virtualenv -p /usr/bin/python3 venv
   - . venv/bin/activate
   - pip install -U meson
+  - export PATH="${PWD}:${PATH}"
   - make MESON=meson.py MESONCONF=mesonconf.py "NINJA=${PWD}/ninja"
 
 notifications:
