@@ -30,6 +30,6 @@ $(BUILD_DIR):
 $(BUILD_NINJAFILE):
 	$(MAKE) remove-builddir
 	$(MAKE) $(BUILD_DIR)
-	meson $(BUILD_DIR)
+	$(MESON) $(BUILD_DIR)
 
 .PHONY: clean configure distclean remove-builddir builddir
