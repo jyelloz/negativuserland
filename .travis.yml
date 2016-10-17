@@ -8,6 +8,7 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - sourceline: 'ppa:ricotz/testing'
     packages:
       - gcc-4.9
       - clang
