@@ -1,0 +1,16 @@
+* {
+  background-color: white;
+  font-family: "Source Code Pro";
+  font-size: 10px;
+}
+
+.nul-status-box {
+  margin: 16px;
+  background-color: red;
+  transition: background-color 500ms ease-in-out;
+}
+
+.nul-status-box.available {
+  background-color: lime;
+  transition: background-color 500ms ease-in-out;
+}
