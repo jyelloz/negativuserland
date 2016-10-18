@@ -17,7 +17,7 @@ nul_service_deps = [
 
 executable(
   'nul-ui',
-  'nul-window.c',
+  'nul-ui-window.c',
   'nul-ui-application.c',
   'nul-ui-pagination-util.c',
   'nul-ui-service-state-stack.c',
