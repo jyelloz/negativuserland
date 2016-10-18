@@ -2,6 +2,7 @@
 #include "nul-music-service.h"
 #include "nul-geolocation-service.h"
 #include "nul-ui-service-state-stack.h"
+#include "nul-ui-resources.h"
 
 #if !GLIB_CHECK_VERSION (2, 48, 0)
 #define G_APPLICATION_CAN_OVERRIDE_APP_ID 0
@@ -59,8 +60,8 @@ activate (GApplication *const app)
   GtkApplication *const gtk_app = GTK_APPLICATION (app);
   NulUiApplication *const self = NUL_UI_APPLICATION (app);
 
-  g_autoptr(GtkBuilder) builder = gtk_builder_new_from_file (
-    "data/negativuserland.ui"
+  g_autoptr(GtkBuilder) builder = gtk_builder_new_from_resource (
+    "/org/negativuserland/Ui/negativuserland.ui"
   );
 
   self->service_state_stack = nul_ui_service_state_stack_new (
