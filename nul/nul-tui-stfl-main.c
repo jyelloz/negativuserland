@@ -13,6 +13,7 @@
 #include <gio/gio.h>
 
 #include "nul-music-service.h"
+#include "nul-tui-resources.h"
 
 #define NUL_SERVICE_NAME "org.negativuserland.Service"
 #define NUL_SERVICE_PATH "/org/negativuserland/Service"
@@ -171,6 +172,29 @@ service_vanished_cb (GDBusConnection *const conn,
 
 }
 
+static inline wchar_t const *
+get_stfl_resource (gchar const *const path)
+{
+
+  GError *error = NULL;
+
+  g_autoptr(GBytes) stfl = g_resources_lookup_data (
+    path,
+    G_RESOURCE_LOOKUP_FLAGS_NONE,
+    &error
+  );
+
+  gconstpointer const stfl_data = g_bytes_get_data (stfl, NULL);
+
+  if (stfl == NULL) {
+    g_error ("failed to load STFL resource `%s': %s", path, error->message);
+    return NULL;
+  }
+
+  return stfl_ipool_towc (ipool, stfl_data);
+
+}
+
 static void
 startup_cb (GApplication *const app,
             gpointer      const user_data)
@@ -178,8 +202,13 @@ startup_cb (GApplication *const app,
 
   GDBusConnection *const conn = g_application_get_dbus_connection (app);
 
-  form = stfl_create (L"<data/tui.stfl>");
   ipool = stfl_ipool_create (nl_langinfo (CODESET));
+
+  wchar_t const *const stfl = get_stfl_resource (
+    "/org/negativuserland/Tui/tui.stfl"
+  );
+
+  form = stfl_create (stfl);
   stfl_set (form, L"title_label_text", L"negatıvuserland");
 
   g_bus_watch_name_on_connection (
