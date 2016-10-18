@@ -256,6 +256,18 @@ dbus_unregister (GApplication    *const app,
 }
 
 static void
+activate_quit (GSimpleAction *const action,
+               GVariant      *const parameter,
+               gpointer       const app)
+{
+  g_application_quit (G_APPLICATION (app));
+}
+
+static GActionEntry const app_entries[] = {
+  {"quit", activate_quit, NULL, NULL, NULL},
+};
+
+static void
 nul_ui_application_finalize (GObject *const object)
 {
 
@@ -286,5 +298,14 @@ nul_ui_application_class_init (NulUiApplicationClass *const cls)
 static void
 nul_ui_application_init (NulUiApplication *const self)
 {
+
   self->bus_watcher = 0;
+
+  g_action_map_add_action_entries (
+    G_ACTION_MAP (self),
+    app_entries,
+    G_N_ELEMENTS (app_entries),
+    self
+  );
+
 }
