@@ -248,12 +248,14 @@ dbus_unregister (GApplication    *const app,
 static void
 nul_ui_application_finalize (GObject *const object)
 {
+
   NulUiApplication *const self = NUL_UI_APPLICATION (object);
 
   if (self->service_state_stack)
     nul_ui_service_state_stack_free (self->service_state_stack);
 
   gobj_class->finalize (object);
+
 }
 
 static void

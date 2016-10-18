@@ -16,4 +16,3 @@ nul_window_new (void);
 G_END_DECLS
 
 #endif /* NUL_WINDOW_H */
-
