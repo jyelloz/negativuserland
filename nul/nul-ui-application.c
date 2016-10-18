@@ -64,6 +64,10 @@ activate (GApplication *const app)
     "/org/negativuserland/Ui/negativuserland.ui"
   );
 
+  g_autoptr(GtkBuilder) menus_builder = gtk_builder_new_from_resource (
+    "/org/negativuserland/Ui/menus.ui"
+  );
+
   self->service_state_stack = nul_ui_service_state_stack_new (
     GTK_STACK (gtk_builder_get_object (builder, "service-state-stack"))
   );
@@ -81,6 +85,12 @@ activate (GApplication *const app)
   GtkWidget *const window = GTK_WIDGET (
     gtk_builder_get_object (builder, "main-window")
   );
+
+  GMenuModel *const appmenu = G_MENU_MODEL (
+    gtk_builder_get_object (menus_builder, "appmenu")
+  );
+
+  gtk_application_set_app_menu (gtk_app, appmenu);
 
   gtk_window_set_application (GTK_WINDOW (window), gtk_app);
   gtk_widget_show_all (window);
