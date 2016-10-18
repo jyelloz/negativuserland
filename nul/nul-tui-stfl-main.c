@@ -160,11 +160,19 @@ service_vanished_cb (GDBusConnection *const conn,
 
   stfl_set (form, L"status_area_style", L"bg=yellow");
   stfl_set (form, L"status_label_text", L"DOWN");
+
   stfl_modify (
     form,
     L"artists",
     L"replace",
     L"list[artists]"
+  );
+
+  stfl_modify (
+    form,
+    L"albums",
+    L"replace",
+    L"list[albums]"
   );
 
   stfl_redraw ();
