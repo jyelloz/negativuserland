@@ -17,9 +17,12 @@ addons:
 compiler:
   - gcc-4.9
 
-script:
+env:
   - prefix="${PWD}/pfx"
-  - export PATH="${prefix}/bin:${PATH}"
+  - PATH="${prefix}/bin:${PATH}"
+  - PKG_CONFIG_PATH="${prefix}/lib/pkgconfig"
+
+script:
   - make -f .travis.mk PREFIX="${prefix}"
   - make MESON=meson.py MESONCONF=mesonconf.py NINJA=ninja
 
