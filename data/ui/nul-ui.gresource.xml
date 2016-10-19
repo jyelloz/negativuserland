@@ -2,7 +2,7 @@
 <gresources>
   <gresource prefix="/org/negativuserland/Ui">
     <file>negativuserland.ui</file>
-    <file>menus.ui</file>
+    <file>gtk/menus.ui</file>
     <file>style.css</file>
   </gresource>
 </gresources>
