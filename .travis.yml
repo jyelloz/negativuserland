@@ -1,6 +1,5 @@
 language: c
-sudo: required
-dist: trusty
+sudo: false
 os:
   - linux
 
@@ -8,30 +7,21 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - sourceline: 'ppa:ricotz/testing'
     packages:
       - gcc-4.9
       - clang
-      - python-virtualenv
-      - python3.4
+      - python3
       - bsdtar
-      - libglib2.0-dev
-      - libgee-0.8-dev
-      - libgtk-3-dev
       - libstfl-dev
 
 compiler:
   - gcc-4.9
 
 script:
-  - curl -L -O 'https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip'
-  - bsdtar xf ninja-linux.zip
-  - chmod +x ninja
-  - virtualenv -p /usr/bin/python3 venv
-  - . venv/bin/activate
-  - pip install -U meson
-  - export PATH="${PWD}:${PATH}"
-  - make MESON=meson.py MESONCONF=mesonconf.py "NINJA=${PWD}/ninja"
+  - prefix="${PWD}/pfx"
+  - export PATH="${prefix}/bin:${PATH}"
+  - make -f .travis.mk PREFIX="${prefix}"
+  - make MESON=meson.py MESONCONF=mesonconf.py NINJA=ninja
 
 notifications:
   email: false
