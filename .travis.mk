@@ -93,7 +93,7 @@ $(MESON_SOURCE): $(SOURCE_DIR)
 $(GLIB_INSTALL_STAMP): $(GLIB_SOURCE) $(WORK_DIR)
 	$(TAR) xf $(GLIB_SOURCE) -C $(WORK_DIR)
 	cd $(WORK_DIR)/glib-$(GLIB_VERSION) && \
-		./configure --prefix=$(PREFIX) --disable-introspection --disable-libmount && \
+		./configure --prefix=$(PREFIX) --disable-introspection --disable-libmount --with-pcre=internal && \
 		$(MAKE) $(MAKEFLAGS) \
 		&& $(MAKE) install
 
