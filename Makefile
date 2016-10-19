@@ -12,6 +12,9 @@ all: configure
 
 configure: builddir-ninja
 
+check: all
+	$(BUILD_CMD) test
+
 clean: builddir-ninja
 	$(BUILD_CMD) clean
 
@@ -32,4 +35,4 @@ $(BUILD_NINJAFILE):
 	$(MAKE) $(BUILD_DIR)
 	$(MESON) $(BUILD_DIR)
 
-.PHONY: clean configure distclean remove-builddir builddir
+.PHONY: clean configure check distclean remove-builddir builddir
