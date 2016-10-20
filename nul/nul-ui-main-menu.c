@@ -124,7 +124,11 @@ nul_ui_main_menu_free (NulUiMainMenu *const self)
 {
   g_object_unref (self->connected_state);
   g_object_unref (self->music_stats);
+  g_object_unref (self->geolocation);
+  g_object_unref (self->automotive);
+  g_object_unref (self->settings);
   g_object_unref (self->main_menu);
+
   g_free (self);
 }
 
