@@ -115,8 +115,6 @@ row_activated_cb (GtkListBox    *const box,
   GtkWidget *const child = gtk_bin_get_child (GTK_BIN (row));
   gchar const *const name = gtk_widget_get_name (child);
 
-  g_message ("activated widget `%s'", name);
-
   g_action_group_activate_action (group, name, NULL);
 
 }
