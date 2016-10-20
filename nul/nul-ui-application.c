@@ -2,6 +2,7 @@
 #include "nul-music-service.h"
 #include "nul-geolocation-service.h"
 #include "nul-ui-service-state-stack.h"
+#include "nul-ui-main-menu.h"
 #include "nul-ui-resources.h"
 
 #if !GLIB_CHECK_VERSION (2, 48, 0)
@@ -27,6 +28,7 @@ struct _NulUiApplication
   NulGeolocationService *geolocation;
 
   NulUiServiceStateStack *service_state_stack;
+  NulUiMainMenu *main_menu;
 
   GtkLabel *artists_count_label;
   GtkLabel *albums_count_label;
@@ -64,8 +66,49 @@ activate (GApplication *const app)
     "/org/negativuserland/Ui/negativuserland.ui"
   );
 
+  GtkStack *const service_state_stack = GTK_STACK (
+    gtk_builder_get_object (builder, "service-state-stack")
+  );
+
+  GtkStack *const connected_state = GTK_STACK (
+    gtk_builder_get_object (builder, "connected-state")
+  );
+
+  GtkListBox *const main_menu = GTK_LIST_BOX (
+    gtk_builder_get_object (builder, "main-menu")
+  );
+
+  GObject *const music_stats = gtk_builder_get_object (
+    builder,
+    "music-stats-screen"
+  );
+
+  GObject *const geolocation = gtk_builder_get_object (
+    builder,
+    "geolocation-screen"
+  );
+
+  GObject *const automotive = gtk_builder_get_object (
+    builder,
+    "automotive-screen"
+  );
+
+  GObject *const settings = gtk_builder_get_object (
+    builder,
+    "settings-screen"
+  );
+
   self->service_state_stack = nul_ui_service_state_stack_new (
-    GTK_STACK (gtk_builder_get_object (builder, "service-state-stack"))
+   service_state_stack
+  );
+
+  self->main_menu = nul_ui_main_menu_new (
+    GTK_LIST_BOX (main_menu),
+    GTK_WIDGET (music_stats),
+    GTK_WIDGET (geolocation),
+    GTK_WIDGET (automotive),
+    GTK_WIDGET (settings),
+    GTK_STACK (connected_state)
   );
 
   self->artists_count_label = GTK_LABEL (
@@ -80,6 +123,13 @@ activate (GApplication *const app)
 
   GtkWidget *const window = GTK_WIDGET (
     gtk_builder_get_object (builder, "main-window")
+  );
+
+
+  nul_ui_main_menu_register_actions (
+    self->main_menu,
+    G_ACTION_MAP (window),
+    G_ACTION_GROUP (window)
   );
 
   gtk_window_set_application (GTK_WINDOW (window), gtk_app);
@@ -265,6 +315,9 @@ nul_ui_application_finalize (GObject *const object)
 
   if (self->service_state_stack)
     nul_ui_service_state_stack_free (self->service_state_stack);
+
+  if (self->main_menu)
+    nul_ui_main_menu_free (self->main_menu);
 
   gobj_class->finalize (object);
 
