@@ -200,6 +200,7 @@
                     <property name="can_focus">True</property>
                     <child>
                       <object class="GtkLabel">
+                        <property name="name">music</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Music</property>
@@ -215,6 +216,7 @@
                     <property name="can_focus">True</property>
                     <child>
                       <object class="GtkLabel">
+                        <property name="name">geolocation</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Geolocation</property>
@@ -230,6 +232,7 @@
                     <property name="can_focus">True</property>
                     <child>
                       <object class="GtkLabel">
+                        <property name="name">automotive</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Automotive</property>
@@ -245,6 +248,7 @@
                     <property name="can_focus">True</property>
                     <child>
                       <object class="GtkLabel">
+                        <property name="name">settings</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Settings</property>
