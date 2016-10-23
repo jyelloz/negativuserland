@@ -87,8 +87,8 @@ activate (GApplication *const app)
 }
 
 static inline wchar_t const *
-get_stfl_resource (NulTuiStflApplication *const self,
-                   gchar const           *const path)
+get_stfl_resource (struct stfl_ipool *const ipool,
+                   gchar const       *const path)
 {
 
   GError *error = NULL;
@@ -106,7 +106,7 @@ get_stfl_resource (NulTuiStflApplication *const self,
     return NULL;
   }
 
-  return stfl_ipool_towc (self->ipool, stfl_data);
+  return stfl_ipool_towc (ipool, stfl_data);
 
 }
 
@@ -138,6 +138,17 @@ static void
 nul_tui_stfl_application_init (NulTuiStflApplication *const self)
 {
 
-  self->ipool = stfl_ipool_create (nl_langinfo (CODESET));
+  struct stfl_ipool *const ipool = self->ipool = stfl_ipool_create (
+    nl_langinfo (CODESET)
+  );
+
+  wchar_t const *const stfl = get_stfl_resource (
+    ipool,
+    "/org/negativuserland/Tui/tui.stfl"
+  );
+
+  self->form = stfl_create (stfl);
+
+  self->service_watcher = 0;
 
 }
