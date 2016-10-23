@@ -1,4 +1,5 @@
 #include "nul-tui-stfl-application.h"
+#include "nul-music-service.h"
 
 #include <wchar.h>
 #include <langinfo.h>
@@ -15,6 +16,9 @@
 #define NUL_APP_FLAGS \
   (G_APPLICATION_IS_SERVICE | G_APPLICATION_CAN_OVERRIDE_APP_ID)
 
+#define NUL_SERVICE_NAME "org.negativuserland.Service"
+#define NUL_SERVICE_PATH "/org/negativuserland/Service"
+
 #define gapp_class G_APPLICATION_CLASS (nul_tui_stfl_application_parent_class)
 #define gobj_class G_OBJECT_CLASS (nul_tui_stfl_application_parent_class)
 
@@ -23,6 +27,7 @@ struct _NulTuiStflApplication
   GApplication parent_instance;
   struct stfl_form *form;
   struct stfl_ipool *ipool;
+  guint service_watcher;
 };
 
 G_DEFINE_TYPE (
@@ -49,6 +54,182 @@ nul_tui_stfl_application_resize (NulTuiStflApplication *const self)
   stfl_run (self->form, -1);
 }
 
+void
+nul_tui_stfl_application_input (NulTuiStflApplication *const self)
+{
+  struct stfl_form *const form = self->form;
+  wchar_t const *const event = stfl_run (form, 0);
+  stfl_set (form, L"event_label_text", event ? event : L"");
+  stfl_run (form, -1);
+}
+
+static inline wchar_t const *
+create_listitem (struct stfl_ipool *const ipool, gchar const *const text)
+{
+
+  g_autofree wchar_t const *text_wc = stfl_ipool_towc (ipool, text);
+  wchar_t const *text_wc_esc = stfl_quote (text_wc);
+  g_autofree gchar const *text_esc = stfl_ipool_fromwc (ipool, text_wc_esc);
+  g_autofree gchar const *item = g_strdup_printf (
+    "{listitem text:%s}",
+    text_esc
+  );
+
+  return stfl_ipool_towc (ipool, item);
+
+}
+
+static void
+artists_ready_cb (NulMusicService       *const proxy,
+                  GAsyncResult          *const result,
+                  NulTuiStflApplication *const self)
+{
+
+  g_autofree gchar **artists = NULL;
+  struct stfl_form *const form = self->form;
+  struct stfl_ipool *const ipool = self->ipool;
+
+  nul_music_service_call_get_artists_finish (proxy, &artists, result, NULL);
+
+  stfl_modify (
+    form,
+    L"artists",
+    L"replace",
+    L"list[artists]"
+  );
+
+  for (gchar **artist = artists; artist && *artist; artist++) {
+
+    g_autofree wchar_t const *line = create_listitem (ipool, *artist);
+
+    stfl_modify (
+      form,
+      L"artists",
+      L"append",
+      line
+    );
+
+  }
+
+  stfl_run (form, -1);
+
+}
+
+static void
+albums_ready_cb (NulMusicService       *const proxy,
+                 GAsyncResult          *const result,
+                 NulTuiStflApplication *const self)
+{
+
+  g_autofree gchar **albums = NULL;
+  struct stfl_form *const form = self->form;
+  struct stfl_ipool *const ipool = self->ipool;
+
+  nul_music_service_call_get_albums_finish (proxy, &albums, result, NULL);
+
+  stfl_modify (
+    form,
+    L"albums",
+    L"replace",
+    L"list[albums]"
+  );
+
+  for (gchar **album = albums; album && *album; album++) {
+
+    g_autofree wchar_t const *line = create_listitem (ipool, *album);
+
+    stfl_modify (
+      form,
+      L"albums",
+      L"append",
+      line
+    );
+
+  }
+
+  stfl_run (form, -1);
+
+}
+
+static void
+music_service_ready_cb (NulMusicService       *const proxy,
+                        GAsyncResult          *const result,
+                        NulTuiStflApplication *const self)
+{
+  nul_music_service_call_get_artists (
+    proxy,
+    0,
+    25,
+    NULL,
+    (GAsyncReadyCallback) artists_ready_cb,
+    self
+  );
+  nul_music_service_call_get_albums (
+    proxy,
+    0,
+    25,
+    NULL,
+    (GAsyncReadyCallback) albums_ready_cb,
+    self
+  );
+}
+
+static void
+service_appeared_cb (GDBusConnection       *const conn,
+                     const gchar           *const name,
+                     const gchar           *const name_owner,
+                     NulTuiStflApplication *const self)
+{
+
+  struct stfl_form *const form = self->form;
+
+  stfl_set (form, L"status_area_style", L"bg=blue,attr=bold");
+  stfl_set (form, L"status_label_text", L"CONNECTED");
+  stfl_redraw ();
+  stfl_run (form, -1);
+
+  nul_music_service_proxy_new (
+    conn,
+    G_DBUS_PROXY_FLAGS_NONE,
+    NUL_SERVICE_NAME,
+    NUL_SERVICE_PATH,
+    NULL,
+    (GAsyncReadyCallback) music_service_ready_cb,
+    self
+  );
+
+}
+
+static void
+service_vanished_cb (GDBusConnection       *const conn,
+                     const gchar           *const name,
+                     NulTuiStflApplication *const self)
+{
+
+  struct stfl_form *const form = self->form;
+
+  stfl_set (form, L"status_area_style", L"bg=yellow");
+  stfl_set (form, L"status_label_text", L"DOWN");
+
+  stfl_modify (
+    form,
+    L"artists",
+    L"replace",
+    L"list[artists]"
+  );
+
+  stfl_modify (
+    form,
+    L"albums",
+    L"replace",
+    L"list[albums]"
+  );
+
+  stfl_redraw ();
+  stfl_run (form, -1);
+
+}
+
 static void
 nul_tui_stfl_application_finalize (GObject *const object)
 {
@@ -62,9 +243,23 @@ dbus_register (GApplication    *const app,
                GError         **const err)
 {
 
+  if (!gapp_class->dbus_register (app, conn, path, err)) {
+    return FALSE;
+  }
+
   NulTuiStflApplication *const self = NUL_TUI_STFL_APPLICATION (app);
 
-  return gapp_class->dbus_register (app, conn, path, err);
+  self->service_watcher = g_bus_watch_name_on_connection (
+    conn,
+    NUL_SERVICE_NAME,
+    G_BUS_NAME_WATCHER_FLAGS_NONE,
+    (GBusNameAppearedCallback) service_appeared_cb,
+    (GBusNameVanishedCallback) service_vanished_cb,
+    self,
+    NULL
+  );
+
+  return TRUE;
 
 }
 
@@ -75,6 +270,9 @@ dbus_unregister (GApplication    *const app,
 {
 
   NulTuiStflApplication *const self = NUL_TUI_STFL_APPLICATION (app);
+
+  if (self->service_watcher)
+    g_bus_unwatch_name (self->service_watcher);
 
   gapp_class->dbus_unregister (app, conn, path);
 
@@ -115,6 +313,14 @@ startup (GApplication *const app)
 {
 
   G_APPLICATION_CLASS (nul_tui_stfl_application_parent_class)->startup (app);
+
+  NulTuiStflApplication *const self = NUL_TUI_STFL_APPLICATION (app);
+
+  stfl_set (
+    self->form,
+    L"title_label_text",
+    stfl_ipool_towc (self->ipool, PACKAGE_NAME)
+  );
 
 }
 
