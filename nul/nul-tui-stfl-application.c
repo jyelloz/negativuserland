@@ -40,6 +40,13 @@ nul_tui_stfl_application_new (void)
   );
 }
 
+void
+nul_tui_stfl_application_resize (NulTuiStflApplication *const self)
+{
+  stfl_reset (self->form);
+  stfl_run (self->form, -1);
+}
+
 static void
 nul_tui_stfl_application_finalize (GObject *const object)
 {

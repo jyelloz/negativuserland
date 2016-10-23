@@ -19,6 +19,9 @@ G_DECLARE_FINAL_TYPE (
 GApplication *
 nul_tui_stfl_application_new (void);
 
+void
+nul_tui_stfl_application_resize (NulTuiStflApplication *const self);
+
 G_END_DECLS
 
 #endif /* NUL_TUI_STFL_APPLICATION_H */
