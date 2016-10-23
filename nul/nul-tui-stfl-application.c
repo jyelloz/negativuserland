@@ -1,6 +1,8 @@
 #include "nul-tui-stfl-application.h"
 
 #include <wchar.h>
+#include <langinfo.h>
+
 #include <stfl.h>
 
 #include <gio/gio.h>
@@ -135,4 +137,7 @@ nul_tui_stfl_application_class_init (NulTuiStflApplicationClass *const cls)
 static void
 nul_tui_stfl_application_init (NulTuiStflApplication *const self)
 {
+
+  self->ipool = stfl_ipool_create (nl_langinfo (CODESET));
+
 }
