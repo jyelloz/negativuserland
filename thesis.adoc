@@ -1,0 +1,16 @@
+= Linux-Based Automotive Audio System
+Jordan Yelloz <jordan.yelloz@my.csun.edu>
+:Author Initials: JRY
+:toc:
+
+include::abstract.adoc[]
+
+include::chapter1/chapter1.adoc[]
+
+include::chapter2/chapter2.adoc[]
+
+include::chapter3/chapter3.adoc[]
+
+include::chapter4/chapter4.adoc[]
+
+[bibliography]
