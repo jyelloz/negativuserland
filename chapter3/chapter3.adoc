@@ -1,1 +1,69 @@
 == My Solution
+
+=== Overview
+
+This chapter details my solution to the problem.
+The traditional software engineering task-based organization is used.
+Section 1 describes the requirements of the solution, focusing on features.
+Section 2 describes the architecture of the solution.
+Section 3 describes the implementation of the solution.
+Hardware and software topics are covered in section 3, from physical
+installation to the graphical user interface.
+Section 4 describes the testing regime undertaken during the development of
+this project.
+
+=== Requirements
+
+==== Features
+
+=== Software Architecture
+
+==== Platform
+
+Negativuserland was designed with simplicity, performance, and modularity in
+mind.
+Its target hardware is cheap single-board computers.
+These motivations influenced the choice of a development platform.
+
+
+
+==== Organization
+
+The project is designed into several service components, each with a
+well-defined role and programming interface.
+
+=== Implementation
+
+==== Platform
+
+===== Bootloader
+
+The bootloader chosen for this project is _Das U-Boot_ <<uboot>>, an open
+source bootloader supporting several embedded architectures. This software
+exposes all the necessary facilities to locate, load and execute the real
+operating system kernel which will host the Negativuserland software.
+
+===== Operating System
+
+The operating system chosen for this project is Linux, an open source operating
+system kernel that runs on many embedded computer systems as well as larger ones
+<<linux-readme>>. Much of the software written for this project will run on any
+UNIX-like operating system, however.
+
+===== Frameworks
+
+When developing applications, the choice of frameworks can be the true driving
+influences in the implementations of a project. While this project has chosen
+Linux as its operating system, it has been developed heavily with portable
+libraries that can be built (and run) on other operating systems and
+architectures. This project has chosen to only build upon open source libraries.
+
+At the lowest level, all the application code of this project uses GLib
+<<glib>>, a portable utility library providing many data structures and support
+functionality to assist application development. GLib also includes GObject, a
+C-based object-oriented type system, and GIO, an asynchronous Input/Output (I/O)
+library with many more additional support features. Importantly, GIO provides a
+client and server implementation of the D-Bus protocol using its asynchronous
+I/O model.
+
+===== Programming Language
