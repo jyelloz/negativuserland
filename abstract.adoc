@@ -1,2 +1,23 @@
 == Abstract
 
+In recent years, the amount of personal electronic devices has greatly
+increased.
+With a host of different manufacturers and standards, there has been a
+difficulty to properly integrate these devices.
+An product category which suffers noticeably from this shortcoming is the
+automotive field.
+While car companies and consumer electronics companies have been making
+progress recently and introducing new products to the market, their solutions
+are suboptimal for many consumers.
+High cost, lack of features, and lack of customizability are all issues that
+diminish the efforts of the industry making these devices.
+This paper mentions some existing products and describes their inadequacies.
+The solution to this problem is a new platform based on the latest advances
+free software and commodity hardware.
+The final product includes a set of software with a graphical user interface
+capable of displaying necessary information as well as a reference hardware
+platform from which custom purpose-fit hardware can be built.
+This computer will be able to connect directly to the amplifier and electrical
+power supply of an automobile to operate as expected inside the car.
+The result should be a reasonably-priced solution for knowlegeable users who
+want a simplified, but customizable solution for their automotive audio needs.
