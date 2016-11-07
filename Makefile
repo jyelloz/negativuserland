@@ -1,6 +1,7 @@
 ASCIIDOCTOR = bundle exec asciidoctor
 ASCIIDOCTOR_LATEX = bundle exec asciidoctor-latex
 
+ASCIIDOCTOR_STAMP = vendor/bundle/ruby/2.3.0/bin/asciidoctor
 
 SOURCES = thesis.adoc \
 		  abstract.adoc \
@@ -13,13 +14,19 @@ SOURCES = thesis.adoc \
 
 all: thesis.html thesis.tex
 
-thesis.html: $(SOURCES)
+bootstrap: $(ASCIIDOCTOR_STAMP)
+
+$(ASCIIDOCTOR_STAMP):
+	bundle install --path vendor/bundle
+
+thesis.html: $(SOURCES) bootstrap
 	$(ASCIIDOCTOR) $<
 
-thesis.tex: $(SOURCES)
+thesis.tex: $(SOURCES) bootstrap
 	$(ASCIIDOCTOR_LATEX) $<
 
 clean:
 	rm -f thesis.html thesis.tex
+	rm -fR vendor
 
-.PHONY = all clean
+.PHONY = all clean bootstrap
