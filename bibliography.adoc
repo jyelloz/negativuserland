@@ -1,0 +1,3 @@
+[bibliography]
+- [[[uboot]]] Das U-Boot. http://git.denx.de/?p=u-boot.git;a=blob_plain;f=README;hb=HEAD
+- [[[linux-readme]]] Linux. https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/tree/README

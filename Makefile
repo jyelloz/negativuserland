@@ -8,6 +8,7 @@ SOURCES = thesis.adoc \
 		  chapter2/chapter2.adoc \
 		  chapter3/chapter3.adoc \
 		  chapter4/chapter4.adoc \
+		  bibliography.adoc \
 		  $(NULL)
 
 all: thesis.html thesis.tex

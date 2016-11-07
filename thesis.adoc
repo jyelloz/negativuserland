@@ -13,4 +13,4 @@ include::chapter3/chapter3.adoc[]
 
 include::chapter4/chapter4.adoc[]
 
-[bibliography]
+include::bibliography.adoc[]
