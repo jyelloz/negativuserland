@@ -26,7 +26,7 @@ thesis.tex: $(SOURCES) bootstrap
 	$(ASCIIDOCTOR_LATEX) $<
 
 clean:
-	rm -f thesis.html thesis.tex
+	rm -f thesis.html thesis.tex newEnvironments.tex
 	rm -fR vendor
 
 .PHONY = all clean bootstrap
