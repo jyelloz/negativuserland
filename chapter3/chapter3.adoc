@@ -59,17 +59,17 @@ libraries that can be built (and run) on other operating systems and
 architectures. This project has chosen to only build upon open source libraries.
 
 At the lowest level, all the application code of this project uses GLib
-<<glib>>, a portable utility library providing many data structures and support
-functionality to assist application development. GLib also includes GObject, a
-C-based object-oriented type system, and GIO, an asynchronous Input/Output (I/O)
-library with many more additional support features. Importantly, GIO provides a
-client and server implementation of the D-Bus protocol using its asynchronous
-I/O model.
+<<glib-overview>>, a portable utility library providing many data structures and
+support functionality to assist application development. GLib also includes
+GObject, a C-based object-oriented type system, and GIO, an asynchronous
+Input/Output (I/O) library with many more additional support features.
+Importantly, GIO provides a client and server implementation of the D-Bus
+protocol using its asynchronous I/O model.
 
 ===== Programming Language
 
 Initially, this project was programmed in Vala, a language with a similar
-syntactical appearance to C# but targeting the GObject type system. This is
+syntactical appearance to C++\#++ but targeting the GObject type system. This is
 achieved by the Vala compiler generating GObject-style C code and mapping
 documentation annotations as well as custom metadata to Vala constructs. Since
 Vala is just a code generator, its use does not require a virtual machine,
@@ -89,11 +89,22 @@ of a library and the generated or manually maintained Vala bindings. These
 deficiencies, combined with the declining activity of the Vala project have
 disqualified the language from being the primary language of this project.
 
-Due to the project GObject Introspection, many more programming languages
-are available to the GObject programmer. Similar to Vala, which is partially
-compatible with GObject Introespection, projects employing GObject Introspection
-are subject to mismatched bindings. Furthermore, attempts to map GObject
-semantics into a specific programming language's idioms are not guaranteed.
+Due to the project GObject Introspection <<gobject-introspection>>, many more
+programming languages are available to the GObject programmer. GObject
+Introspection provides automatic bindings from GObject libraries to JavaScript,
+Python, Lua, Perl, Ruby, Guile, and other languages <<gi-users>>. Similar to
+Vala, which is partially compatible with GObject Introspection, projects
+employing GObject Introspection are subject to mismatched bindings. Furthermore,
+attempts to map GObject semantics into a specific programming language's idioms
+are not guaranteed.
+
+The compound effects of developing with non-native programming languages during
+the development process eventually led to their abandonment in favor of
+GObject-style C. The C11 revision of C was eventually chosen for this project
+since it is fully supported by the compilers GCC <<gcc-c11-compatibility>> and
+Clang <<clang-c11-compatibility>>. This choice provides full control of all
+library APIs with the slightly inconvenient syntax of the GObject type system's
+C macros.
 
 ===== Build System
 
@@ -103,8 +114,9 @@ target artifacts, the part of the project that will be experienced byt the
 end-user. The most common build system for UNIX-style projects is make, part of
 the POSIX standard. Limitations in make have repeatedly influenced efforts in
 producing new build systems over the years. Among the replacements, GNU
-Autotools and CMake are the most popular for UNIX-style projects. GNU Autotools
-is a combination of GNU Autoconf <<gnu-autoconf>>, GNU Automake,
-<<gnu-automake>>, GNU Libtool <<gnu-libtool>>, and GNU Make <<gnu-make>>. These
-projects are orchestrated in order to provide a fully portable solution for
-building software projects.
+Autotools and CMake are the most popular for UNIX-style projects. GNU Autotools,
+also known as the GNU Build System, is a combination of GNU Autoconf
+<<gnu-autoconf>>, GNU Automake, <<gnu-automake>>, GNU Libtool <<gnu-libtool>>,
+and GNU Make <<gnu-make>>. These tools are orchestrated in order to provide a
+fully portable solution for building software projects.
+quantity, having
