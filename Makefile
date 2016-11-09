@@ -1,5 +1,15 @@
+NULL =
+
 ASCIIDOCTOR = bundle exec asciidoctor
-ASCIIDOCTOR_LATEX = bundle exec asciidoctor-latex
+ASCIIDOCTOR_PDF = bundle exec asciidoctor-pdf
+
+ASCIIDOCTOR_COMMON_FLAGS = -d book
+ASCIIDOCTOR_FLAGS =
+ASCIIDOCTOR_PDF_FLAGS = \
+	-a pdf-stylesdir=resources/themes \
+	-a pdf-style=csunthesis \
+	$(NULL)
+
 
 ASCIIDOCTOR_STAMP = vendor/bundle/ruby/2.3.0/bin/asciidoctor
 
@@ -12,21 +22,23 @@ SOURCES = thesis.adoc \
 		  bibliography.adoc \
 		  $(NULL)
 
-all: thesis.html thesis.tex
+all: thesis.html thesis.pdf
 
-bootstrap: $(ASCIIDOCTOR_STAMP)
+bootstrap: $(ASCIIDOCTOR_STAMP) Makefile
 
 $(ASCIIDOCTOR_STAMP):
 	bundle install --path vendor/bundle
 
 thesis.html: $(SOURCES) bootstrap
-	$(ASCIIDOCTOR) $<
+	$(ASCIIDOCTOR) $(ASCIIDOCTOR_COMMON_FLAGS) $(ASCIIDOCTOR_FLAGS) $<
 
-thesis.tex: $(SOURCES) bootstrap
-	$(ASCIIDOCTOR_LATEX) $<
+thesis.pdf: $(SOURCES) resources/themes/csunthesis-theme.yml bootstrap
+	$(ASCIIDOCTOR_PDF) $(ASCIIDOCTOR_COMMON_FLAGS) $(ASCIIDOCTOR_PDF_FLAGS) $<
 
 clean:
-	rm -f thesis.html thesis.tex newEnvironments.tex
+	rm -f thesis.html thesis.pdf
+
+distclean:
 	rm -fR vendor
 
-.PHONY = all clean bootstrap
+.PHONY = all clean distclean bootstrap
