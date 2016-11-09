@@ -1,3 +1,14 @@
+== References
+
 [bibliography]
 - [[[uboot]]] Das U-Boot. http://git.denx.de/?p=u-boot.git;a=blob_plain;f=README;hb=HEAD
 - [[[linux-readme]]] Linux. https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/tree/README
+- [[[glib-overview]]] GLib Overview. https://developer.gnome.org/glib/stable/glib.html
+- [[[gobject-introspection]]] GObject Introspection. https://wiki.gnome.org/Projects/GObjectIntrospection
+- [[[gi-users]]] Bindings based on GObject Introspection. https://wiki.gnome.org/action/show/Projects/GObjectIntrospection/Users
+- [[[gcc-c11-compatibility]]] C11Status. https://gcc.gnu.org/wiki/C11Status
+- [[[clang-c11-compatibility]]] Language Compatibility. http://clang.llvm.org/compatibility.html
+- [[[gnu-autoconf]]] Autoconf. https://www.gnu.org/software/autoconf/manual/autoconf.html
+- [[[gnu-automake]]] Automake. https://www.gnu.org/software/automake/manual/automake.html
+- [[[gnu-libtool]]] Libtool. https://www.gnu.org/software/libtool/manual/libtool.html
+- [[[gnu-make]]] GNU Make. https://www.gnu.org/software/make/manual/make.html
