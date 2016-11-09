@@ -52,24 +52,25 @@ UNIX-like operating system, however.
 
 ===== Frameworks
 
-When developing applications, the choice of frameworks can be the true driving
-influences in the implementations of a project. While this project has chosen
-Linux as its operating system, it has been developed heavily with portable
-libraries that can be built (and run) on other operating systems and
-architectures. This project has chosen to only build upon open source libraries.
+When developing applications, the choice of frameworks can be the most
+significant driving influence in the implementations of a project. While this
+project has chosen Linux as its operating system, it has been developed heavily
+with portable libraries that can be built (and run) on other operating systems
+and architectures. This project has chosen to only build upon open source
+libraries.
 
 At the lowest level, all the application code of this project uses GLib
 <<glib-overview>>, a portable utility library providing many data structures and
 support functionality to assist application development. GLib also includes
 GObject, a C-based object-oriented type system, and GIO, an asynchronous
-Input/Output (I/O) library with many more additional support features.
-Importantly, GIO provides a client and server implementation of the D-Bus
-protocol using its asynchronous I/O model.
+Input/Output (I/O) library with many more additional application support
+features. Importantly, GIO provides a client and server implementation of the
+D-Bus protocol using GIO's asynchronous I/O model.
 
 ===== Programming Language
 
 Initially, this project was programmed in Vala, a language with a similar
-syntactical appearance to C++\#++ but targeting the GObject type system. This is
+syntactical appearance to C# but targeting the GObject type system. This is
 achieved by the Vala compiler generating GObject-style C code and mapping
 documentation annotations as well as custom metadata to Vala constructs. Since
 Vala is just a code generator, its use does not require a virtual machine,
@@ -84,7 +85,7 @@ required the author to fix bugs within the Vala language or its bindings to
 external libraries. Furthermore, the nature of the Vala language and libraries
 implemented with the GObject type system introduce a maintenance requirement for
 the Vala bindings to a specific library. Changes to APIs and incorrect
-trascription or scanning will lead to discrepancies between the original C API
+transcription or scanning will lead to discrepancies between the original C API
 of a library and the generated or manually maintained Vala bindings. These
 deficiencies, combined with the declining activity of the Vala project have
 disqualified the language from being the primary language of this project.
@@ -110,13 +111,56 @@ C macros.
 
 Build systems are an important part of any sufficiently large software project.
 They are responsible for configuring any target-specific options and producing
-target artifacts, the part of the project that will be experienced byt the
-end-user. The most common build system for UNIX-style projects is make, part of
-the POSIX standard. Limitations in make have repeatedly influenced efforts in
-producing new build systems over the years. Among the replacements, GNU
-Autotools and CMake are the most popular for UNIX-style projects. GNU Autotools,
-also known as the GNU Build System, is a combination of GNU Autoconf
-<<gnu-autoconf>>, GNU Automake, <<gnu-automake>>, GNU Libtool <<gnu-libtool>>,
-and GNU Make <<gnu-make>>. These tools are orchestrated in order to provide a
-fully portable solution for building software projects.
-quantity, having
+target artifacts, the part of the project that will be consumed by the end-user.
+The most common build system for UNIX-style projects is make, part of the POSIX
+standard. Limitations in make have repeatedly influenced efforts in producing
+new build systems over the years. Among the replacements, GNU Autotools and
+CMake are the most popular for UNIX-style projects. Waf and Meson were also
+evaluated during the development of this project. After evaluation, Meson was
+eventually chosen as the build system for this project. Ninja is a newer tool
+that is very similar to Make in that it only supports scheduling and running
+tasks based on recipes and it claims to perform those tasks with a higher degree
+of parallelism.
+
+GNU Autotools, also known as the GNU Build System, is a
+combination of GNU Autoconf <<gnu-autoconf>>, GNU Automake, <<gnu-automake>>,
+GNU Libtool <<gnu-libtool>>, and GNU Make <<gnu-make>>. These tools are
+orchestrated in order to provide a fully portable solution for building software
+projects. While Autotools is a well-tested product with many users, it suffers
+from a few of its own deficiencies. First, to use Autotools in any non-trivial
+capacity requires the basic knowledge of several languages including m4, POSIX
+shell, as well as the GNU makefile syntax.  Furthermore, since it eventually
+relies on make, Autotools has limitations in its ability to parallelize the
+compilation of object files from C source, which is a highly parallelizable
+process. The main steps of building an Autotools project are generating the
+configuration script (autoconf), configuring a specific build instance
+(configure), and performing the actual build (make).
+
+CMake is a newer project which follows part of the Autotools strategy but
+unifies the entire build description into a single language, which is new and
+specific to CMake. Its principal similarity to Autotools is that it generates
+Makefiles during a configuration stage. CMake can also generate build files for
+the Ninja build tool as well as many IDE-specific project files.
+
+Waf is a complete replacement attempt of a configuration and build tool into a
+single self-contained tool. It provides similar features to Autotools with
+claimed performance gains as well as simplicity of the build description files.
+Similar to other existing systems, Waf basically follows a configure-then-build
+pattern. Its build descriptor files are written in Python, eliminating the need
+to learn a new language that will not be useful for any other purpose. Its
+internal build tool also has a job scheduler which allows it to achieve higher
+parallelism rates than a project using a recursive set of Makefiles.
+
+Finally, the newest addition evaluated for the project is Meson, which is an
+experience somewhere between that of CMake and Waf. It has a custom build
+descriptor language for which is similar to Python and is implemented in Python.
+It does not contain its own build tool but it generates only Ninja build files
+and some IDE-specific project files. Meson has other strengths, though, that
+qualify it better for this project than the other tools. First, it has built-in
+functionality to integrate with parts of the GLib platform infrastructure,
+providing build targets for GResource bundles, GSettings schemas, GDBus code
+generation, as well as other tools. Finally, while cross-compilation is
+supported at some level all the previously mentioned solutions, -- with
+Autotools being the most extensive -- Meson completely encapsulates the
+cross-compilation toolchain functionality in a single file that can be shared
+across any number of projects that are built with Meson.
