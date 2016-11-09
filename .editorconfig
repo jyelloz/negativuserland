@@ -4,3 +4,6 @@ tab_width = 2
 indent_style = space
 trim_trailing_whitespace = true
 max_line_length = 80
+
+[bibliography.adoc]
+max_line_length = -1
