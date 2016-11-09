@@ -67,3 +67,44 @@ client and server implementation of the D-Bus protocol using its asynchronous
 I/O model.
 
 ===== Programming Language
+
+Initially, this project was programmed in Vala, a language with a similar
+syntactical appearance to C# but targeting the GObject type system. This is
+achieved by the Vala compiler generating GObject-style C code and mapping
+documentation annotations as well as custom metadata to Vala constructs. Since
+Vala is just a code generator, its use does not require a virtual machine,
+runtime interpreter, or garbage collector. These properties are advantageous to
+embedded software development where processing speed, memory usage, and power
+consumption are more scarce than desktop or server environments. Vala allows for
+fairly rapid prototype development due to its significantly smaller amount of
+boilerplate code necessary to define and implement object-oriented constructs
+such as interfaces and classes (as well as subclassing). Through the development
+of the project, many difficulties were experienced with this language that
+required the author to fix bugs within the Vala language or its bindings to
+external libraries. Furthermore, the nature of the Vala language and libraries
+implemented with the GObject type system introduce a maintenance requirement for
+the Vala bindings to a specific library. Changes to APIs and incorrect
+trascription or scanning will lead to discrepancies between the original C API
+of a library and the generated or manually maintained Vala bindings. These
+deficiencies, combined with the declining activity of the Vala project have
+disqualified the language from being the primary language of this project.
+
+Due to the project GObject Introspection, many more programming languages
+are available to the GObject programmer. Similar to Vala, which is partially
+compatible with GObject Introespection, projects employing GObject Introspection
+are subject to mismatched bindings. Furthermore, attempts to map GObject
+semantics into a specific programming language's idioms are not guaranteed.
+
+===== Build System
+
+Build systems are an important part of any sufficiently large software project.
+They are responsible for configuring any target-specific options and producing
+target artifacts, the part of the project that will be experienced byt the
+end-user. The most common build system for UNIX-style projects is make, part of
+the POSIX standard. Limitations in make have repeatedly influenced efforts in
+producing new build systems over the years. Among the replacements, GNU
+Autotools and CMake are the most popular for UNIX-style projects. GNU Autotools
+is a combination of GNU Autoconf <<gnu-autoconf>>, GNU Automake,
+<<gnu-automake>>, GNU Libtool <<gnu-libtool>>, and GNU Make <<gnu-make>>. These
+projects are orchestrated in order to provide a fully portable solution for
+building software projects.
