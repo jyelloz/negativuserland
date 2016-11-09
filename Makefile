@@ -3,9 +3,7 @@ NULL =
 ASCIIDOCTOR = bundle exec asciidoctor
 ASCIIDOCTOR_PDF = bundle exec asciidoctor-pdf
 
-ASCIIDOCTOR_COMMON_FLAGS = -d book
-ASCIIDOCTOR_FLAGS =
-ASCIIDOCTOR_PDF_FLAGS = \
+ASCIIDOCTOR_PDF_FLAGS_DEFAULT = \
 	-a pdf-stylesdir=resources/themes \
 	-a pdf-style=csunthesis \
 	$(NULL)
@@ -33,7 +31,7 @@ thesis.html: $(SOURCES) bootstrap
 	$(ASCIIDOCTOR) $(ASCIIDOCTOR_COMMON_FLAGS) $(ASCIIDOCTOR_FLAGS) $<
 
 thesis.pdf: $(SOURCES) resources/themes/csunthesis-theme.yml bootstrap
-	$(ASCIIDOCTOR_PDF) $(ASCIIDOCTOR_COMMON_FLAGS) $(ASCIIDOCTOR_PDF_FLAGS) $<
+	$(ASCIIDOCTOR_PDF) $(ASCIIDOCTOR_COMMON_FLAGS) $(ASCIIDOCTOR_PDF_FLAGS_DEFAULT) $(ASCIIDOCTOR_PDF_FLAGS) $<
 
 clean:
 	rm -f thesis.html thesis.pdf
