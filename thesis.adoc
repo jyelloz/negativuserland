@@ -2,8 +2,14 @@
 Jordan Yelloz <jordan.yelloz@my.csun.edu>
 :Author Initials: JRY
 :toc:
+:doctype: book
+:sectnums:
+
+:numbered!:
 
 include::abstract.adoc[]
+
+:numbered:
 
 include::chapter1/chapter1.adoc[]
 
@@ -12,5 +18,7 @@ include::chapter2/chapter2.adoc[]
 include::chapter3/chapter3.adoc[]
 
 include::chapter4/chapter4.adoc[]
+
+:numbered!:
 
 include::bibliography.adoc[]
