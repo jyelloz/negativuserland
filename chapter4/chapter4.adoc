@@ -1,1 +1,37 @@
 = Conclusion
+
+Given the wide-ranging solutions provided by some of the newer commericially
+backed systems that are shipping in newer automobiles as well as the dominance
+of the Android operating system for mobile devices, this project would need a
+significant amount of work to be performed to achieve competitive market share,
+though that was not a goal of this project. This section outlines several future
+areas which this project could be expanded in scope and depth. One area this
+project should not receive any development is any "Cloud" integration.
+
+== Automotive Integration
+
+A clear area of functionality that could benefit this project is the addition of
+features that integrate with automotive hardware such as On-Board Diagnostics
+(OBD), Tire Pressure Monitoring System (TPMS), and climate control.
+
+== Navigation
+
+While this project can supply maps and geolocation, it does not supply any
+navigation directions from one location to another. Many existing solutions
+provide navigation instructions and traffic integration.
+
+== Mesh Networking
+
+An ambitious, largely untapped, and potentially dangerous power of every car on
+the road containing wireless networking capabilities introduces many
+possibilities for the future of transportation. For example, automobiles could
+potentially broadcast important information to each other in order to inform
+drivers of upcoming hazards and other conditions such as average speed.
+
+== Security
+
+This project, as-is, does not suffer from many security threats since there is
+not much at stake, a limited surface to attack, and no valuable information
+stored. However, any networking features and integration with automotive
+components will most likely place a system such as this project under a much
+larger threat.
