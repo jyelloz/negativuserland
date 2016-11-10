@@ -1,0 +1,54 @@
+== Requirements
+
+This project's goal is to produce a software platform that is capable of
+powering a reference hardware platform based on retail components providing
+audio, some mobile phone integration, and navigation functionality to an
+automobile.
+
+=== Graphical Display
+
+The project should display its system state via a Graphical User Interface.
+
+=== 4-channel Audio Support
+
+The project should be able to output digital audio in four independent channels,
+all configurable by the operating system.
+
+=== Audio Playback Support
+
+The project should be able to decode for playback the most common formats of
+multimedia documents, especially MP3, MP2, m4a (Unprotected MPEG-4 AAC audio),
+and FLAC (Free Lossless Audio). The project should also include the capacity to
+add decode support for new formats in the future, as long as the underlying
+hardware can decode the information in real time.
+
+=== Arbitrary Execution
+
+The device should be capable of executing any properly built and installed
+programs desired by the user. The user will only need a software development
+kit (SDK) including a compiler for the specific device's architecture and the
+development resources such as libraries and headers.
+
+=== Remote Administration
+
+The project should be capable of remote administration on any desired, capable
+network interface. No physical manipulation of the target device should be
+required in order to change most internal settings and perform over-the-air
+software updates.
+
+=== Personal Media Device Support
+
+The project should interface with personal media devices available to the
+underlying operating system. The solution presented in this project will support
+USB-connected devices which provide a USB Mass Storage device and a readable
+filesystem to the host system.
+
+=== Bluetooth Integration
+
+The project should support wireless networking over the Bluetooth protocol. This
+protocol will allow users to link the device with mobile phones in order to
+provide call and messaging notification.
+
+=== GPS Navigation
+
+The project should support geolocation if a GPS device is installed.
