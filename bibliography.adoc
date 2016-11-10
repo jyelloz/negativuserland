@@ -17,6 +17,8 @@
   https://www.genivi.org/about-genivi
 - [[[genivi-members]]] GENIVI Members. +
   https://www.genivi.org/genivi-members
+- [[[fso-home]]] freesmartphone.org +
+  http://www.freesmartphone.org/
 - [[[am335x-overview]]] AM335x. +
   http://www.ti.com/lsds/ti/processors/sitara/arm_cortex-a8/am335x/overview.page
 - [[[dbus]]] dbus.
