@@ -8,16 +8,9 @@ such as Android and install them into any compatible automotive dashboard.
 
 == Complete Solutions
 
-=== iCarus
-
-The iCarus Car PC <<icarus>> is a commercially available independent  hardware
-and software solution that can be inserted into a car dashboard and used for
-similar purposes as this project. The software runs Linux with some proprietary
-application code. The hardware consists of a custom board with several
-peripherals such as 802.11 and Bluetooth wireless networking aconnected to an
-off-the-shelf Raspberry Pi single-board PC. At the time of this writing, a fully
-functioning unit can be purchased directly from the maker for 284 EUR
-<<icarus-shop>>.
+There are a few existing solutions to the problem described in this project.
+They are fairly new and some are backed by large entities as well as small
+independent developers.
 
 === Harman Connected Car
 
@@ -30,6 +23,17 @@ communications, air conditioning integration, navigation, voice recognition,
 cameras, and sensors are supported. Furthermore, the solution also includes a
 remote management platform to handle over-the-air software updates.
 
+=== iCarus
+
+The iCarus Car PC <<icarus>> is a commercially available independent  hardware
+and software solution that can be inserted into a car dashboard and used for
+similar purposes as this project. The software runs Linux with some proprietary
+application code. The hardware consists of a custom board with several
+peripherals such as 802.11 and Bluetooth wireless networking aconnected to an
+off-the-shelf Raspberry Pi single-board PC. At the time of this writing, a fully
+functioning unit can be purchased directly from the maker for 284 EUR
+<<icarus-shop>>.
+
 === Wind River Helix Chassis
 
 Helix Chassis <<helix-chassis>>, by Wind River, is another full software
@@ -38,6 +42,9 @@ as the Harman Connected Car solution. Wind River claims over 70 customers
 implementing solutions with the Helix Chassis suite.
 
 == Frameworks and Standards
+
+There are also efforts to provide open standards as well as a base platform for
+automotive information and audio systems.
 
 === Android and Android Auto
 
@@ -56,4 +63,12 @@ compatible with the Java Virtual Machine.
 GENIVI is an alliance of several automotive manufacturers and automotive audio
 suppliers coordinating on several open source components to provide the core
 functionalities necessary to provide the foundation of a custom automotive
-operating system.
+operating system <<genivi-about>>.
+
+=== Freesmartphone.org
+
+Freesmartphone.org is an open source project to provide a similar set of
+middleware interfaces and implementations for independent development of fully
+user-customizable mobile phones and tablet devices <<fso-home>>. While this
+project is not focused on automotive audio, many of its concerns are shared with
+an automotive audio project.
