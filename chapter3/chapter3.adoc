@@ -1,6 +1,6 @@
-== My Solution
+= My Solution
 
-=== Overview
+== Overview
 
 This chapter details my solution to the problem.
 The traditional software engineering task-based organization is used.
@@ -12,13 +12,13 @@ installation to the graphical user interface.
 Section 4 describes the testing regime undertaken during the development of
 this project.
 
-=== Requirements
+== Requirements
 
-==== Features
+=== Features
 
-=== Software Architecture
+== Software Architecture
 
-==== Platform
+=== Platform
 
 Negativuserland was designed with simplicity, performance, and modularity in
 mind.
@@ -27,30 +27,30 @@ These motivations influenced the choice of a development platform.
 
 
 
-==== Organization
+=== Organization
 
 The project is designed into several service components, each with a
 well-defined role and programming interface.
 
-=== Implementation
+== Implementation
 
-==== Platform
+=== Platform
 
-===== Bootloader
+==== Bootloader
 
 The bootloader chosen for this project is _Das U-Boot_ <<uboot>>, an open
 source bootloader supporting several embedded architectures. This software
 exposes all the necessary facilities to locate, load and execute the real
 operating system kernel which will host the Negativuserland software.
 
-===== Operating System
+==== Operating System
 
 The operating system chosen for this project is Linux, an open source operating
 system kernel that runs on many embedded computer systems as well as larger ones
 <<linux-readme>>. Much of the software written for this project will run on any
 UNIX-like operating system, however.
 
-===== Frameworks
+==== Frameworks
 
 When developing applications, the choice of frameworks can be the most
 significant driving influence in the implementations of a project. While this
@@ -67,7 +67,7 @@ Input/Output (I/O) library with many more additional application support
 features. Importantly, GIO provides a client and server implementation of the
 D-Bus protocol using GIO's asynchronous I/O model.
 
-===== Programming Language
+==== Programming Language
 
 Initially, this project was programmed in Vala, a language with a similar
 syntactical appearance to C# but targeting the GObject type system. This is
@@ -107,7 +107,7 @@ Clang <<clang-c11-compatibility>>. This choice provides full control of all
 library APIs with the slightly inconvenient syntax of the GObject type system's
 C macros.
 
-===== Build System
+==== Build System
 
 Build systems are an important part of any sufficiently large software project.
 They are responsible for configuring any target-specific options and producing
