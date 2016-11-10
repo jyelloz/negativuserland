@@ -9,7 +9,7 @@ base:
   align: justify
   font_family: Noto Serif
   font_size: 12
-  line_height_length: 17
+  line_height_length: 24
   line_height: $base_line_height_length / $base_font_size
   font_size_large: $base_font_size
   font_size_small: $base_font_size
