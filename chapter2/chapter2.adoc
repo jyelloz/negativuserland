@@ -1,1 +1,59 @@
 = Related Works
+
+In 2007, at the start of this project, there were few options for advanced
+automotive audio systems. In 2016 there are several options to choose from and
+large commercial entities have deployed their software in new cars. It is also
+possible to purchase full-featured hardware running advanced operating systems
+such as Android and install them into any compatible automotive dashboard.
+
+== Complete
+
+=== iCarus
+
+The iCarus Car PC <<icarus>> is a commercially available independent  hardware
+and software solution that can be inserted into a car dashboard and used for
+similar purposes as this project. The software runs Linux with some proprietary
+application code.  The hardware consists of a custom board with several
+peripherals such as 802.11 and Bluetooth wireless networking aconnected to an
+off-the-shelf Raspberry Pi single-board PC. At the time of this writing, a fully
+functioning unit can be purchased directly from the maker for 284 EUR
+<<icarus-shop>>.
+
+=== Harman Connected Car
+
+Harman Connected Car <<car-harman-com>> is a large project claiming to support
+bringing a wide range of automotive subsystems within a multimedia environment.
+This project appears to an extensive and professional solution and is currently
+deployed or being deployed in automobiles of at least 24 major international car
+brands <<harman-connected-vehicles>>. Features such as audio, communications,
+air conditioning integration, navigation, voice recognition, cameras, and
+sensors are supported. Furthermore, the solution also includes a remote
+management platform to handle over-the-air software updates.
+
+=== Wind River Helix Chassis
+
+Helix Chassis <<helix-chassis>>, by Wind River, is another full software
+solution by a major technology company. It offers a similar set of capabilities
+as the Harman Connected Car solution. Wind River claims over 70 customers
+implementing solutions with the Helix Chassis suite.
+
+== Frameworks and Standards
+
+=== Android and Android Auto
+
+Android is a Linux-based operating system targeted toward mobile and
+entertainment devices such as phones, tablets, and television set top boxes. It
+is possible for independent developers to leverage the Android Open Source
+Project in building a custom operating system for automotive systems on top of
+existing Android components. Android has also released its own automotive
+variant, Android Auto, which is deployed in several 2016 and 2017 car dashboards
+as well as available in Android phones docked inside a car. Application
+development in Android is typically carried out with Java or other languages
+compatible with the Java Virtual Machine.
+
+=== GENIVI
+
+GENIVI is an alliance of several automotive manufacturers and automotive audio
+suppliers coordinating on several open source components to provide the core
+functionalities necessary to provide the foundation of a custom automotive
+operating system.
