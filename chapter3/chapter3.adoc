@@ -20,10 +20,9 @@ this project.
 
 === Platform
 
-The project was designed with simplicity, performance, and modularity in
-mind.
-Its target hardware is cheap single-board computers.
-These motivations influenced the choice of a development platform.
+The project was designed with simplicity, performance, and modularity in mind.
+Its target hardware is cheap single-board computers.  These motivations
+influenced the choice of a development platform.
 
 === Organization
 
@@ -184,15 +183,16 @@ this project.
 
 The hardware platform chosen for this project is based on the Texas Instruments
 (TI) Sitara AM335x platform. The AM335x series of System on a Chip (SoC)
-platform consists of an ARM Cortex-A8 processor running at up to 1 GHz
-<<am335x-overview>>. The AM335x chip includes several built-in subsystems to
-meet the requirements of this project. First, the platform is fully supported by
-the chosen bootloader and operating system. Second, the platform contains the
-necessary interfaces and components to integrate and support any external
-peripheral devices required by the project. Finally, the SoC is community-backed
-with cheap single-board computer implementations such as the BeagleBone Black
-(BBB). The BBB was chosen as the basis of this project's hardware reference
-platform due to its reasonable cost and versatility.
+platform consists of an ARM Cortex-A8 processor running at up to 1 GHz as well
+as several other components <<am335x-overview>>. The AM335x chip includes
+several built-in subsystems to meet the requirements of this project. First, the
+platform is fully supported by the chosen bootloader and operating system.
+Second, the platform contains the necessary interfaces and components to
+integrate and support any external peripheral devices required by the project.
+Finally, the SoC is community-backed with cheap single-board computer
+implementations such as the BeagleBone Black (BBB). The BBB was chosen as the
+basis of this project's hardware reference platform due to its reasonable cost
+and versatility.
 
 === Computing
 
@@ -246,4 +246,9 @@ general purpose peripheral bus.
 
 The AM335x platform also contains several general-purpose pins which can be used
 for less complex operations than typical peripheral bus protocols such as
-indicator lights and binary input detection.
+indicator circuits and as a host interrupt source. These extra pins are also
+used to supplement functionality of devices connected over another bus such as
+SPI or MMC. In addition, the AM335x platform also includes support for
+pulse-width modulation (PWM) input and output, which can be used to drive clock
+signals, some types of motors, and dimmable LED light sources as well as capture
+the intensity of an input source.
