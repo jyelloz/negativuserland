@@ -2,14 +2,42 @@
 
 = References
 
-- [[[uboot]]] Das U-Boot. http://git.denx.de/?p=u-boot.git;a=blob_plain;f=README;hb=HEAD
-- [[[linux-readme]]] Linux. https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/tree/README
-- [[[glib-overview]]] GLib Overview. https://developer.gnome.org/glib/stable/glib.html
-- [[[gobject-introspection]]] GObject Introspection. https://wiki.gnome.org/Projects/GObjectIntrospection
-- [[[gi-users]]] Bindings based on GObject Introspection. https://wiki.gnome.org/action/show/Projects/GObjectIntrospection/Users
-- [[[gcc-c11-compatibility]]] C11Status. https://gcc.gnu.org/wiki/C11Status
-- [[[clang-c11-compatibility]]] Language Compatibility. http://clang.llvm.org/compatibility.html
-- [[[gnu-autoconf]]] Autoconf. https://www.gnu.org/software/autoconf/manual/autoconf.html
-- [[[gnu-automake]]] Automake. https://www.gnu.org/software/automake/manual/automake.html
-- [[[gnu-libtool]]] Libtool. https://www.gnu.org/software/libtool/manual/libtool.html
-- [[[gnu-make]]] GNU Make. https://www.gnu.org/software/make/manual/make.html
+- [[[icarus]]] Raspberry Pi Car PC: iCarus project. +
+  http://i-carus.com/
+- [[[icarus-shop]]] Shop. http://i-carus.com/shop/
+- [[[harman-connected-car]]] Connected Car! Telematics! Infotainment ! ADAS. +
+  http://www.harman.com/connected-car
+- [[[harman-connected-vehicles]]] CONNECTED BY HARMAN. +
+  http://car.harman.com/connected-vehicles.html
+- [[[helix-chassis]]] Wind River Helix Chassis. +
+  http://www.windriver.com/products/chassis/
+- [[[helix-chassis-overview]]] Wind River Helix Drive Product Overview. +
+  http://www.windriver.com/products/product-overviews/2566-Product-Overview-Wind-River-Helix-Drive/
+- [[[genivi-about]]] About GENIVI. +
+  https://www.genivi.org/about-genivi
+- [[[genivi-members]]] GENIVI Members. +
+  https://www.genivi.org/genivi-members
+- [[[dbus]]] dbus.
+  https://www.freedesktop.org/wiki/Software/dbus/
+- [[[uboot]]] Das U-Boot. +
+  http://git.denx.de/?p=u-boot.git;a=blob_plain;f=README;hb=HEAD
+- [[[linux-readme]]] Linux. +
+  https://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/tree/README
+- [[[glib-overview]]] GLib Overview. +
+  https://developer.gnome.org/glib/stable/glib.html
+- [[[gobject-introspection]]] GObject Introspection. +
+  https://wiki.gnome.org/Projects/GObjectIntrospection
+- [[[gi-users]]] Bindings based on GObject Introspection. +
+  https://wiki.gnome.org/action/show/Projects/GObjectIntrospection/Users
+- [[[gcc-c11-compatibility]]] C11Status. +
+  https://gcc.gnu.org/wiki/C11Status
+- [[[clang-c11-compatibility]]] Language Compatibility. +
+  http://clang.llvm.org/compatibility.html
+- [[[gnu-autoconf]]] Autoconf. +
+  https://www.gnu.org/software/autoconf/manual/autoconf.html
+- [[[gnu-automake]]] Automake. +
+  https://www.gnu.org/software/automake/manual/automake.html
+- [[[gnu-libtool]]] Libtool. +
+  https://www.gnu.org/software/libtool/manual/libtool.html
+- [[[gnu-make]]] GNU Make. +
+  https://www.gnu.org/software/make/manual/make.html
