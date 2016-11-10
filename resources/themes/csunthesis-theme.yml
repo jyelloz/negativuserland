@@ -1,21 +1,84 @@
 page:
   layout: portrait
-  margin: [0.75in, 1in, 0.75in, 1in]
+  #margin: [1in, 1.5in, 1.5in, 1in]
+  margin: [1in, 1in, 1in, 1in]
+  margin_inner: 1.5in
+  margin_outer: 1.5in
   size: Letter
 base:
-  font_color: #000
-  font_family: Times-Roman
+  align: justify
+  font_family: Noto Serif
   font_size: 12
   line_height_length: 17
   line_height: $base_line_height_length / $base_font_size
-vertical_spacing: $base_line_height_length
-heading:
-  font_color: #262626
-  font_size: 17
-  font_style: bold
-  line_height: 1.2
-  margin_bottom: $vertical_spacing
+  font_size_large: $base_font_size
+  font_size_small: $base_font_size
+  font_size_min: $base_font_size
+  font_style: normal
+
+abstract:
+  title:
+    align: center
+
+footer:
+  height: $base_line_height_length * 2.5
+  line_height: 1
+  vertical_align: top
+  recto:
+    center:
+      content: '{page-number}'
+  verso:
+    center:
+      content: '{page-number}'
+
+vertical_rhythm: $base_line_height_length
+horizontal_rhythm: $base_line_height_length
+vertical_spacing: $vertical_rhythm
+
 link:
-  font_color: #002FA7
-outline_list:
-  indent: $base_font_size * 1.5
+  font_color: 000
+  text_decoration: underline
+  font_family: M+ 1mn
+
+literal:
+  font_color: 000
+  font_family: M+ 1mn
+
+heading:
+  align: center
+  font_color: 000
+  font_color: $base_font_color
+  font_family: $base_font_family
+  font_style: normal
+  h1_font_size: floor($base_font_size * 2.6)
+  h2_font_size: $base_font_size
+  h3_font_size: $base_font_size
+  h4_font_size: $base_font_size
+  h5_font_size: $base_font_size
+  h6_font_size: $base_font_size
+  line_height: 1
+  margin_top: $vertical_rhythm * 0.4
+  margin_bottom: $vertical_rhythm * 0.9
+  text_transform: uppercase
+
+title_page:
+  align: center
+  logo:
+    top: 10%
+  title:
+    top: 55%
+    font_size: $base_font_size
+    font_color: 000
+    line_height: 0.9
+    text_transform: uppercase
+  subtitle:
+    font_size: $heading_h3_font_size
+    font_style: normal
+    line_height: 1
+  authors:
+    margin_top: $base_font_size * 1.25
+    font_size: $base_font_size_large
+    font_color: 000
+  revision:
+    margin_top: $base_font_size * 1.25
+
