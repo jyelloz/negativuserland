@@ -20,28 +20,38 @@ this project.
 
 === Platform
 
-Negativuserland was designed with simplicity, performance, and modularity in
+The project was designed with simplicity, performance, and modularity in
 mind.
 Its target hardware is cheap single-board computers.
 These motivations influenced the choice of a development platform.
 
-
-
 === Organization
 
 The project is designed into several service components, each with a
-well-defined role and programming interface.
+well-defined role and programming interface. This type of organization allows
+for independent development of components, a clear separation of concerns, and
+autonomous behavior of each component. If the tools are also given their own
+process space in a modern multi-process operating system such as Linux, there is
+also the potential for increased security and robustness against failures in one
+component. In fact, the application code of this project was designed as a set
+of interfaces for the D-Bus interprocess messaging system <<dbus>>.
 
 == Implementation
 
+This section describes the implementation of the project.
+
 === Platform
+
+This section covers all concrete choices made regarding third-party software
+libraries and systems in addition to any third-party project infrastructure
+included in the project.
 
 ==== Bootloader
 
 The bootloader chosen for this project is _Das U-Boot_ <<uboot>>, an open
 source bootloader supporting several embedded architectures. This software
 exposes all the necessary facilities to locate, load and execute the real
-operating system kernel which will host the Negativuserland software.
+operating system kernel which will host the project's software.
 
 ==== Operating System
 
@@ -76,9 +86,9 @@ documentation annotations as well as custom metadata to Vala constructs. Since
 Vala is just a code generator, its use does not require a virtual machine,
 runtime interpreter, or garbage collector. These properties are advantageous to
 embedded software development where processing speed, memory usage, and power
-consumption are more scarce than desktop or server environments. Vala allows for
-fairly rapid prototype development due to its significantly smaller amount of
-boilerplate code necessary to define and implement object-oriented constructs
+consumption are less abundant than desktop or server environments. Vala allows
+for fairly rapid prototype development due to its significantly smaller amount
+of boilerplate code necessary to define and implement object-oriented constructs
 such as interfaces and classes (as well as subclassing). Through the development
 of the project, many difficulties were experienced with this language that
 required the author to fix bugs within the Vala language or its bindings to
@@ -160,7 +170,7 @@ qualify it better for this project than the other tools. First, it has built-in
 functionality to integrate with parts of the GLib platform infrastructure,
 providing build targets for GResource bundles, GSettings schemas, GDBus code
 generation, as well as other tools. Finally, while cross-compilation is
-supported at some level all the previously mentioned solutions, -- with
-Autotools being the most extensive -- Meson completely encapsulates the
-cross-compilation toolchain functionality in a single file that can be shared
-across any number of projects that are built with Meson.
+supported at some level all the previously mentioned solutions -- with Autotools
+being the most extensive -- Meson completely encapsulates the cross-compilation
+toolchain functionality in a single file that can be shared across any number of
+projects that are built with Meson.
