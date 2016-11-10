@@ -1,0 +1,182 @@
+== Implementation
+
+This section describes the implementation of the project's software.
+
+=== Platform
+
+This section covers all concrete choices made regarding third-party software
+libraries and systems in addition to any third-party project infrastructure
+included in the project.
+
+==== Bootloader
+
+The bootloader chosen for this project is Das U-Boot <<uboot>>, an open source
+bootloader supporting several embedded architectures. This software exposes all
+the necessary facilities to locate, load and execute the real operating system
+kernel which will host the project's software.
+
+==== Operating System
+
+The operating system chosen for this project is Linux, an open source operating
+system kernel that runs on many embedded computer systems as well as larger ones
+<<linux-readme>>. Much of the software written for this project will run on any
+UNIX-like operating system, however.
+
+==== Frameworks
+
+When developing applications, the choice of frameworks can be the most
+significant driving influence in the implementations of a project. While this
+project has chosen Linux as its operating system, it has been developed heavily
+with portable libraries that can be built (and run) on other operating systems
+and architectures. This project has chosen to only build upon open source
+libraries.
+
+At the lowest level, all the application code of this project uses GLib
+<<glib-overview>>, a portable utility library providing many data structures and
+support functionality to assist application development. GLib also includes
+GObject, a C-based object-oriented type system, and GIO, an asynchronous
+Input/Output (I/O) library with many more additional application support
+features. Importantly, GIO provides a client and server implementation of the
+D-Bus protocol using GIO's asynchronous I/O model.
+
+==== Programming Language
+
+Initially, this project was programmed in Vala, a language with a similar
+syntactical appearance to C# but targeting the GObject type system. This is
+achieved by the Vala compiler generating GObject-style C code and mapping
+documentation annotations as well as custom metadata to Vala constructs. Since
+Vala is just a code generator, its use does not require a virtual machine,
+runtime interpreter, or garbage collector. These properties are advantageous to
+embedded software development where processing speed, memory usage, and power
+consumption are less abundant than desktop or server environments. Vala allows
+for fairly rapid prototype development due to its significantly smaller amount
+of boilerplate code necessary to define and implement object-oriented constructs
+such as interfaces and classes (as well as subclassing). Through the development
+of the project, many difficulties were experienced with this language that
+required the author to fix bugs within the Vala language or its bindings to
+external libraries. Furthermore, the nature of the Vala language and libraries
+implemented with the GObject type system introduce a maintenance requirement for
+the Vala bindings to a specific library. Changes to APIs and incorrect
+transcription or scanning will lead to discrepancies between the original C API
+of a library and the generated or manually maintained Vala bindings. These
+deficiencies, combined with the declining activity of the Vala project have
+disqualified the language from being the primary language of this project.
+
+Due to the project GObject Introspection <<gobject-introspection>>, many more
+programming languages are available to the GObject programmer. GObject
+Introspection provides automatic bindings from GObject libraries to JavaScript,
+Python, Lua, Perl, Ruby, Guile, and other languages <<gi-users>>. Similar to
+Vala, which is partially compatible with GObject Introspection, projects
+employing GObject Introspection are subject to mismatched bindings. Furthermore,
+attempts to map GObject semantics into a specific programming language's idioms
+are not guaranteed.
+
+The compound effects of developing with non-native programming languages during
+the development process eventually led to their abandonment in favor of
+GObject-style C. The C11 revision of C was eventually chosen for this project
+since it is fully supported by the compilers GCC <<gcc-c11-compatibility>> and
+Clang <<clang-c11-compatibility>>. This choice provides full control of all
+library APIs with the slightly inconvenient syntax of the GObject type system's
+C macros.
+
+==== Build System
+
+Build systems are an important part of any sufficiently large software project.
+They are responsible for configuring any target-specific options and producing
+target artifacts, the part of the project that will be consumed by the end-user.
+The most common build system for UNIX-style projects is make, part of the POSIX
+standard. Limitations in make have repeatedly influenced efforts in producing
+new build systems over the years. Among the replacements, GNU Autotools and
+CMake are the most popular for UNIX-style projects. Waf and Meson were also
+evaluated during the development of this project. After evaluation, Meson was
+eventually chosen as the build system for this project. Ninja is a newer tool
+that is very similar to Make in that it only supports scheduling and running
+tasks based on recipes and it claims to perform those tasks with a higher degree
+of parallelism.
+
+GNU Autotools, also known as the GNU Build System, is a
+combination of GNU Autoconf <<gnu-autoconf>>, GNU Automake, <<gnu-automake>>,
+GNU Libtool <<gnu-libtool>>, and GNU Make <<gnu-make>>. These tools are
+orchestrated in order to provide a fully portable solution for building software
+projects. While Autotools is a well-tested product with many users, it suffers
+from a few of its own deficiencies. First, to use Autotools in any non-trivial
+capacity requires the basic knowledge of several languages including m4, POSIX
+shell, as well as the GNU makefile syntax.  Furthermore, since it eventually
+relies on make, Autotools has limitations in its ability to parallelize the
+compilation of object files from C source, which is a highly parallelizable
+process. The main steps of building an Autotools project are generating the
+configuration script (autoconf), configuring a specific build instance
+(configure), and performing the actual build (make).
+
+CMake is a newer project which follows part of the Autotools strategy but
+unifies the entire build description into a single language, which is new and
+specific to CMake. Its principal similarity to Autotools is that it generates
+Makefiles during a configuration stage. CMake can also generate build files for
+the Ninja build tool as well as many IDE-specific project files.
+
+Waf is a complete replacement attempt of a configuration and build tool into a
+single self-contained tool. It provides similar features to Autotools with
+claimed performance gains as well as simplicity of the build description files.
+Similar to other existing systems, Waf basically follows a configure-then-build
+pattern. Its build descriptor files are written in Python, eliminating the need
+to learn a new language that will not be useful for any other purpose. Its
+internal build tool also has a job scheduler which allows it to achieve higher
+parallelism rates than a project using a recursive set of Makefiles.
+
+Finally, the newest addition evaluated for the project is Meson, which is an
+experience somewhere between that of CMake and Waf. It has a custom build
+descriptor language for which is similar to Python and is implemented in Python.
+It does not contain its own build tool but it generates only Ninja build files
+and some IDE-specific project files. Meson has other strengths, though, that
+qualify it better for this project than the other tools. First, it has built-in
+functionality to integrate with parts of the GLib platform infrastructure,
+providing build targets for GResource bundles, GSettings schemas, GDBus code
+generation, as well as other tools. Finally, while cross-compilation is
+supported at some level all the previously mentioned solutions -- with Autotools
+being the most extensive -- Meson completely encapsulates the cross-compilation
+toolchain functionality in a single file that can be shared across any number of
+projects that are built with Meson.
+
+=== Components
+
+This section describes all the components implemented as the software portion of
+this project.
+
+==== Media Service
+
+The Media Service is an implementation of the audio player interface. It is
+responsible for handling discovery of media sources,
+
+==== Geolocation Service
+
+The Geolocation Service is an implementation of the geolocation interface. It is
+responsible
+
+==== Messaging Service
+
+==== Graphical User Interface
+
+Combining all the data available through the previously described D-Bus
+interfaces, this project's Graphical User Interface (GUI) will present a
+contextual view of the overall system state and react to out-of-band events. The
+GUI operates in its own process space and does not directly manage any of the
+underlying technology. The GUI is a full-screen application implemented with the
+GTK+ 3.0 user interface toolkit. The project contains several views which must
+be implemented for a usable product.
+
+===== Music Views
+
+===== Maps Views
+
+When a Geolocation source is available along with mappin data, The GUI contains
+contain a basic map view, displaying the user's location at a modifiable
+magnification level.
+
+===== Messaging Views
+
+The messaging aspect of the GUI simply display temporary notifications of
+telephone call as well as text messaging information.
+
+===== Settings Views
+
+

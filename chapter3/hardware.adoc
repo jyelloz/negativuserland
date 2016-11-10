@@ -1,0 +1,74 @@
+== Hardware Architecture
+
+The hardware platform chosen for this project is based on the Texas Instruments
+(TI) Sitara AM335x platform. The AM335x series of System on a Chip (SoC)
+platform consists of an ARM Cortex-A8 processor running at up to 1 GHz as well
+as several other components <<am335x-overview>>. The AM335x chip includes
+several built-in subsystems to meet the requirements of this project. First, the
+platform is fully supported by the chosen bootloader and operating system.
+Second, the platform contains the necessary interfaces and components to
+integrate and support any external peripheral devices required by the project.
+Finally, the SoC is community-backed with cheap single-board computer
+implementations such as the BeagleBone Black (BBB). The BBB was chosen as the
+basis of this project's hardware reference platform due to its reasonable cost
+and versatility.
+
+=== Computing
+
+The AM335x includes an ARM CPU with adequate processing power for this project.
+The CPU can run as fast as 1 GHz and has mature support within u-boot and Linux.
+Since Linux is not a Real Time Operating System (RTOS), there are use cases
+where Linux cannot be relied upon. For these cases, Linux can work cooperatively
+with two additional built-in processors, the TI PRUSS units which are RISC
+processors that run at 200MHz and are fully programmable.
+
+=== Graphics
+
+The AM335x platform contains its own Graphics Processing Unit (GPU). The main
+purposes of this GPU are for hardware-accelerated 3D graphics and video
+playback. These features are not necessary for this project but may be useful in
+the future. The project still requires the display of two-dimensional graphics,
+however. The AM335x contains a framebuffer unit which supports LCD as well as
+HDMI video output. This framebuffer is supported by the X11 window manager as
+well as other Linux-compatible graphics systems.
+
+=== Audio
+
+The AM335x platform contains 2 dedicated TI McASP (Multi-channel Audio Serial
+Port) audio processing units which are capable of supplying audio data from the
+system to connected audio codec chips. The McASP supports transmitting and
+receiving digital audio signals in I2S as well as PCM and S/PDIF formats to
+codec chips. One of the BBB's McASP units will be connected to a signle
+4-channel or two 2-channel codec chips to support its automotive audio output.
+
+=== Storage
+
+The AM335x platform allows several options for storage. It has built-in
+controllers for MMC, NAND, and NOR flash memory. Other storage can also be added
+over its USB interfaces. The BBB includes an embedded MMC (eMMC) storage unit
+which will be used to store the operating system including the bootloader,
+kernel, and root filesystem. The USB interface support will allow external
+storage devices to supply data to the system such as music files and
+geographical information.
+
+=== Peripheral Buses
+
+In addition to the previously mentioned buses, the AM335x platform contains
+controllers for several other, more general purpose communications buses. It has
+controllers for I2C, SPI, and UART serial interfaces. These controllers can be
+used to connect the host system to a range of peripherals such as GPS receivers,
+terrestrial radio receivers, as well as wireless network interfaces such as
+802.11 and Bluetooth. As previously mentioned, USB is also available as a
+general purpose peripheral bus.
+
+=== Other Pins
+
+The AM335x platform also contains several general-purpose pins which can be used
+for less complex operations than typical peripheral bus protocols such as
+indicator circuits and as a host interrupt source. These extra pins are also
+used to supplement functionality of devices connected over another bus such as
+SPI or MMC. In addition, the AM335x platform also includes support for
+pulse-width modulation (PWM) input and output, which can be used to drive clock
+signals, some types of motors, and dimmable LED light sources as well as capture
+the intensity of an input source.
+
