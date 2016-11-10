@@ -38,7 +38,7 @@ of interfaces for the D-Bus interprocess messaging system <<dbus>>.
 
 == Implementation
 
-This section describes the implementation of the project.
+This section describes the implementation of the project's software.
 
 === Platform
 
@@ -175,6 +175,11 @@ being the most extensive -- Meson completely encapsulates the cross-compilation
 toolchain functionality in a single file that can be shared across any number of
 projects that are built with Meson.
 
+=== Components
+
+This section describes all the components implemented as the software portion of
+this project.
+
 == Hardware Architecture
 
 The hardware platform chosen for this project is based on the Texas Instruments
@@ -236,3 +241,9 @@ used to connect the host system to a range of peripherals such as GPS receivers,
 terrestrial radio receivers, as well as wireless network interfaces such as
 802.11 and Bluetooth. As previously mentioned, USB is also available as a
 general purpose peripheral bus.
+
+=== Other Pins
+
+The AM335x platform also contains several general-purpose pins which can be used
+for less complex operations than typical peripheral bus protocols such as
+indicator lights and binary input detection.
