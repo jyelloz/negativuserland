@@ -1,1 +1,47 @@
 = Introduction
+
+This paper documents a solution intended for automotive audio applications.
+What is proposed uses a computer and some relatively new, free software
+technologies to achieve the desired level of functionality. Chapter 1 describes
+the state of after-market car audio systems at the time of this writing.
+Chapter 1 also details inadequacies of other attempts to install a computer in
+an automobile. Chapter 2 provides information on related technologies in the
+areas of operating systems, peripherals, hardware emulation technologies, and
+some existing solutions. Chapter 3 contains the entirety of the solution put
+forward by me. This includes the requirements, design, and implementation
+performed through this project's duration. Chapter 4 contains the results of
+this project. Included are some ideas for extending the solution by adding some
+experimental and industry-standard features.
+
+== Problem
+
+With all the devices available in the market, none of the offerings supports the
+desired feature set and overall quality.
+
+At the time this project started, low-cost models only supported analog
+connections to personal media devices (iPods, etc.), if any. This type of
+connection has several drawbacks and few advantages. By nature, analog
+connections are lossy with respect to audio quality. Furthermore, an analog
+connection limits the level of communication between the media device and the
+audio system.
+
+The implication of this limit are that there is be no effective method for the
+audio system to control the media device or access any of its content (other
+than the emitted audio signal).
+
+One key feature lacking in all commercial offerings is customizability. Since
+these devices are marketed and packaged as consumer electronics, they are not
+expected to provide the level of customizability that some users would prefer.
+From a developer's standpoint, increasing the level of customizability can
+reduce the reliability of the device and increase support costs. While this is
+understandable, my solution is designed for a specific set of users where
+support is less of an issue.
+
+== Objectives
+
+The objectives of this project are to produce a working product that meets the
+requirements described in section 3.2.
+Inside the computer will be a set of software packages capable of
+providing several features that integrate personal electronic devices such as
+mobile phones and personal media player with the car audio system. Also, the
+device should support GPS geolocation.
