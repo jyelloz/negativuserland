@@ -26,7 +26,9 @@ An ambitious, largely untapped, and potentially dangerous power of every car on
 the road containing wireless networking capabilities introduces many
 possibilities for the future of transportation. For example, automobiles could
 potentially broadcast important information to each other in order to inform
-drivers of upcoming hazards and other conditions such as average speed.
+drivers of upcoming hazards and other conditions such as average speed. This
+type of network can provide a non-commercial, peer-to-peer replacement of
+proprietary live traffic data offered by paid services.
 
 == Security
 
