@@ -142,17 +142,35 @@ projects that are built with Meson.
 This section describes all the components implemented as the software portion of
 this project.
 
-==== Media Service
+==== Media Data Service
 
-The Media Service is an implementation of the audio player interface. It is
-responsible for handling discovery of media sources,
+The Media Data Service is an implementation of the media service interface. It
+is responsible for handling discovery of media sources, finding media content in
+those sources, and providing a searching and browsing D-Bus API for found media.
+The service also performs analysis on media files in order to supply textual and
+graphical metadata to consumers.
+
+==== Media Player Service
+
+The Media Player service is simply a media player and an implementation of the
+media player interface. Its only purpose is to manage the playback and queueing
+of media content cataloged by the Media Data Service. It exposes a D-Bus API to
+allow a mediating consumer of itself and the Media Data service. It is
+implemented as a subclass of the GIO GApplication class and encapsulates a
+GStreamer pipeline to play back audio and a custom data structure for playlists.
 
 ==== Geolocation Service
 
 The Geolocation Service is an implementation of the geolocation interface. It is
-responsible
+responsible for communicating with a GPS receiver device and exporting its
+geolocation data in a D-Bus API. It is implemented as a GIO GApplication
+subclass and emits signals whenever the status of the GPS receiver is updated.
 
 ==== Messaging Service
+
+The Messaging Service is an implementation of the messaging service interface.
+It is responsible for communicating with compatible mobile communications
+devices over the Bluetooth protocol.
 
 ==== Graphical User Interface
 
@@ -166,9 +184,15 @@ be implemented for a usable product.
 
 ===== Music Views
 
+The music views are the primary focus of this project and the most complex. They
+mainly synthesize information from the music service to allow navigating a
+collection of media on connected devices and managing the playback of media.
+These views were designed and developed with a focus on minimal amount of
+interaction with the user in order to minimize distractions.
+
 ===== Maps Views
 
-When a Geolocation source is available along with mappin data, The GUI contains
+When a Geolocation source is available along with mapping data, The GUI contains
 contain a basic map view, displaying the user's location at a modifiable
 magnification level.
 
@@ -179,4 +203,6 @@ telephone call as well as text messaging information.
 
 ===== Settings Views
 
-
+In order to provide some customizability during runtime, each configurable
+feature of this project must expose its configurable properties into the
+application's settings view.

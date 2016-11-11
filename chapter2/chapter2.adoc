@@ -29,7 +29,7 @@ The iCarus Car PC <<icarus>> is a commercially available independent  hardware
 and software solution that can be inserted into a car dashboard and used for
 similar purposes as this project. The software runs Linux with some proprietary
 application code. The hardware consists of a custom board with several
-peripherals such as 802.11 and Bluetooth wireless networking aconnected to an
+peripherals such as 802.11 and Bluetooth wireless networking connected to an
 off-the-shelf Raspberry Pi single-board PC. At the time of this writing, a fully
 functioning unit can be purchased directly from the maker for 284 EUR
 <<icarus-shop>>.
@@ -39,7 +39,10 @@ functioning unit can be purchased directly from the maker for 284 EUR
 Helix Chassis <<helix-chassis>>, by Wind River, is another full software
 solution by a major technology company. It offers a similar set of capabilities
 as the Harman Connected Car solution. Wind River claims over 70 customers
-implementing solutions with the Helix Chassis suite.
+implementing solutions with the Helix Chassis suite. A sub-project of the Helix
+Chassis suite, Cockpit offers a Linux-based platform based on the
+to-be-mentioned GENIVI framework with a custom JavaScript-based user interface
+and application system.
 
 == Frameworks and Standards
 

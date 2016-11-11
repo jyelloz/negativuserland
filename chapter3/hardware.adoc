@@ -38,7 +38,7 @@ The AM335x platform contains 2 dedicated TI McASP (Multi-channel Audio Serial
 Port) audio processing units which are capable of supplying audio data from the
 system to connected audio codec chips. The McASP supports transmitting and
 receiving digital audio signals in I2S as well as PCM and S/PDIF formats to
-codec chips. One of the BBB's McASP units will be connected to a signle
+codec chips. One of the BBB's McASP units will be connected to a single
 4-channel or two 2-channel codec chips to support its automotive audio output.
 
 === Storage
