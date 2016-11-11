@@ -178,12 +178,12 @@ as a GIO GApplication subclass.
 ==== Graphical User Interface
 
 Combining all the data available through the previously described D-Bus
-interfaces, this project's Graphical User Interface (GUI) will present a
-contextual view of the overall system state and react to out-of-band events. The
-GUI operates in its own process space and does not directly manage any of the
+interfaces, this project's Graphical User Interface (GUI) presents a contextual
+view of the overall system state and react to out-of-band events. The GUI
+operates in its own process space and does not directly manage any of the
 underlying technology. The GUI is a full-screen application implemented with the
-GTK+ 3.0 user interface toolkit. The project contains several views which must
-be implemented for a usable product.
+GTK+ 3.0 user interface toolkit. The project contains several views are
+necessary for a usable product.
 
 ===== Music Views
 
@@ -192,6 +192,11 @@ mainly synthesize information from the music service to allow navigating a
 collection of media on connected devices and managing the playback of media.
 These views were designed and developed with a focus on minimal amount of
 interaction with the user in order to minimize distractions.
+
+The first music view is a abstract browser that is capable of navigating through
+a single-level list of textual information one page at a time. This view is
+realized and slightly refined as an Artists view, Albums view, Playlists view,
+an Album view, a Playlist view, and a Track List view.
 
 ===== Maps Views
 
@@ -210,5 +215,6 @@ the visual side of the Bluetooth device pairing process.
 ===== Settings Views
 
 In order to provide some customizability during runtime, each configurable
-feature of this project must expose its configurable properties into the
-application's settings view.
+feature of this project can expose its configurable properties into the
+application's settings view. There are also global settings that are configured
+with this view.
