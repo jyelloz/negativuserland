@@ -1,6 +1,6 @@
-= Conclusion
+= Conclusion and Further Research
 
-Given the wide-ranging solutions provided by some of the newer commericially
+Given the wide-ranging solutions provided by some of the newer commercially
 backed systems that are shipping in newer automobiles as well as the dominance
 of the Android operating system for mobile devices, this project would need a
 significant amount of work to be performed to achieve competitive market share,
