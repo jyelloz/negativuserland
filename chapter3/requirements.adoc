@@ -17,7 +17,7 @@ all configurable by the operating system.
 === Audio Playback Support
 
 The project should be able to decode for playback the most common formats of
-multimedia documents, especially MP3, MP2, m4a (Unprotected MPEG-4 AAC audio),
+multimedia documents, especially MP3, m4a (Unprotected MPEG-4 AAC audio),
 and FLAC (Free Lossless Audio). The project should also include the capacity to
 add decode support for new formats in the future, as long as the underlying
 hardware can decode the information in real time.

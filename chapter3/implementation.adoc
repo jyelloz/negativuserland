@@ -170,7 +170,10 @@ subclass and emits signals whenever the status of the GPS receiver is updated.
 
 The Messaging Service is an implementation of the messaging service interface.
 It is responsible for communicating with compatible mobile communications
-devices over the Bluetooth protocol.
+devices over the Bluetooth protocol. Furthermore, this service is responsible
+for integrating with the underlying operating system's Bluetooth framework to
+expose the pairing workflow to the Graphical User Interface. It is implemented
+as a GIO GApplication subclass.
 
 ==== Graphical User Interface
 
@@ -199,7 +202,10 @@ magnification level.
 ===== Messaging Views
 
 The messaging aspect of the GUI simply display temporary notifications of
-telephone call as well as text messaging information.
+telephone call as well as text messaging information. During a hands-free phone
+call, the user interface view is interrupted to provide call status on the
+screen. The messaging subsystem of the GUI is also tasked with implementing
+the visual side of the Bluetooth device pairing process.
 
 ===== Settings Views
 
