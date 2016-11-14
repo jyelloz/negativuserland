@@ -137,6 +137,28 @@ being the most extensive -- Meson completely encapsulates the cross-compilation
 toolchain functionality in a single file that can be shared across any number of
 projects that are built with Meson.
 
+==== Filesystem Build System
+
+In addition to building the components authored during this project, it is also
+necessary to build operating system images for the storage media. This is a
+complicated task and requires gathering all the dependencies of the project and
+building them in order. There are several systems that intend to ease embedded
+development with regard to building root filesystems. The two systems evaluated
+for this project are OpenEmbedded <<oe-home>> and Buildroot <<buildroot-home>>.
+Buildroot was eventually chosen as the filesystem builder for this project.
+
+Buildroot is composed mainly of Makefiles with some additional support tools.
+These Makefile rules factorize and abstract the commonly duplicated rules
+necessary for cross-compiling packages built with several common build systems
+such as the ones mentioned previously. It is capable of building an entire Linux
+distribution from nothing including the cross-development toolchain, the Linux
+kernel, all software packages needed for a target platform, and the actual
+filesystem images for various types of storage. Furthermore, for independent
+projects, it supports overlaying its existing supported packages with a
+user-specified set of external packages. This feature provides a well-defined
+path for developers to add independently maintained board support packages,
+experimental, or special-interest functionality to the Buildroot system.
+
 === Components
 
 This section describes all the components implemented as the software portion of

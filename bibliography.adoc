@@ -45,3 +45,7 @@
   https://www.gnu.org/software/libtool/manual/libtool.html
 - [[[gnu-make]]] GNU Make. +
   https://www.gnu.org/software/make/manual/make.html
+- [[[oe-home]]] Openembedded.org. +
+  http://openembedded.org/wiki/Main_Page
+- [[[buildroot-home]]] Buildroot - Making Embedded Linux Easy. +
+  https://buildroot.org/
