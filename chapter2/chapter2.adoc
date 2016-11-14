@@ -14,14 +14,14 @@ independent developers.
 
 === Harman Connected Car
 
-Harman Connected Car <<car-harman-com>> is a large software project claiming to
-support bringing a wide range of automotive subsystems within a multimedia
-environment. This project appears to an extensive and professional solution and
-is currently deployed or being deployed in automobiles of at least 24 major
-international car brands <<harman-connected-vehicles>>. Features such as audio,
-communications, air conditioning integration, navigation, voice recognition,
-cameras, and sensors are supported. Furthermore, the solution also includes a
-remote management platform to handle over-the-air software updates.
+Harman Connected Car <<harman-connected-car>> is a large software project
+claiming to support bringing a wide range of automotive subsystems within a
+multimedia environment. This project appears to an extensive and professional
+solution and is currently deployed or being deployed in automobiles of at least
+24 major international car brands <<harman-connected-vehicles>>. Features such
+as audio, communications, air conditioning integration, navigation, voice
+recognition, cameras, and sensors are supported. Furthermore, the solution also
+includes a remote management platform to handle over-the-air software updates.
 
 === iCarus
 
