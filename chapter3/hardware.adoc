@@ -74,6 +74,16 @@ terrestrial radio receivers, as well as wireless network interfaces such as
 802.11 and Bluetooth. As previously mentioned, USB is also available as a
 general purpose peripheral bus.
 
+=== Bluetooth Networking
+
+For Bluetooth networking, a commodity USB bluetooth adapter has been
+selected for this project based on the CSR8510 chipset.
+
+=== 802.11 Networking
+
+For 802.11 wireless networking, a commodity USB 802.11n adapter bas been
+selected for this project based on the MT7601 chipset.
+
 === Other Pins
 
 The AM335x platform also contains several general-purpose pins which can be used
@@ -82,6 +92,5 @@ indicator circuits and as a host interrupt source. These extra pins are also
 used to supplement functionality of devices connected over another bus such as
 SPI or MMC. In addition, the AM335x platform also includes support for
 pulse-width modulation (PWM) input and output, which can be used to drive clock
-signals, some types of motors, and dimmable LED light sources as well as capture
-the intensity of an input source.
-
+signals, some types of motors, and dimmable LED light sources as well as the
+capture of the input source intensity.
