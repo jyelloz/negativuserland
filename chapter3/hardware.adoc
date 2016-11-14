@@ -38,8 +38,21 @@ The AM335x platform contains 2 dedicated TI McASP (Multi-channel Audio Serial
 Port) audio processing units which are capable of supplying audio data from the
 system to connected audio codec chips. The McASP supports transmitting and
 receiving digital audio signals in I2S as well as PCM and S/PDIF formats to
-codec chips. One of the BBB's McASP units will be connected to a single
-4-channel or two 2-channel codec chips to support its automotive audio output.
+codec chips. The TI PCM5102 I2S DAC codec was chosen for this project, simply
+because it requires little configuration and has several break-out boards that
+are easy to obtain and inexpensive. Each codec board supports two channel output
+so it is necessary to integrate two codecs with the McASP. The I2S audio
+protocol packs two channels of audio into a single data line, switching between
+them using a frame-sync clock. Each McASP unit has four data lines (serializers)
+so the first two are connected to each codec's data input port. Each codec will
+also receive two clock signals from the McASP, the bit clock and the frame-sync
+clock. The bit clock is a clock signal which is used to time the audio data
+emitted by the serial port and has a timing always a multiple of the frame sync
+clock. These signals are shared across the entire I2S bus controlled by the
+McASP. In this configuration, the McASP is considered the master and both codecs
+are considered slaves. The I2S specification also calls for a high-speed clock,
+also called the master clock, which typically is divided to derive the other
+clocks, though the PCM5102 does not need this signal.
 
 === Storage
 
