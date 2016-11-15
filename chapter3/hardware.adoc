@@ -30,7 +30,8 @@ playback. These features are not necessary for this project but may be useful in
 the future. The project still requires the display of two-dimensional graphics,
 however. The AM335x contains a framebuffer unit which supports LCD as well as
 HDMI video output. This framebuffer is supported by the X11 window manager as
-well as other Linux-compatible graphics systems.
+well as other Linux-compatible graphics systems. For the display component, a
+3.5" TFT display was chosen.
 
 === Audio
 
@@ -49,10 +50,14 @@ also receive two clock signals from the McASP, the bit clock and the frame-sync
 clock. The bit clock is a clock signal which is used to time the audio data
 emitted by the serial port and has a timing always a multiple of the frame sync
 clock. These signals are shared across the entire I2S bus controlled by the
-McASP. In this configuration, the McASP is considered the master and both codecs
-are considered slaves. The I2S specification also calls for a high-speed clock,
-also called the master clock, which typically is divided to derive the other
-clocks, though the PCM5102 does not need this signal.
+McASP. In this configuration <<audio-circuit-i2s,fig1>>, the McASP is considered the
+master and both codecs are considered slaves. The I2S specification also calls
+for a high-speed clock, also called the master clock, which typically is divided
+to derive the other clocks, though the PCM5102 does not need this signal.
+
+[[audio-circuit-i2s]]
+.I2S audio configuration
+image::figures/audio-circuit-i2s.svg[align="center"]
 
 === Storage
 
