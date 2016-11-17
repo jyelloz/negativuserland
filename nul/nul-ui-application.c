@@ -307,17 +307,16 @@ static GActionEntry const app_entries[] = {
   {"quit", activate_quit, NULL, NULL, NULL},
 };
 
+#define FREE_MAYBE(f, o) G_STMT_START { if (o) { (f) (o); } } G_STMT_END
+
 static void
 nul_ui_application_finalize (GObject *const object)
 {
 
   NulUiApplication *const self = NUL_UI_APPLICATION (object);
 
-  if (self->service_state_stack)
-    nul_ui_service_state_stack_free (self->service_state_stack);
-
-  if (self->main_menu)
-    nul_ui_main_menu_free (self->main_menu);
+  FREE_MAYBE (nul_ui_service_state_stack_free, self->service_state_stack);
+  FREE_MAYBE (nul_ui_main_menu_free, self->main_menu);
 
   gobj_class->finalize (object);
 
