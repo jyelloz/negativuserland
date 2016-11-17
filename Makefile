@@ -17,6 +17,9 @@ SOURCES = thesis.adoc \
 		  chapter1/chapter1.adoc \
 		  chapter2/chapter2.adoc \
 		  chapter3/chapter3.adoc \
+		  chapter3/requirements.adoc \
+		  chapter3/implementation.adoc \
+		  chapter3/hardware.adoc \
 		  chapter4/chapter4.adoc \
 		  bibliography.adoc \
 		  $(NULL)
