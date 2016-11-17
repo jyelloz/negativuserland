@@ -37,11 +37,11 @@ vertical_spacing: $vertical_rhythm
 link:
   font_color: $base_font_color
   text_decoration: underline
-  font_family: M+ 1mn
+  font_family: Courier
 
 literal:
   font_color: $base_font_color
-  font_family: M+ 1mn
+  font_family: Courier
 
 heading:
   align: center
