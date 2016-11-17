@@ -39,7 +39,6 @@ executable(
 
 executable(
   'nul-service',
-  'nul-media-player.c',
   'nul-service-main.c',
   'nul-service-application.c',
   'nul-music-service-util.c',
