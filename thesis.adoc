@@ -3,7 +3,7 @@ Jordan Yelloz <jordan.yelloz@my.csun.edu>
 :Author Initials: JRY
 :toc:
 :doctype: book
-//:media: prepress
+:media: prepress
 :sectnums:
 
 :numbered!:
