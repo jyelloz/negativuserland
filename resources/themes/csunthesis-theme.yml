@@ -36,17 +36,16 @@ horizontal_rhythm: $base_line_height_length
 vertical_spacing: $vertical_rhythm
 
 link:
-  font_color: 000
+  font_color: $base_font_color
   text_decoration: underline
   font_family: M+ 1mn
 
 literal:
-  font_color: 000
+  font_color: $base_font_color
   font_family: M+ 1mn
 
 heading:
   align: center
-  font_color: 000
   font_color: $base_font_color
   font_family: $base_font_family
   font_style: normal
@@ -68,7 +67,7 @@ title_page:
   title:
     top: 55%
     font_size: $base_font_size
-    font_color: 000
+    font_color: $base_font_color
     line_height: 0.9
     text_transform: uppercase
   subtitle:
