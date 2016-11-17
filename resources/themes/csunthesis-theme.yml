@@ -1,7 +1,6 @@
 page:
   layout: portrait
-  #margin: [1in, 1.5in, 1.5in, 1in]
-  margin: [1in, 1in, 1in, 1in]
+  margin: 1in
   margin_inner: 1.5in
   margin_outer: 1.5in
   size: Letter
