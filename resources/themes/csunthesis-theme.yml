@@ -7,7 +7,7 @@ page:
   size: Letter
 base:
   align: justify
-  font_family: Noto Serif
+  font_family: Times-Roman
   font_size: 12
   line_height_length: 24
   line_height: $base_line_height_length / $base_font_size
@@ -84,6 +84,21 @@ title_page:
 
 font:
   catalog:
+    Times-Roman:
+      normal: texgyretermes-regular.ttf
+      bold: texgyretermes-bold.ttf
+      italic: texgyretermes-italic.ttf
+      bold_italic: texgyretermes-bolditalic.ttf
+    Helvetica:
+      normal: texgyreheros-regular.ttf
+      bold: texgyreheros-bold.ttf
+      italic: texgyreheros-italic.ttf
+      bold_italic: texgyreheros-bolditalic.ttf
+    Courier:
+      normal: texgyrecursor-regular.ttf
+      bold: texgyrecursor-bold.ttf
+      italic: texgyrecursor-italic.ttf
+      bold_italic: texgyrecursor-bolditalic.ttf
     Noto Serif:
       normal: notoserif-regular-subset.ttf
       bold: notoserif-bold-subset.ttf
