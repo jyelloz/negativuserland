@@ -47,7 +47,7 @@ heading:
   align: center
   font_color: $base_font_color
   font_family: $base_font_family
-  font_style: normal
+  font_style: bold
   h1_font_size: floor($base_font_size * 2.6)
   h2_font_size: $base_font_size
   h3_font_size: $base_font_size
