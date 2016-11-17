@@ -76,7 +76,7 @@ title_page:
   authors:
     margin_top: $base_font_size * 1.25
     font_size: $base_font_size_large
-    font_color: 000
+    font_color: $base_font_color
   revision:
     margin_top: $base_font_size * 1.25
 
