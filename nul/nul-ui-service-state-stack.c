@@ -10,8 +10,7 @@ NulUiServiceStateStack *
 nul_ui_service_state_stack_new (GtkStack *const stack)
 {
   NulUiServiceStateStack *const self = g_new0 (NulUiServiceStateStack, 1);
-  self->stack = stack;
-  g_object_ref (stack);
+  self->stack = g_object_ref (stack);
   return self;
 }
 
