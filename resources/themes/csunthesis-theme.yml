@@ -99,6 +99,11 @@ font:
       bold: texgyrecursor-bold.ttf
       italic: texgyrecursor-italic.ttf
       bold_italic: texgyrecursor-bolditalic.ttf
+    Arial:
+      normal: texgyreheros-regular.ttf
+      bold: texgyreheros-bold.ttf
+      italic: texgyreheros-italic.ttf
+      bold_italic: texgyreheros-bolditalic.ttf
     Noto Serif:
       normal: notoserif-regular-subset.ttf
       bold: notoserif-bold-subset.ttf
