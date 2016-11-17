@@ -3,6 +3,7 @@
 #include "nul-geolocation-service.h"
 #include "nul-ui-service-state-stack.h"
 #include "nul-ui-main-menu.h"
+#include "nul-ui-artists.h"
 #include "nul-ui-resources.h"
 
 #if !GLIB_CHECK_VERSION (2, 48, 0)
@@ -29,6 +30,7 @@ struct _NulUiApplication
 
   NulUiServiceStateStack *service_state_stack;
   NulUiMainMenu *main_menu;
+  NulUiArtists *artists;
 
   GtkLabel *artists_count_label;
   GtkLabel *albums_count_label;
@@ -83,6 +85,16 @@ activate (GApplication *const app)
     "music-stats-screen"
   );
 
+  GObject *const artists_list_box = gtk_builder_get_object (
+    builder,
+    "artists-list-box"
+  );
+
+  GObject *const artists_list = gtk_builder_get_object (
+    builder,
+    "artists-list"
+  );
+
   GObject *const geolocation = gtk_builder_get_object (
     builder,
     "geolocation-screen"
@@ -109,6 +121,11 @@ activate (GApplication *const app)
     GTK_WIDGET (automotive),
     GTK_WIDGET (settings),
     GTK_STACK (connected_state)
+  );
+
+  self->artists = nul_ui_artists_new (
+    GTK_BOX (artists_list_box),
+    GTK_TREE_VIEW (artists_list)
   );
 
   self->artists_count_label = GTK_LABEL (
@@ -317,6 +334,7 @@ nul_ui_application_finalize (GObject *const object)
 
   FREE_MAYBE (nul_ui_service_state_stack_free, self->service_state_stack);
   FREE_MAYBE (nul_ui_main_menu_free, self->main_menu);
+  FREE_MAYBE (nul_ui_artists_free, self->artists);
 
   gobj_class->finalize (object);
 
