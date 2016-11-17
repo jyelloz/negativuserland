@@ -50,13 +50,14 @@ also receive two clock signals from the McASP, the bit clock and the frame-sync
 clock. The bit clock is a clock signal which is used to time the audio data
 emitted by the serial port and has a timing always a multiple of the frame sync
 clock. These signals are shared across the entire I2S bus controlled by the
-McASP. In this configuration <<audio-circuit-i2s,fig1>>, the McASP is considered the
-master and both codecs are considered slaves. The I2S specification also calls
-for a high-speed clock, also called the master clock, which typically is divided
-to derive the other clocks, though the PCM5102 does not need this signal.
+McASP. In this configuration <<audio-circuit-i2s,fig1>>, the McASP is considered
+the master and both codecs are considered slaves. The I2S specification also
+calls for a high-speed clock, also called the master clock, which typically is
+divided to derive the other clocks, though the PCM5102 does not need this
+signal.
 
 [[audio-circuit-i2s]]
-.I2S audio configuration
+.I2S audio configuration (power not shown)
 image::figures/audio-circuit-i2s.svg[align="center"]
 
 === Storage
@@ -94,6 +95,21 @@ selected for this project based on the MT7601 chipset.
 For the touchscreen input, a screen with the XPT2046 controller was chosen. This
 controller communicates with the host over SPI and is packaged with the chosen
 TFT display.
+
+=== GPS
+
+In order to provide location information, the hardware reference platform
+includes a GPS receiver module. This module is connected to the host over the
+UART serial interface, using 3 signalling pins and a power connection
+<<gps-circuit-uart,GPS-UART>>. GPS data is emitted by the transmit pin of the
+GPS module into the receive pin of the host and a clock signal is emitted by the
+PPS signal of the GPS module into the carrier detect pin of the host. The GPS
+module chosen for this project is a MT3339 chipset inside a GlobalTop FGPMMOPA6C
+self-contained module.
+
+[[gps-circuit-uart]]
+.GPS serial connection (power not shown)
+image::figures/gps-circuit-uart.svg[align="center"]
 
 === Other Pins
 
