@@ -5,6 +5,7 @@ ASCIIDOCTOR_PDF = bundle exec asciidoctor-pdf
 
 ASCIIDOCTOR_PDF_FLAGS_DEFAULT = \
 	-a pdf-stylesdir=resources/themes \
+	-a pdf-fontsdir=resources/fonts \
 	-a pdf-style=csunthesis \
 	$(NULL)
 
