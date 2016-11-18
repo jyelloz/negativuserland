@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:xhtml="http://www.w3.org/1999/xhtml"
+   xmlns:pencil="http://www.evolus.vn/Namespace/Pencil"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400.61801"
+   height="226.75"
+   id="exportedSVG"
+   version="1.1"
+   pencil:version="1.2.2"
+   sodipodi:docname="gui-music-artists.svg"
+   inkscape:version="0.91 r13725">
+  <metadata
+     id="metadata226">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs224" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     id="namedview222"
+     showgrid="false"
+     inkscape:zoom="1.7940591"
+     inkscape:cx="68.898686"
+     inkscape:cy="9.7449187"
+     inkscape:window-x="0"
+     inkscape:window-y="34"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer_musicartists"
+     fit-margin-top="4.25"
+     fit-margin-left="4.25"
+     fit-margin-right="4.25"
+     fit-margin-bottom="4.25" />
+  <g
+     inkscape:label="music-artists"
+     inkscape:groupmode="layer"
+     id="layer_musicartists"
+     style="display:inline"
+     transform="translate(-1.4266245e-6,0.74999849)">
+    <g
+       id="g69">
+      <g
+         pencil:type="Shape"
+         pencil:def="Evolus.Sketchy.GUI:box"
+         id="g73"
+         transform="translate(5,5)">
+        <pencil:metadata>
+          <pencil:property
+             name="box">390,215</pencil:property>
+          <pencil:property
+             name="textPadding">19.5,14.333333333333327</pencil:property>
+          <pencil:property
+             name="fillColor">#FFFFFFFF</pencil:property>
+          <pencil:property
+             name="strokeColor">#000000FF</pencil:property>
+          <pencil:property
+             name="strokeStyle">1|</pencil:property>
+          <pencil:property
+             name="textContent" />
+          <pencil:property
+             name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+          <pencil:property
+             name="textColor">#000000FF</pencil:property>
+          <pencil:property
+             name="textAlign">1,1</pencil:property>
+        </pencil:metadata>
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-opacity:1"
+           pencil:name="line1"
+           id="5c916747e812479690a3652663becf69"
+           transform="translate(0.5,0.5)"
+           d="m 0,0 c 130,-1 260,-1 390,0 -1,72 -1,143 0,215 -130,1 -260,1 -390,0 C -1,143 -1,72 0,0 Z"
+           inkscape:connector-curvature="0" />
+        <text
+           pencil:name="text"
+           id="483274dbfdae492dbe74191b63403c60"
+           transform="translate(195,108)"
+           style="font-style:normal;font-weight:normal;font-size:12px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1" />
+      </g>
+      <g
+         pencil:type="Shape"
+         pencil:def="Evolus.Sketchy.GUI:button"
+         id="g77"
+         transform="translate(5.8720093,7.4000015)">
+        <pencil:metadata>
+          <pencil:property
+             name="box">195.98399999999992,25</pencil:property>
+          <pencil:property
+             name="disabled">false</pencil:property>
+          <pencil:property
+             name="default">false</pencil:property>
+          <pencil:property
+             name="fillColor">#FFFFFFFF</pencil:property>
+          <pencil:property
+             name="strokeColor">#000000FF</pencil:property>
+          <pencil:property
+             name="strokeStyle">1|</pencil:property>
+          <pencil:property
+             name="textContent">Back</pencil:property>
+          <pencil:property
+             name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+          <pencil:property
+             name="textColor">#000000FF</pencil:property>
+          <pencil:property
+             name="textAlign">1,1</pencil:property>
+        </pencil:metadata>
+        <g
+           pencil:name="rect"
+           id="7955f8c0bb8746019a0c2c458fc919d5"
+           style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1">
+          <path
+             style="stroke-linejoin:round"
+             pencil:name="line1"
+             id="6f2be385612848fe8556ebe7274c5ca5"
+             d="M 0,0 C 65,1 131,1 195.984,0 196,8 196,17 195.984,25 131,24 65,24 0,25 0,17 0,8 0,0 Z"
+             inkscape:connector-curvature="0" />
+        </g>
+        <text
+           pencil:name="text"
+           id="700711737b1c4aa3b95b6d53c551f390"
+           transform="translate(85,18)"
+           style="font-style:normal;font-weight:normal;font-size:12px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1">Back</text>
+      </g>
+      <g
+         pencil:type="Shape"
+         pencil:def="Evolus.Sketchy.GUI:button"
+         id="g82"
+         transform="translate(199.87201,7.4000015)">
+        <pencil:metadata>
+          <pencil:property
+             name="box">195.98399999999992,25</pencil:property>
+          <pencil:property
+             name="disabled">false</pencil:property>
+          <pencil:property
+             name="default">false</pencil:property>
+          <pencil:property
+             name="fillColor">#FFFFFFFF</pencil:property>
+          <pencil:property
+             name="strokeColor">#000000FF</pencil:property>
+          <pencil:property
+             name="strokeStyle">1|</pencil:property>
+          <pencil:property
+             name="textContent">Home</pencil:property>
+          <pencil:property
+             name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+          <pencil:property
+             name="textColor">#000000FF</pencil:property>
+          <pencil:property
+             name="textAlign">1,1</pencil:property>
+        </pencil:metadata>
+        <g
+           pencil:name="rect"
+           id="8590785d04ec459eaa4876b7e25f5617"
+           style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1">
+          <path
+             style="stroke-linejoin:round"
+             pencil:name="line1"
+             id="b0414c0ddb0f458b8abfe20fbe0ea21d"
+             d="M 0,0 C 65,1 131,1 195.984,0 196,8 196,17 195.984,25 131,26 65,26 0,25 0,17 0,8 0,0 Z"
+             inkscape:connector-curvature="0" />
+        </g>
+        <text
+           pencil:name="text"
+           id="bc1fbbd3e15e4105afb6c8fddcf6f2c7"
+           transform="translate(82,18)"
+           style="font-style:normal;font-weight:normal;font-size:12px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1">Home</text>
+      </g>
+      <g
+         pencil:type="Shape"
+         pencil:def="Evolus.Sketchy.GUI:listbox"
+         id="e012fc9c8fb046da84ff9b9cff559de0"
+         transform="translate(75.824318,74.469444)">
+        <pencil:metadata>
+          <pencil:property
+             name="box">247.47360000000003,107.41311999999999</pencil:property>
+          <pencil:property
+             name="disabled">false</pencil:property>
+          <pencil:property
+             name="withscrollbar">false</pencil:property>
+          <pencil:property
+             name="fillColor">#FFFFFFFF</pencil:property>
+          <pencil:property
+             name="strokeColor">#000000FF</pencil:property>
+          <pencil:property
+             name="strokeStyle">1|1,3</pencil:property>
+          <pencil:property
+             name="contentText">ArtistItem
+ArtistItem
+ArtistItem
+ArtistItem
+ArtistItem</pencil:property>
+          <pencil:property
+             name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+          <pencil:property
+             name="textColor">#000000FF</pencil:property>
+          <pencil:property
+             name="textAlign">1,1</pencil:property>
+        </pencil:metadata>
+        <rect
+           rx="0"
+           ry="0"
+           style="fill:#ffffff;stroke:none"
+           pencil:name="bg"
+           id="3323c91cd58e4258b00fc9a883ebf924"
+           x="0"
+           y="0"
+           width="247.4736"
+           height="107.41312" />
+        <g
+           pencil:name="rect"
+           id="7ef35a50d3164bbb97602cbc6b781479"
+           style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:1, 3;stroke-opacity:1">
+          <path
+             style="stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:1, 3;stroke-opacity:1"
+             pencil:name="line1"
+             id="07f1c106ba0042f19cd60aa541386461"
+             d="M 0,0 C 82,1 165,1 247.4736,0 248,36 248,72 247.4736,107.41312 165,107 82,107 0,107.41312 -1,72 -1,36 0,0 Z"
+             inkscape:connector-curvature="0" />
+        </g>
+        <foreignObject
+           pencil:name="content"
+           id="c9d45b1b33254335a0e7e22888dcfb86"
+           x="1"
+           y="1"
+           width="245.47360000000003"
+           height="106.41311999999999">
+          <xhtml:div
+             pencil:name="div"
+             id="0aeaa94cb0674b32bf062feabb29ce9c"
+             style="font-family: &quot;Comic Sans MS&quot;; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none; color: rgb(0, 0, 0); opacity: 1;">
+            <xhtml:div
+               style="height: 20px; line-height: 20px; padding: 0px 5px">ArtistItem</xhtml:div>
+            <xhtml:div
+               style="height: 20px; line-height: 20px; padding: 0px 5px">ArtistItem</xhtml:div>
+            <xhtml:div
+               style="height: 20px; line-height: 20px; padding: 0px 5px">ArtistItem</xhtml:div>
+            <xhtml:div
+               style="height: 20px; line-height: 20px; padding: 0px 5px">ArtistItem</xhtml:div>
+            <xhtml:div
+               style="height: 20px; line-height: 20px; padding: 0px 5px">ArtistItem</xhtml:div>
+          </xhtml:div>
+        </foreignObject>
+        <g
+           style="display:none;visibility:hidden;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-dasharray:1, 3;stroke-opacity:1"
+           pencil:name="scrollbar"
+           id="1de0688281d444a186d4cbf31d617ecd">
+          <path
+             style="stroke-linejoin:round"
+             pencil:name="line2"
+             id="bd3db944ceaa4a9790d594ae705a9703"
+             d="M 233.4736,0 C 233,36 233,72 233.4736,107.41312 238,107 243,107 247.4736,107.41312 247,72 247,36 247.4736,0 Z m 2,63.70656 C 238,64 241,64 243.4736,63.70656 m -8,-10 C 238,54 241,54 243.4736,53.70656 m -8,-10 C 238,44 241,44 243.4736,43.70656 M 235.4736,10 c 1.5264,-2 3.5264,-3 5,-5 1.5264,2 2.5264,3 3,5 m -8,87.41312 C 237,99 239,101 240.4736,102.41312 242,101 243,99 243.4736,97.41312"
+             inkscape:connector-curvature="0" />
+        </g>
+      </g>
+      <g
+         pencil:type="Shape"
+         pencil:def="Evolus.Common:PlainTextV2"
+         pencil:sc="Label"
+         id="7374277b8e474d538548725ed0c200aa"
+         transform="translate(179.12416,64.383362)">
+        <pencil:metadata>
+          <pencil:property
+             name="disabled">false</pencil:property>
+          <pencil:property
+             name="width">100,0</pencil:property>
+          <pencil:property
+             name="fixedWidth">false</pencil:property>
+          <pencil:property
+             name="label">Artists</pencil:property>
+          <pencil:property
+             name="textColor">#000000FF</pencil:property>
+          <pencil:property
+             name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+          <pencil:property
+             name="textAlign">0,0</pencil:property>
+        </pencil:metadata>
+        <rect
+           x="0"
+           y="0"
+           style="display:none;visibility:hidden;fill:none;stroke:none"
+           pencil:name="bgRect"
+           id="08001587bb48457a93e5e8ce7e08838e"
+           width="40.890625"
+           height="16" />
+        <text
+           xml:space="preserve"
+           pencil:name="text"
+           id="7a02227dbce24a7fb0d36a8d3952d400"
+           style="font-style:normal;font-weight:normal;font-size:12px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1"><tspan
+             x="0"
+             y="0"
+             id="tspan96">Artists</tspan></text>
+      </g>
+      <g
+         pencil:type="Shape"
+         pencil:def="Evolus.Sketchy.GUI:button"
+         id="5c1d80229505430889f8c3c58d3d4792"
+         transform="translate(334.00543,79.970879)">
+        <pencil:metadata>
+          <pencil:property
+             name="box">50.678399999999996,96.10656</pencil:property>
+          <pencil:property
+             name="disabled">false</pencil:property>
+          <pencil:property
+             name="default">false</pencil:property>
+          <pencil:property
+             name="fillColor">#CCCCCCFF</pencil:property>
+          <pencil:property
+             name="strokeColor">#000000FF</pencil:property>
+          <pencil:property
+             name="strokeStyle">1|</pencil:property>
+          <pencil:property
+             name="textContent">Next</pencil:property>
+          <pencil:property
+             name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+          <pencil:property
+             name="textColor">#000000FF</pencil:property>
+          <pencil:property
+             name="textAlign">1,1</pencil:property>
+        </pencil:metadata>
+        <g
+           pencil:name="rect"
+           id="27d0b05d75974803a16b86c4705634e6"
+           style="fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1">
+          <path
+             style="stroke-linejoin:round"
+             pencil:name="line1"
+             id="0bad5abcda774815a8f2c143aaa0cca7"
+             d="M 0,0 C 17,0 34,0 50.6784,0 52,32 52,64 50.6784,96.10656 34,96 17,96 0,96.10656 -1,64 -1,32 0,0 Z"
+             inkscape:connector-curvature="0" />
+        </g>
+        <text
+           pencil:name="text"
+           id="5d5bc933eb344b0b9255403283c31f97"
+           transform="translate(11,53)"
+           style="font-style:normal;font-weight:normal;font-size:12px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1">Next</text>
+      </g>
+      <g
+         pencil:type="Shape"
+         pencil:def="Evolus.Sketchy.GUI:button"
+         id="b89bc6afb5a74494985b5cdf5874960c"
+         transform="translate(14.005432,79.970886)">
+        <pencil:metadata>
+          <pencil:property
+             name="box">50.678399999999996,96.10656</pencil:property>
+          <pencil:property
+             name="disabled">false</pencil:property>
+          <pencil:property
+             name="default">false</pencil:property>
+          <pencil:property
+             name="fillColor">#CCCCCCFF</pencil:property>
+          <pencil:property
+             name="strokeColor">#000000FF</pencil:property>
+          <pencil:property
+             name="strokeStyle">1|</pencil:property>
+          <pencil:property
+             name="textContent">Prev</pencil:property>
+          <pencil:property
+             name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+          <pencil:property
+             name="textColor">#000000FF</pencil:property>
+          <pencil:property
+             name="textAlign">1,1</pencil:property>
+        </pencil:metadata>
+        <g
+           pencil:name="rect"
+           id="93b683b92255464eb6726325b423a5f3"
+           style="fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1">
+          <path
+             style="stroke-linejoin:round"
+             pencil:name="line1"
+             id="6f2b9abff34643be86c6a4b32971fe44"
+             d="M 0,0 C 17,0 34,0 50.6784,0 51,32 51,64 50.6784,96.10656 34,96 17,96 0,96.10656 1,64 1,32 0,0 Z"
+             inkscape:connector-curvature="0" />
+        </g>
+        <text
+           pencil:name="text"
+           id="9fd8aabbfe1042018e49ecd415518a09"
+           transform="translate(13,53)"
+           style="font-style:normal;font-weight:normal;font-size:12px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1">Prev</text>
+      </g>
+      <g
+         pencil:type="Group"
+         transform="translate(81.27681,195.08597)"
+         id="f57bc3d58781420890b3277a8a215c55"
+         pencil:sizing-gow="236.7598114013672"
+         pencil:sizing-goh="17.27923583984375">
+        <g
+           pencil:type="Shape"
+           pencil:def="Evolus.Sketchy.GUI:scale"
+           id="b5cdc16bcfe44e7092891d5df46625ea"
+           transform="translate(0,-0.37077332)"
+           pencil:sizing-ox="5.684341886080802e-14"
+           pencil:sizing-oy="-3.576278402306343e-7"
+           pencil:sizing-ow="150"
+           pencil:sizing-oh="15">
+          <pencil:metadata>
+            <pencil:property
+               name="box">150,15</pencil:property>
+            <pencil:property
+               name="a">50,0</pencil:property>
+            <pencil:property
+               name="fillColor">#FFFFFFFF</pencil:property>
+            <pencil:property
+               name="strokeColor">#000000FF</pencil:property>
+            <pencil:property
+               name="strokeStyle">1|</pencil:property>
+          </pencil:metadata>
+          <g
+             pencil:name="rect"
+             id="6a64bc97db4d43eaa0a81246f9afd0e1"
+             style="stroke:#000000;stroke-width:1;stroke-opacity:1">
+            <path
+               style="stroke-linejoin:round"
+               pencil:name="line1"
+               id="72a07aa1b99c44f7a11b38d5857e5f47"
+               d="M 0,7.5 C 50,8 100,8 150,7.5"
+               inkscape:connector-curvature="0" />
+          </g>
+          <path
+             d="m 14.854643,7.698003 c 0,3.85476 -2.200949,6.63069 -7.000875,6.97968 C 3.997527,14.958043 0.50284396,11.669103 0.85288796,7.698003 1.191377,3.858033 4.003037,0.37077296 7.853768,0.71833296 11.720246,1.067323 14.854643,3.843233 14.854643,7.698003 Z"
+             pencil:name="rdCircle"
+             id="65de0c12af03478eb9bbd8cdb3cb6d3e"
+             transform="translate(42.5,0)"
+             style="fill:#e5e5e5;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+             inkscape:connector-curvature="0" />
+        </g>
+        <g
+           pencil:type="Shape"
+           pencil:def="Evolus.Common:PlainTextV2"
+           pencil:sc="Label"
+           id="93e0d3be28894f599a7a52957477d0de"
+           transform="translate(160.25981,13.669861)"
+           pencil:sizing-ox="160.25981140136722"
+           pencil:sizing-oy="0.57611083984375"
+           pencil:sizing-ow="76.5"
+           pencil:sizing-oh="16.703125">
+          <pencil:metadata>
+            <pencil:property
+               name="disabled">false</pencil:property>
+            <pencil:property
+               name="width">100,0</pencil:property>
+            <pencil:property
+               name="fixedWidth">false</pencil:property>
+            <pencil:property
+               name="label">Page {i} of {n}</pencil:property>
+            <pencil:property
+               name="textColor">#000000FF</pencil:property>
+            <pencil:property
+               name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+            <pencil:property
+               name="textAlign">0,0</pencil:property>
+          </pencil:metadata>
+          <rect
+             x="0"
+             y="0"
+             style="display:none;visibility:hidden;fill:none;stroke:none"
+             pencil:name="bgRect"
+             id="0e2d8000f440472dbad6b8dc7fe0c592"
+             width="75.71875"
+             height="16.296875" />
+          <text
+             xml:space="preserve"
+             pencil:name="text"
+             id="f510fe2a780f4da98738bf3767e62a79"
+             style="font-style:normal;font-weight:normal;font-size:12px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1"><tspan
+               x="0"
+               y="0"
+               id="tspan114">Page {i} of {n}</tspan></text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

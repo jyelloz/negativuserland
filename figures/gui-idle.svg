@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:pencil="http://www.evolus.vn/Namespace/Pencil"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400.61801"
+   height="226.75"
+   id="exportedSVG"
+   version="1.1"
+   pencil:version="1.2.2"
+   sodipodi:docname="gui-idle.svg"
+   inkscape:version="0.91 r13725">
+  <metadata
+     id="metadata226">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs224" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     id="namedview222"
+     showgrid="false"
+     inkscape:zoom="1.7940591"
+     inkscape:cx="68.898686"
+     inkscape:cy="9.7449187"
+     inkscape:window-x="0"
+     inkscape:window-y="34"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer_idle"
+     fit-margin-top="4.25"
+     fit-margin-left="4.25"
+     fit-margin-right="4.25"
+     fit-margin-bottom="4.25" />
+  <g
+     inkscape:label="idle"
+     inkscape:groupmode="layer"
+     id="layer_idle"
+     style="display:inline"
+     transform="translate(-1.4266245e-6,0.74999849)">
+    <g
+       id="g4">
+      <g
+         pencil:type="Shape"
+         pencil:def="Evolus.Sketchy.GUI:box"
+         id="4872a0de1235436d956c1a3ba09336af"
+         transform="translate(5,5)">
+        <pencil:metadata>
+          <pencil:property
+             name="box">390,215</pencil:property>
+          <pencil:property
+             name="textPadding">19.5,14.333333333333327</pencil:property>
+          <pencil:property
+             name="fillColor">#FFFFFFFF</pencil:property>
+          <pencil:property
+             name="strokeColor">#000000FF</pencil:property>
+          <pencil:property
+             name="strokeStyle">1|</pencil:property>
+          <pencil:property
+             name="textContent" />
+          <pencil:property
+             name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+          <pencil:property
+             name="textColor">#000000FF</pencil:property>
+          <pencil:property
+             name="textAlign">1,1</pencil:property>
+        </pencil:metadata>
+        <path
+           style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-opacity:1"
+           pencil:name="line1"
+           id="38b33c1787eb49ff8d31f04b47d3bd7b"
+           transform="translate(0.5,0.5)"
+           d="m 0,0 c 130,-2 260,-2 390,0 0,72 0,143 0,215 C 260,214 130,214 0,215 -1,143 -1,72 0,0 Z"
+           inkscape:connector-curvature="0" />
+        <text
+           pencil:name="text"
+           id="de65cf14966946279797164a3ad26a19"
+           transform="translate(195,108)"
+           style="font-style:normal;font-weight:normal;font-size:12px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1" />
+      </g>
+      <g
+         pencil:type="Group"
+         transform="translate(130.07043,80)"
+         id="36dac564b0f847968c792b0ee02c37f7"
+         pencil:sizing-gow="141.59375"
+         pencil:sizing-goh="65.36822509765625">
+        <g
+           pencil:type="Shape"
+           pencil:def="Evolus.Common:PlainTextV2"
+           pencil:sc="Label"
+           id="bf808f66cd3d43159d22e3380dc2dcde"
+           transform="translate(26.929565,40)"
+           pencil:sizing-ox="26.929565429687614"
+           pencil:sizing-oy="0"
+           pencil:sizing-ow="92.875"
+           pencil:sizing-oh="50.390625">
+          <pencil:metadata>
+            <pencil:property
+               name="disabled">false</pencil:property>
+            <pencil:property
+               name="width">100,0</pencil:property>
+            <pencil:property
+               name="fixedWidth">false</pencil:property>
+            <pencil:property
+               name="label">12:34</pencil:property>
+            <pencil:property
+               name="textColor">#000000FF</pencil:property>
+            <pencil:property
+               name="textFont">'Comic Sans MS'|normal|normal|36px|none</pencil:property>
+            <pencil:property
+               name="textAlign">0,0</pencil:property>
+          </pencil:metadata>
+          <rect
+             x="0"
+             y="0"
+             style="display:none;visibility:hidden;fill:none;stroke:none"
+             pencil:name="bgRect"
+             id="c4a245a29c4f4bd5b59f0680431f80d5"
+             width="92.875"
+             height="50" />
+          <text
+             xml:space="preserve"
+             pencil:name="text"
+             id="9f28215f665e405da3017530b69a6fc5"
+             style="font-style:normal;font-weight:normal;font-size:36px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1"><tspan
+               x="0"
+               y="0"
+               id="tspan15">12:34</tspan></text>
+        </g>
+        <g
+           pencil:type="Shape"
+           pencil:def="Evolus.Common:PlainTextV2"
+           pencil:sc="Label"
+           id="1401567b186149b0abfac7acd8efb690"
+           transform="translate(0,61.9776)"
+           pencil:sizing-ox="1.1368683772161603e-13"
+           pencil:sizing-oy="48.38385009765625"
+           pencil:sizing-ow="141.59375"
+           pencil:sizing-oh="16.984375">
+          <pencil:metadata>
+            <pencil:property
+               name="disabled">false</pencil:property>
+            <pencil:property
+               name="width">100,0</pencil:property>
+            <pencil:property
+               name="fixedWidth">false</pencil:property>
+            <pencil:property
+               name="label">Monday, 01 January 2017</pencil:property>
+            <pencil:property
+               name="textColor">#000000FF</pencil:property>
+            <pencil:property
+               name="textFont">'Comic Sans MS'|normal|normal|12px|none</pencil:property>
+            <pencil:property
+               name="textAlign">0,0</pencil:property>
+          </pencil:metadata>
+          <rect
+             x="0"
+             y="0"
+             style="display:none;visibility:hidden;fill:none;stroke:none"
+             pencil:name="bgRect"
+             id="df3abf8b3e6848f2a05a944b56e5ebad"
+             width="141.59375"
+             height="16.390625" />
+          <text
+             xml:space="preserve"
+             pencil:name="text"
+             id="b906e45205a84775a70e351541d5fa26"
+             style="font-style:normal;font-weight:normal;font-size:12px;font-family:'Comic Sans MS';text-decoration:none;text-decoration-line:none;fill:#000000;fill-opacity:1"><tspan
+               x="0"
+               y="0"
+               id="tspan20">Monday, 01 January 2017</tspan></text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
