@@ -102,6 +102,9 @@ font:
       bold: texgyreheros-bold.ttf
       italic: texgyreheros-italic.ttf
       bold_italic: texgyreheros-bolditalic.ttf
+    Comic Sans MS:
+      normal: comic.ttf
+      bold: comicbd.ttf
     M+ 1mn:
       normal: mplus1mn-regular-ascii-conums.ttf
       bold: mplus1mn-bold-ascii.ttf
