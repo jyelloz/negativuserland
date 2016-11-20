@@ -1,0 +1,49 @@
+\section{Overview}
+
+This chapter details my solution to the problem.
+The traditional software engineering task-based organization is used.
+Section 1 describes the requirements of the solution, focusing on features.
+Section 2 describes the architecture of the solution.
+Section 3 describes the implementation of the solution.
+Hardware and software topics are covered in section 3, from physical installation to the graphical user interface.
+Section 4 describes the testing regime undertaken during the development of this project.
+
+\subfile{chapter3/requirements}
+
+\section{Metrics}
+
+\subsection{Monetary Cost}
+
+This project relies entirely upon free software.
+The hardware reference platform's bill of materials is the only monetary cost associated with the project.
+The intent of this project is to undercut the cost of existing solutions that are available to retail customers.
+
+\subsection{Boot Time}
+
+The time for a device to start up from a powered-off state will be measured and compared to other comparable systems such as mobile phones and personal computers.
+The goal is to achieve a quick boot time that is acceptable to automotive end-users and effort will be taken to minimize this value.
+
+\subsection{Filesystem Size}
+
+While storage is inexpensive, this project doesn't intend to store a large amount of data.
+Furthermore, it intends to include as little as possible code to maximize performance and maintainability.
+Efforts will be made to minimize the filesystem size and occupy much less storage space than existing mobile operating systems.
+
+\subfile{chapter3/hardware}
+
+\section{Software Architecture}
+
+\subsection{Platform}
+
+The project was designed with simplicity, performance, and modularity in mind.
+Its target hardware is cheap single-board computers.
+These motivations influenced the choice of a development platform.
+
+\subsection{Organization}
+
+The project is designed into several service components, each with a well-defined role and programming interface.
+This type of organization allows for independent development of components, a clear separation of concerns, and autonomous behavior of each component.
+If the tools are also given their own process space in a modern multi-process operating system such as Linux, there is also the potential for increased security and robustness against failures in one component.
+In fact, the application code of this project was designed as a set of interfaces for the D-Bus interprocess messaging system <<dbus>>.
+
+\subfile{chapter3/implementation}
