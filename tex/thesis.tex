@@ -1,5 +1,8 @@
 \documentclass[project,12pt,lof]{CSUNthesis}
 
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
 %% BEGIN Font Selection
 \usepackage{tgtermes}
 %% END Font Selection
@@ -23,10 +26,10 @@
 
 \setlength{\baselineskip}{24pt}
 
-\references{thesis}{thesis}
+\references{jyelloz}{thesis}
 
 \abstract{
-	\paragraph{ }
+\paragraph{ }
 In recent years, the amount of personal electronic devices has greatly increased.
 With a host of different manufacturers and standards, there has been a difficulty to properly integrate these devices.
 An product category which suffers noticeably from this shortcoming is the automotive field.
@@ -40,20 +43,24 @@ The result should be a reasonably-priced solution for knowlegeable users who wan
 }
 
 \usepackage[pdftex,
-			debug=true,
-			implicit=false,
-			pdfstartview=FitH,
-			colorlinks=false,
-			bookmarks=true,
-			naturalnames=true,
-			plainpages=false,
-			breaklinks=true,
-			final=true,
-			draft=false,
-			pdfauthor={Jordan Yelloz},
-			pdftitle={Linux-Based Automotive Audio System}]
-			{hyperref}
+            debug=true,
+            implicit=false,
+            pdfstartview=FitH,
+            colorlinks=false,
+            bookmarks=true,
+            naturalnames=true,
+            plainpages=false,
+            breaklinks=true,
+            final=true,
+            draft=false,
+            pdfauthor={Jordan Yelloz},
+            hidelinks,
+            pdftitle={Linux-Based Automotive Audio System}]
+            {hyperref}
+
 \begin{document}
+
+\urlstyle{rm}
 
 \setlength{\baselineskip}{24pt}
 
@@ -72,9 +79,5 @@ The result should be a reasonably-priced solution for knowlegeable users who wan
 \chapter{Conclusion and Further Research}
 
 \subfile{chapter4/conclusion}
-
-\chapter*{References}
-
-\references{}
 
 \end{document}
