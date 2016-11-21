@@ -159,37 +159,49 @@ The project contains several views are necessary for a usable product.
 The user interface contains two top-level views, the idle view and the home view.
 
 \paragraph{}
-The idle view <<gui-idle>> is displayed when no activities are running and no communications with the user have been detected within a set period of time.
+The idle view (Figure ~\ref{fig:gui-idle}) is displayed when no activities are running and no communications with the user have been detected within a set period of time.
 It will overlay any existing view and expose the previous view when the interface is re-activated.
 
-[[gui-idle]]
-.Idle View
-image::figures/gui-idle.svg[align="center"]
+\begin{figure}
+  \centering
+  \includegraphics[page=1]{gui-idle}
+  \caption{Idle View}
+  \label{fig:gui-idle}
+\end{figure}
 
 \paragraph{}
-The home view <<gui-home>> is a basic menu of buttons which allows the user to begin their chosen activity.
+The home view (Figure ~\ref{fig:gui-home}) is a basic menu of buttons which allows the user to begin their chosen activity.
 
-[[gui-home]]
-.Home View
-image::figures/gui-home.svg[align="center"]
+\begin{figure}
+  \centering
+  \includegraphics[page=1]{gui-home}
+  \caption{Home View}
+  \label{fig:gui-home}
+\end{figure}
 
 \paragraph{Music Views}
 The music views are the primary focus of this project and the most complex.
 They mainly synthesize information from the music service to allow navigating a collection of media on connected devices and managing the playback of media.
 These views were designed and developed with a focus on minimal amount of interaction with the user in order to minimize distractions.
 
-[[gui-music-trackset]]
-.Abstract Track Set Browser
-image::figures/gui-music-trackset.svg[align="center"]
+\begin{figure}
+  \centering
+  \includegraphics[page=1]{gui-music-trackset}
+  \caption{Abstract Track Set Browser}
+  \label{fig:gui-music-trackset}
+\end{figure}
 
 \paragraph{}
-The first music view <<gui-music-trackset>> is a abstract browser that is capable of navigating through a single-level list of textual information one page at a time.
-This view is realized and slightly refined as an Artists view, an Artist Detail view <<gui-music-artist-detail>>, an Albums view, Playlists view, an Album view, a Playlist view, and a Track List view.
+The first music view (Figure ~\ref{fig:gui-music-trackset}) is a abstract browser that is capable of navigating through a single-level list of textual information one page at a time.
+This view is realized and slightly refined as an Artists view, an Artist Detail view (Figure ~\ref{fig:gui-music-artist-detail}), an Albums view, Playlists view, an Album view, a Playlist view, and a Track List view.
 Each instance of one of these views are stacked on top of each other during navigation and the top view is discarded when the user navigates backward.
 
-[[gui-music-artist-detail]]
-.Artist Detail View
-image::figures/gui-music-artist-detail.svg[align="center"]
+\begin{figure}
+  \centering
+  \includegraphics[page=1]{gui-music-artist-detail}
+  \caption{Artist Detail View}
+  \label{fig:gui-music-artist-detail}
+\end{figure}
 
 \paragraph{Maps Views}
 When a Geolocation source is available along with mapping data, The GUI contains contain a basic map view, displaying the user's location at a modifiable magnification level.
