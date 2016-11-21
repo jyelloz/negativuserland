@@ -11,13 +11,13 @@ This section covers all concrete choices made regarding third-party software lib
 \subsubsection{Bootloader}
 
 \paragraph{}
-The bootloader chosen for this project is Das U-Boot <<uboot>>, an open source bootloader supporting several embedded architectures.
+The bootloader chosen for this project is Das U-Boot \cite{uboot}, an open source bootloader supporting several embedded architectures.
 This software exposes all the necessary facilities to locate, load and execute the real operating system kernel which will host the project's software.
 
 \subsubsection{Operating System}
 
 \paragraph{}
-The operating system chosen for this project is Linux, an open source operating system kernel that runs on many embedded computer systems as well as larger ones <<linux-readme>>.
+The operating system chosen for this project is Linux, an open source operating system kernel that runs on many embedded computer systems as well as larger ones \cite{linux-readme}.
 Much of the software written for this project will run on any UNIX-like operating system, however.
 
 \subsubsection{Frameworks}
@@ -28,7 +28,7 @@ While this project has chosen Linux as its operating system, it has been develop
 This project has chosen to only build upon open source libraries.
 
 \paragraph{}
-At the lowest level, all the application code of this project uses GLib <<glib-overview>>, a portable utility library providing many data structures and support functionality to assist application development.
+At the lowest level, all the application code of this project uses GLib \cite{glib-overview}, a portable utility library providing many data structures and support functionality to assist application development.
 GLib also includes GObject, a C-based object-oriented type system, and GIO, an asynchronous Input/Output (I/O) library with many more additional application support features.
 Importantly, GIO provides a client and server implementation of the D-Bus protocol using GIO's asynchronous I/O model.
 
@@ -46,14 +46,14 @@ Changes to APIs and incorrect transcription or scanning will lead to discrepanci
 These deficiencies, combined with the declining activity of the Vala project have disqualified the language from being the primary language of this project.
 
 \paragraph{}
-Due to the project GObject Introspection <<gobject-introspection>>, many more programming languages are available to the GObject programmer.
-GObject Introspection provides automatic bindings from GObject libraries to JavaScript, Python, Lua, Perl, Ruby, Guile, and other languages <<gi-users>>.
+Due to the project GObject Introspection \cite{gobject-introspection}, many more programming languages are available to the GObject programmer.
+GObject Introspection provides automatic bindings from GObject libraries to JavaScript, Python, Lua, Perl, Ruby, Guile, and other languages \cite{gi-users}.
 Similar to Vala, which is partially compatible with GObject Introspection, projects employing GObject Introspection are subject to mismatched bindings.
 Furthermore, attempts to map GObject semantics into a specific programming language's idioms are not guaranteed.
 
 \paragraph{}
 The compound effects of developing with non-native programming languages during the development process eventually led to their abandonment in favor of GObject-style C.
-The C11 revision of C was eventually chosen for this project since it is fully supported by the compilers GCC <<gcc-c11-compatibility>> and Clang <<clang-c11-compatibility>>.
+The C11 revision of C was eventually chosen for this project since it is fully supported by the compilers GCC \cite{gcc-c11-compatibility} and Clang \cite{clang-c11-compatibility}.
 This choice provides full control of all library APIs with the slightly inconvenient syntax of the GObject type system's C macros.
 
 \subsubsection{Build System}
@@ -69,7 +69,7 @@ After evaluation, Meson was eventually chosen as the build system for this proje
 Ninja is a newer tool that is very similar to Make in that it only supports scheduling and running tasks based on recipes and it claims to perform those tasks with a higher degree of parallelism.
 
 \paragraph{}
-GNU Autotools, also known as the GNU Build System, is a combination of GNU Autoconf <<gnu-autoconf>>, GNU Automake, <<gnu-automake>>, GNU Libtool <<gnu-libtool>>, and GNU Make <<gnu-make>>.
+GNU Autotools, also known as the GNU Build System, is a combination of GNU Autoconf \cite{gnu-autoconf}, GNU Automake, \cite{gnu-automake}, GNU Libtool \cite{gnu-libtool}, and GNU Make \cite{gnu-make}.
 These tools are orchestrated in order to provide a fully portable solution for building software projects.
 While Autotools is a well-tested product with many users, it suffers from a few of its own deficiencies.
 First, to use Autotools in any non-trivial capacity requires the basic knowledge of several languages including m4, POSIX shell, as well as the GNU makefile syntax.
@@ -102,7 +102,7 @@ Finally, while cross-compilation is supported at some level all the previously m
 In addition to building the components authored during this project, it is also necessary to build operating system images for the storage media.
 This is a complicated task and requires gathering all the dependencies of the project and building them in order.
 There are several systems that intend to ease embedded development with regard to building root filesystems.
-The two systems evaluated for this project are OpenEmbedded <<oe-home>> and Buildroot <<buildroot-home>>.
+The two systems evaluated for this project are OpenEmbedded \cite{oe-home} and Buildroot \cite{buildroot-home}.
 Buildroot was eventually chosen as the filesystem builder for this project.
 
 \paragraph{}
