@@ -118,13 +118,15 @@ nul_ui_artists_unregister (NulUiArtists *const self)
   guint const music_watcher = self->music_watcher;
   NulMusicService *const music = self->music;
 
-  g_return_if_fail (music_watcher > 0);
-  g_return_if_fail (NUL_IS_MUSIC_SERVICE (music));
+  if (music_watcher > 0 || !NUL_IS_MUSIC_SERVICE (music)) {
+    return;
+  }
 
   g_signal_handler_disconnect (music, music_watcher);
   g_object_unref (music);
 
   self->music = NULL;
+  self->music_watcher = 0;
 
 }
 
