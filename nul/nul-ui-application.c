@@ -280,6 +280,8 @@ service_vanished_cb (GDBusConnection  *const conn,
   g_message ("service vanished");
 
   nul_ui_service_state_stack_disconnect (app->service_state_stack);
+  /* XXX: not sure if this is actually registered at this point */
+  nul_ui_artists_unregister (app->artists);
 
   gtk_label_set_text (app->artists_count_label, "-");
   gtk_label_set_text (app->albums_count_label, "-");
