@@ -7,35 +7,6 @@
       <!-- column-name artist-name -->
       <column type="gchararray"/>
     </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">-:- Komiko -:- komiko001@live.com -:-</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">? and the Mysterians</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">? Hall</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">→↑→</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">$wingin' Utter$</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">13th Floor Elevators</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">15 Minutes</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">16 Horsepower</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">45 Grave</col>
-      </row>
-    </data>
   </object>
   <object class="GtkBox" id="artists-list-box">
     <property name="visible">True</property>
