@@ -12,6 +12,8 @@ struct _NulUiArtists {
   GtkButton *next;
   NulMusicService *music;
 
+  guint music_watcher;
+
   int page;
   int limit;
 
@@ -95,14 +97,34 @@ nul_ui_artists_register (NulUiArtists    *const self,
                          NulMusicService *const proxy)
 
 {
+
+  g_return_if_fail (self->music_watcher == 0);
+
   self->music = g_object_ref (proxy);
 
-  g_signal_connect_swapped (
+  self->music_watcher = g_signal_connect_swapped (
     proxy,
     "notify",
     (GCallback) update_stats,
     self
   );
+
+}
+
+void
+nul_ui_artists_unregister (NulUiArtists *const self)
+{
+
+  guint const music_watcher = self->music_watcher;
+  NulMusicService *const music = self->music;
+
+  g_return_if_fail (music_watcher > 0);
+  g_return_if_fail (NUL_IS_MUSIC_SERVICE (music));
+
+  g_signal_handler_disconnect (music, music_watcher);
+  g_object_unref (music);
+
+  self->music = NULL;
 
 }
 

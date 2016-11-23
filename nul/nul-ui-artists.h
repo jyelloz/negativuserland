@@ -23,6 +23,9 @@ nul_ui_artists_register (NulUiArtists    *const self,
                          NulMusicService *const proxy);
 
 void
+nul_ui_artists_unregister (NulUiArtists *const self);
+
+void
 nul_ui_artists_update (NulUiArtists  *const self,
                        gchar        **const artists);
 
