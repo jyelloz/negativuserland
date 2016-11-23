@@ -32,6 +32,8 @@ struct _NulUiApplication
   NulUiMainMenu *main_menu;
   NulUiArtists *artists;
 
+  GtkWidget *music_screen;
+
   GtkLabel *artists_count_label;
   GtkLabel *albums_count_label;
   GtkLabel *tracks_count_label;
@@ -56,8 +58,49 @@ nul_ui_application_new (void)
 }
 
 static void
+artists_ready_cb (NulMusicService  *const proxy,
+                  GAsyncResult     *const result,
+                  NulUiApplication *const self)
+{
+
+  g_autofree gchar **artists = NULL;
+  GtkStack *const stack = GTK_STACK (self->music_screen);
+
+  nul_music_service_call_get_artists_finish (proxy, &artists, result, NULL);
+
+  nul_ui_artists_update (self->artists, artists);
+
+  gtk_stack_set_visible_child_name (
+    stack,
+    "artists-list-box"
+  );
+
+}
+
+static gboolean
+activate_artists_cb (GtkLabel         *const link,
+                     gchar const      *const url,
+                     NulUiApplication *const app)
+{
+
+  nul_music_service_call_get_artists (
+    app->music,
+    0,
+    10,
+    NULL,
+    (GAsyncReadyCallback) artists_ready_cb,
+    app
+  );
+
+  return TRUE;
+
+}
+
+static void
 activate (GApplication *const app)
 {
+
+#define B_OBJ(name) gtk_builder_get_object ((builder), (name))
 
   g_debug ("ui activated");
 
@@ -68,55 +111,25 @@ activate (GApplication *const app)
     "/org/negativuserland/Ui/negativuserland.ui"
   );
 
-  GtkStack *const service_state_stack = GTK_STACK (
-    gtk_builder_get_object (builder, "service-state-stack")
-  );
+  GObject *const service_state_stack = B_OBJ ("service-state-stack");
+  GObject *const connected_state = B_OBJ ("connected-state");
+  GObject *const main_menu = B_OBJ ("main-menu");
 
-  GtkStack *const connected_state = GTK_STACK (
-    gtk_builder_get_object (builder, "connected-state")
-  );
+  GObject *const artists_button = B_OBJ ("artists-field-label");
+  GObject *const geolocation = B_OBJ ("geolocation-screen");
+  GObject *const automotive = B_OBJ ("automotive-screen");
+  GObject *const settings = B_OBJ ("settings-screen");
 
-  GtkListBox *const main_menu = GTK_LIST_BOX (
-    gtk_builder_get_object (builder, "main-menu")
-  );
-
-  GObject *const music_stats = gtk_builder_get_object (
-    builder,
-    "music-stats-screen"
-  );
-
-  GObject *const artists_list_box = gtk_builder_get_object (
-    builder,
-    "artists-list-box"
-  );
-
-  GObject *const artists_list = gtk_builder_get_object (
-    builder,
-    "artists-list"
-  );
-
-  GObject *const geolocation = gtk_builder_get_object (
-    builder,
-    "geolocation-screen"
-  );
-
-  GObject *const automotive = gtk_builder_get_object (
-    builder,
-    "automotive-screen"
-  );
-
-  GObject *const settings = gtk_builder_get_object (
-    builder,
-    "settings-screen"
-  );
+  GObject *const music_screen = B_OBJ ("music-screen");
+  GObject *const window = B_OBJ ("main-window");
 
   self->service_state_stack = nul_ui_service_state_stack_new (
-   service_state_stack
+   GTK_STACK (service_state_stack)
   );
 
   self->main_menu = nul_ui_main_menu_new (
     GTK_LIST_BOX (main_menu),
-    GTK_WIDGET (music_stats),
+    GTK_WIDGET (music_screen),
     GTK_WIDGET (geolocation),
     GTK_WIDGET (automotive),
     GTK_WIDGET (settings),
@@ -124,24 +137,17 @@ activate (GApplication *const app)
   );
 
   self->artists = nul_ui_artists_new (
-    GTK_BOX (artists_list_box),
-    GTK_TREE_VIEW (artists_list)
+    GTK_BOX (B_OBJ ("artists-list-box")),
+    GTK_TREE_VIEW  (B_OBJ ("artists-list")),
+    GTK_LIST_STORE (B_OBJ ("artists-liststore")),
+    GTK_LABEL (B_OBJ ("artists-page-status-label")),
+    GTK_BUTTON (B_OBJ ("artists-page-prev-button")),
+    GTK_BUTTON (B_OBJ ("artists-page-next-button"))
   );
 
-  self->artists_count_label = GTK_LABEL (
-    gtk_builder_get_object (builder, "artists-count-label")
-  );
-  self->albums_count_label = GTK_LABEL (
-    gtk_builder_get_object (builder, "albums-count-label")
-  );
-  self->tracks_count_label = GTK_LABEL (
-    gtk_builder_get_object (builder, "tracks-count-label")
-  );
-
-  GtkWidget *const window = GTK_WIDGET (
-    gtk_builder_get_object (builder, "main-window")
-  );
-
+  self->artists_count_label = GTK_LABEL (B_OBJ ("artists-count-label"));
+  self->albums_count_label = GTK_LABEL (B_OBJ ("albums-count-label"));
+  self->tracks_count_label = GTK_LABEL (B_OBJ ("tracks-count-label"));
 
   nul_ui_main_menu_register_actions (
     self->main_menu,
@@ -149,8 +155,19 @@ activate (GApplication *const app)
     G_ACTION_GROUP (window)
   );
 
+  self->music_screen = GTK_WIDGET (music_screen);
+
+  g_signal_connect (
+    GTK_LABEL (artists_button),
+    "activate-link",
+    G_CALLBACK (activate_artists_cb),
+    self
+  );
+
   gtk_window_set_application (GTK_WINDOW (window), gtk_app);
-  gtk_widget_show_all (window);
+  gtk_widget_show_all (GTK_WIDGET (window));
+
+#undef B_OBJ
 
 }
 
