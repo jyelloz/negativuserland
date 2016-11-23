@@ -7,7 +7,7 @@ struct _NulUiMainMenu {
 
   GtkListBox *main_menu;
 
-  GtkWidget *music_stats;
+  GtkWidget *music_screen;
   GtkWidget *geolocation;
   GtkWidget *automotive;
   GtkWidget *settings;
@@ -36,7 +36,7 @@ activate_music (GSimpleAction *const action,
   NulUiMainMenu *const self = (NulUiMainMenu *) user_data;
   gtk_stack_set_visible_child (
     self->connected_state,
-    self->music_stats
+    self->music_screen
   );
 }
 
@@ -86,7 +86,7 @@ static GActionEntry const entries[] = {
 
 NulUiMainMenu *
 nul_ui_main_menu_new (GtkListBox *const main_menu,
-                      GtkWidget  *const music_stats,
+                      GtkWidget  *const music_screen,
                       GtkWidget  *const geolocation,
                       GtkWidget  *const automotive,
                       GtkWidget  *const settings,
@@ -96,7 +96,7 @@ nul_ui_main_menu_new (GtkListBox *const main_menu,
   NulUiMainMenu *const self = g_new0 (NulUiMainMenu, 1);
 
   self->connected_state = g_object_ref (connected_state);
-  self->music_stats = g_object_ref (music_stats);
+  self->music_screen = g_object_ref (music_screen);
   self->geolocation = g_object_ref (geolocation);
   self->automotive = g_object_ref (automotive);
   self->settings = g_object_ref (settings);
@@ -123,7 +123,7 @@ void
 nul_ui_main_menu_free (NulUiMainMenu *const self)
 {
   g_object_unref (self->connected_state);
-  g_object_unref (self->music_stats);
+  g_object_unref (self->music_screen);
   g_object_unref (self->geolocation);
   g_object_unref (self->automotive);
   g_object_unref (self->settings);

@@ -11,7 +11,7 @@ typedef struct _NulUiMainMenu NulUiMainMenu;
 
 NulUiMainMenu *
 nul_ui_main_menu_new (GtkListBox *const main_menu,
-                      GtkWidget  *const music_stats,
+                      GtkWidget  *const music_screen,
                       GtkWidget  *const geolocation,
                       GtkWidget  *const automotive,
                       GtkWidget  *const settings,
