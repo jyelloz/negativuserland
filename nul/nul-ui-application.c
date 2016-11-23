@@ -225,6 +225,8 @@ music_service_ready_cb (GObject          *const obj,
     self
   );
 
+  nul_ui_artists_register (self->artists, music);
+
 }
 
 static void
