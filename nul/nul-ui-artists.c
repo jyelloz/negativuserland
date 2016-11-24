@@ -99,6 +99,7 @@ nul_ui_artists_register (NulUiArtists    *const self,
 {
 
   g_return_if_fail (self->music_watcher == 0);
+  g_return_if_fail (self->music == NULL);
 
   self->music = g_object_ref (proxy);
 
