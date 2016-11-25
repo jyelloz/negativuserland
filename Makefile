@@ -3,9 +3,15 @@ MESONCONF = mesonconf
 NINJA = ninja
 INSTALL = install
 
+NINJA_FLAGS ?=
+
+ifeq ($(V),1)
+NINJA_FLAGS += -v
+endif
+
 BUILD_DIR = build
 BUILD_NINJAFILE = $(BUILD_DIR)/build.ninja
-BUILD_CMD = $(NINJA) -C $(BUILD_DIR)
+BUILD_CMD = $(NINJA) $(NINJA_FLAGS) -C $(BUILD_DIR)
 
 all: configure
 	$(BUILD_CMD)
