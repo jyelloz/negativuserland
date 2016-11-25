@@ -44,4 +44,7 @@ $(BUILD_NINJAFILE):
 	$(MAKE) $(BUILD_DIR)
 	$(MESON) $(BUILD_DIR)
 
+.DEFAULT: configure
+	$(BUILD_CMD) -t $@
+
 .PHONY: clean help configure check distclean remove-builddir builddir
