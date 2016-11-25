@@ -16,6 +16,9 @@ BUILD_CMD = $(NINJA) $(NINJA_FLAGS) -C $(BUILD_DIR)
 all: configure
 	$(BUILD_CMD)
 
+help: configure
+	$(BUILD_CMD) -t list
+
 configure: builddir-ninja
 
 check: all
@@ -41,4 +44,4 @@ $(BUILD_NINJAFILE):
 	$(MAKE) $(BUILD_DIR)
 	$(MESON) $(BUILD_DIR)
 
-.PHONY: clean configure check distclean remove-builddir builddir
+.PHONY: clean help configure check distclean remove-builddir builddir
