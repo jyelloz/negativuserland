@@ -4,12 +4,6 @@ nul_ui_deps = [
   libnul_dbus_gen_dep,
 ]
 
-nul_tui_stfl_deps = [
-  deps,
-  dependency('stfl'),
-  libnul_dbus_gen_dep,
-]
-
 nul_service_deps = [
   deps,
   libnul_dbus_gen_dep,
@@ -29,14 +23,22 @@ executable(
   dependencies: nul_ui_deps,
 )
 
-executable(
-  'nul-tui-stfl',
-  'nul-tui-stfl-main.c',
-  'nul-tui-stfl-application.c',
-  nul_tui_resources,
-  c_args: ['-D_POSIX_SOURCE'],
-  dependencies: nul_tui_stfl_deps,
-)
+if get_option('enable_stfl')
+  nul_tui_stfl_deps = [
+    deps,
+    dependency('stfl'),
+    libnul_dbus_gen_dep,
+  ]
+
+  executable(
+    'nul-tui-stfl',
+    'nul-tui-stfl-main.c',
+    'nul-tui-stfl-application.c',
+    nul_tui_resources,
+    c_args: ['-D_POSIX_SOURCE'],
+    dependencies: nul_tui_stfl_deps,
+  )
+endif
 
 executable(
   'nul-service',
