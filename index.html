@@ -17,16 +17,10 @@ rel="stylesheet" type="text/css" />
 <style>
 
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Helvetica', 'TexGyre Heros', 'Nimbus Sans L', 'Arial', sans-serif;
   font-weight: 300;
-  background-color: #1c1c25;
-  color: #859aee;
-}
-
-.pure-menu a.nul-menu-heading {
-  text-transform: lowercase;
-  font-size: 120%;
-  letter-spacing: 0.5em;
+  background-color: #000;
+  color: #fff;
 }
 
 .main {
@@ -40,15 +34,29 @@ body {
 
 .main h1 {
   color: #fff;
-  font-weight: 200;
-  font-size: 48px;
-  letter-spacing: 0.23em;
+  font-family: 'Helvetica Condensed', 'TexGyre Heros Cn', 'Nimbus Sans Narrow', 'Arial', sans-serif;
+  font-size: 72px;
+  font-style: italic;
   text-align: center;
+  white-space: pre;
+}
+
+.main h1 .slash-1 {
+  color: #f0f;
+}
+
+.main h1 .slash-2 {
+  color: #ff0;
+}
+
+.main h1 .slash-3 {
+  color: #0ff;
 }
 
 .main a:link,
 .main a:visited {
-  color: #ccc;
+  font-size: 150%;
+  color: #fff;
 }
 
 .main a:hover {
@@ -59,10 +67,16 @@ body {
   color: #eee;
 }
 
+.main address {
+  font-style: normal;
+}
 
 @media (max-width: 479px) {
   .main h1 {
     font-size: 30px;
+  }
+  .main a:link {
+    font-size: 100%;
   }
 }
 
@@ -70,24 +84,13 @@ body {
 </head>
 <body>
 
-<header>
-
-  <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
-
-    <a class="pure-menu-heading nul-menu-heading" href="">negatıvuserland</a>
-
-  </div>
-
-</header>
-
-
 <div itemscope itemtype="http://schema.org/SoftwareApplication" class="main">
 
   <div class="pure-g-r">
 
     <div class="pure-u">
 
-      <h1 itemprop="name" content="negativuserland">negatıvuserland</h1>
+      <h1 itemprop="name" content="negativuserland">negatıvuserland <span class="strokes"><span class="slash-1">/</span><span class="slash-2">/</span><span class="slash-3">/</span></span> </h1>
 
       <address>
         <a itemprop="url" href="http://negativuserland.org/">
