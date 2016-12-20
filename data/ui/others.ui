@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.20.0 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkWindow">
+    <property name="width_request">720</property>
+    <property name="height_request">480</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label">negativuserland &lt;span color="magenta"&gt;/&lt;/span&gt;&lt;span color="yellow"&gt;/&lt;/span&gt;&lt;span color="cyan"&gt;/&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+            <property name="single_line_mode">True</property>
+            <property name="track_visited_links">False</property>
+            <style>
+              <class name="nul-logotype"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="nul-splash-screen"/>
+    </style>
+  </object>
+  <object class="GtkWindow">
+    <property name="width_request">720</property>
+    <property name="height_request">480</property>
+    <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="deletable">False</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkBox">
+            <property name="height_request">64</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">start</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label">negativuserland &lt;span color="magenta"&gt;/&lt;/span&gt;&lt;span color="yellow"&gt;/&lt;/span&gt;&lt;span color="cyan"&gt;/&lt;/span&gt;</property>
+                <property name="use_markup">True</property>
+                <property name="single_line_mode">True</property>
+                <property name="track_visited_links">False</property>
+                <style>
+                  <class name="nul-logotype"/>
+                  <class name="nul-logotype-small"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFlowBox">
+                <property name="height_request">64</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="selection_mode">none</property>
+                <child>
+                  <object class="GtkFlowBoxChild">
+                    <property name="width_request">100</property>
+                    <property name="height_request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="icon_name">bluetooth-disabled-symbolic</property>
+                        <property name="icon_size">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkFlowBoxChild">
+                    <property name="width_request">100</property>
+                    <property name="height_request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="icon_name">audio-volume-medium-symbolic</property>
+                        <property name="icon_size">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <style>
+              <class name="nul-top-bar"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow">
+    <property name="can_focus">False</property>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkWindow">
+    <property name="can_focus">False</property>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+</interface>

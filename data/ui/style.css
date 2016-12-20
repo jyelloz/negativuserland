@@ -1,11 +1,36 @@
 * {
-  background-color: white;
-  font-family: "Source Code Pro";
-  font-size: 10px;
+  font-family: "TexGyreHeros";
+  font-size: 10;
+}
+
+.nul-splash-screen * {
+  background-color: black;
+  color: white;
+  font-size: 14;
+}
+
+.nul-logotype {
+  font-family: "TexGyreHeros Cn";
+  font-size: 36;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.nul-logotype-small {
+  font-size: 24;
+}
+
+.nul-top-bar {
+  background-color: black;
+  color: white;
+}
+
+.nul-top-bar .nul-logotype-small {
+  margin-left: 4;
 }
 
 .nul-status-box {
-  margin: 16px;
+  margin: 16;
   background-color: red;
   transition: background-color 500ms ease-in-out;
 }
