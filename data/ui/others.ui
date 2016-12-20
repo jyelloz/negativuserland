@@ -2,8 +2,8 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkWindow">
-    <property name="width_request">720</property>
+  <object class="GtkApplicationWindow">
+    <property name="width_request">800</property>
     <property name="height_request">480</property>
     <property name="can_focus">False</property>
     <child>
@@ -35,8 +35,8 @@
       <class name="nul-splash-screen"/>
     </style>
   </object>
-  <object class="GtkWindow">
-    <property name="width_request">720</property>
+  <object class="GtkApplicationWindow">
+    <property name="width_request">800</property>
     <property name="height_request">480</property>
     <property name="can_focus">False</property>
     <property name="resizable">False</property>
