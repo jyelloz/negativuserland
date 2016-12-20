@@ -15,7 +15,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label">negativuserland &lt;span color="magenta"&gt;/&lt;/span&gt;&lt;span color="yellow"&gt;/&lt;/span&gt;&lt;span color="cyan"&gt;/&lt;/span&gt;</property>
+            <property name="label">negatıvuserland &lt;span color="magenta"&gt;/&lt;/span&gt;&lt;span color="yellow"&gt;/&lt;/span&gt;&lt;span color="cyan"&gt;/&lt;/span&gt;</property>
             <property name="use_markup">True</property>
             <property name="single_line_mode">True</property>
             <property name="track_visited_links">False</property>
@@ -56,7 +56,7 @@
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label">negativuserland &lt;span color="magenta"&gt;/&lt;/span&gt;&lt;span color="yellow"&gt;/&lt;/span&gt;&lt;span color="cyan"&gt;/&lt;/span&gt;</property>
+                <property name="label">negatıvuserland &lt;span color="magenta"&gt;/&lt;/span&gt;&lt;span color="yellow"&gt;/&lt;/span&gt;&lt;span color="cyan"&gt;/&lt;/span&gt;</property>
                 <property name="use_markup">True</property>
                 <property name="single_line_mode">True</property>
                 <property name="track_visited_links">False</property>
