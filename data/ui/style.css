@@ -1,23 +1,40 @@
 * {
   font-family: "TexGyreHeros";
-  font-size: 10;
 }
 
+window {
+  background: white;
+}
+
+button,
+button:active,
+button:hover,
+button:disabled {
+  font-style: italic;
+  font-weight: bold;
+  background: black;
+  color: white;
+  padding: 4px 30px;
+  margin: 10px;
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
+}
 .nul-splash-screen * {
   background-color: black;
   color: white;
-  font-size: 14;
+  font-size: 14px;
 }
 
 .nul-logotype {
   font-family: "TexGyreHeros Cn";
-  font-size: 36;
+  font-size: 64px;
   font-weight: bold;
   font-style: italic;
 }
 
 .nul-logotype-small {
-  font-size: 24;
+  font-size: 24px;
 }
 
 .nul-top-bar {
@@ -26,11 +43,27 @@
 }
 
 .nul-top-bar .nul-logotype-small {
-  margin-left: 4;
+  margin-left: 4px;
+}
+
+.nul-main-menu button {
+  padding: 16px;
+}
+
+.nul-main-menu flowboxchild:nth-child(3n+1) button:hover {
+  color: magenta;
+}
+
+.nul-main-menu flowboxchild:nth-child(3n+2) button:hover {
+  color: yellow;
+}
+
+.nul-main-menu flowboxchild:nth-child(3n+0) button:hover {
+  color: cyan;
 }
 
 .nul-status-box {
-  margin: 16;
+  margin: 16px;
   background-color: red;
   transition: background-color 500ms ease-in-out;
 }
