@@ -50,6 +50,10 @@ button:disabled {
   padding: 16px;
 }
 
+.nul-main-menu button:active {
+  background: #333;
+}
+
 .nul-main-menu flowboxchild:nth-child(3n+1) button:hover {
   color: magenta;
 }
