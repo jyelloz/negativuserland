@@ -54,15 +54,18 @@ button:disabled {
   background: #333;
 }
 
-.nul-main-menu flowboxchild:nth-child(3n+1) button:hover {
+.nul-main-menu flowboxchild:nth-child(3n+1) button:hover,
+.nul-main-menu flowboxchild:nth-child(3n+1) button:active {
   color: magenta;
 }
 
-.nul-main-menu flowboxchild:nth-child(3n+2) button:hover {
+.nul-main-menu flowboxchild:nth-child(3n+2) button:hover,
+.nul-main-menu flowboxchild:nth-child(3n+2) button:active {
   color: yellow;
 }
 
-.nul-main-menu flowboxchild:nth-child(3n+0) button:hover {
+.nul-main-menu flowboxchild:nth-child(3n+0) button:hover,
+.nul-main-menu flowboxchild:nth-child(3n+0) button:active {
   color: cyan;
 }
 
