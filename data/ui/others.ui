@@ -51,7 +51,7 @@
             <property name="can_focus">False</property>
             <property name="valign">start</property>
             <child>
-              <object class="GtkLabel">
+              <object class="GtkLabel" id="top-bar-logotype">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label">negatıvuserland &lt;span color="magenta"&gt;/&lt;/span&gt;&lt;span color="yellow"&gt;/&lt;/span&gt;&lt;span color="cyan"&gt;/&lt;/span&gt;</property>
@@ -70,7 +70,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkFixed">
+              <object class="GtkLabel" id="top-bar-datetime">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
               </object>
@@ -81,7 +81,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkFlowBox" id="top-bar-indicators1">
+              <object class="GtkFlowBox" id="top-bar-indicators">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
