@@ -29,11 +29,12 @@
             <property name="position">0</property>
           </packing>
         </child>
+        <style>
+          <class name="nul"/>
+          <class name="nul-splash-screen"/>
+        </style>
       </object>
     </child>
-    <style>
-      <class name="nul-splash-screen"/>
-    </style>
   </object>
   <object class="GtkApplicationWindow">
     <property name="width_request">800</property>
@@ -136,13 +137,11 @@
         <child>
           <placeholder/>
         </child>
+        <style>
+          <class name="nul"/>
+          <class name="nul-main-menu"/>
+        </style>
       </object>
-    </child>
-  </object>
-  <object class="GtkWindow">
-    <property name="can_focus">False</property>
-    <child>
-      <placeholder/>
     </child>
   </object>
   <object class="GtkWindow">
