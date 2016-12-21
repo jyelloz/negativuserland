@@ -69,15 +69,21 @@
                 <property name="position">0</property>
               </packing>
             </child>
-            <child>
+            <child type="center">
               <object class="GtkLabel" id="top-bar-datetime">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Tue Dec 20 12:02</property>
+                <property name="justify">center</property>
+                <style>
+                  <class name="date-time"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -119,7 +125,7 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="pack_type">end</property>
-                <property name="position">2</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <style>
@@ -229,7 +235,7 @@
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <style>
