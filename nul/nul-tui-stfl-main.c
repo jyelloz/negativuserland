@@ -45,6 +45,27 @@ register_signal_handlers (void)
   sigaction (SIGWINCH, &sa, NULL);
 }
 
+static void
+cleanup_stdin_channel (GIOChannel *const channel)
+{
+
+  g_autoptr(GError) error = NULL;
+
+  g_io_channel_shutdown (
+    channel,
+    FALSE,
+    &error
+  );
+
+  if (error == NULL) {
+    g_io_channel_unref (channel);
+    return;
+  }
+
+  g_warning ("failed to shut down stdin channel: %s", error->message);
+
+}
+
 gint
 main (gint const argc, gchar **const argv)
 {
@@ -52,7 +73,14 @@ main (gint const argc, gchar **const argv)
   setlocale (LC_ALL, "");
 
   g_autoptr(GApplication) app = nul_tui_stfl_application_new ();
-  GIOChannel *const stdin_channel = g_io_channel_unix_new (STDIN_FILENO);
+  g_autoptr(GIOChannel) stdin_channel = g_io_channel_unix_new (STDIN_FILENO);
+
+  g_object_set_data_full (
+    G_OBJECT (app),
+    "stdin-channel",
+    stdin_channel,
+    (GDestroyNotify) cleanup_stdin_channel
+  );
 
   g_io_add_watch (stdin_channel, G_IO_IN, (GIOFunc) input_cb, app);
 
