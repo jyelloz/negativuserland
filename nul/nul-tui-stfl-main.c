@@ -35,6 +35,16 @@ winch_handler (gint const signum)
   g_idle_add ((GSourceFunc) winch_cb, NULL);
 }
 
+static inline void
+register_signal_handlers (void)
+{
+  struct sigaction sa = {
+    .sa_handler = winch_handler,
+  };
+  sigemptyset (&sa.sa_mask);
+  sigaction (SIGWINCH, &sa, NULL);
+}
+
 gint
 main (gint const argc, gchar **const argv)
 {
@@ -49,13 +59,7 @@ main (gint const argc, gchar **const argv)
   g_application_set_default (app);
   g_application_hold (app);
 
-  {
-    struct sigaction sa = {
-      .sa_handler = winch_handler,
-    };
-    sigemptyset (&sa.sa_mask);
-    sigaction (SIGWINCH, &sa, NULL);
-  }
+  register_signal_handlers ();
 
   return g_application_run (app, argc, argv);
 
