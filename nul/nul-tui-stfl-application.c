@@ -289,7 +289,7 @@ get_stfl_resource (struct stfl_ipool *const ipool,
                    gchar const       *const path)
 {
 
-  GError *error = NULL;
+  g_autoptr(GError) error = NULL;
 
   g_autoptr(GBytes) stfl = g_resources_lookup_data (
     path,
