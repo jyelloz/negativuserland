@@ -41,7 +41,7 @@ main (gint const argc, gchar **const argv)
 
   setlocale (LC_ALL, "");
 
-  GApplication *const app = nul_tui_stfl_application_new ();
+  g_autoptr(GApplication) app = nul_tui_stfl_application_new ();
   GIOChannel *const stdin_channel = g_io_channel_unix_new (STDIN_FILENO);
 
   g_io_add_watch (stdin_channel, G_IO_IN, (GIOFunc) input_cb, app);
