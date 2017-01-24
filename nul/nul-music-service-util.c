@@ -11,6 +11,9 @@
 #include "albums.c"
 #include "tracks.c"
 
+#define GEE_COLLECTION_SIZE(c) (GEE_IS_COLLECTION ((c)) ? \
+                                gee_collection_get_size ((c)) : 0)
+
 static GeeCollection *
 get_tracks_by_album (NulMusicService *const self,
                      gchar const     *const album_id)
@@ -165,8 +168,7 @@ handle_get_tracks_for_album (NulMusicService       *const self,
 {
 
   GeeCollection *const album_tracks = get_tracks_by_album (self, album_id);
-  guint64 const n_album_tracks = GEE_IS_COLLECTION (album_tracks) ?
-    gee_collection_get_size (album_tracks) : 0;
+  guint64 const n_album_tracks = GEE_COLLECTION_SIZE (album_tracks);
   gsize const slice_length = CLAMP (n_album_tracks - offset, 0, limit);
 
   g_debug (
