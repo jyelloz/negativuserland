@@ -22,9 +22,9 @@
       <arg name="tracks" type="as" direction="out" />
     </method>
     <method name="GetTracksForAlbum">
+      <arg name="album_id" type="s" />
       <arg name="offset" type="t" />
       <arg name="limit" type="t" />
-      <arg name="album_id" type="s" />
       <arg name="tracks" type="as" direction="out" />
     </method>
     <property name="ArtistsCount" type="t" access="read" />
