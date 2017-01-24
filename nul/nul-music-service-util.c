@@ -30,6 +30,22 @@ get_tracks_by_album (NulMusicService *const self,
 
 }
 
+static GeeCollection *
+get_albums_by_artist (NulMusicService *const self,
+                      gchar const     *const artist_id)
+{
+
+  GeeMultiMap *const albums_by_artist = GEE_MULTI_MAP (
+    g_object_get_data (
+      G_OBJECT (self),
+      "albums-by-artist"
+    )
+  );
+
+  return gee_multi_map_get (albums_by_artist, artist_id);
+
+}
+
 static gboolean
 handle_get_artists (NulMusicService       *const self,
                     GDBusMethodInvocation *const invo,
@@ -215,6 +231,88 @@ handle_get_tracks_for_album (NulMusicService       *const self,
 
 }
 
+
+static gboolean
+handle_get_albums_for_artist (NulMusicService       *const self,
+                              GDBusMethodInvocation *const invo,
+                              gchar   const         *const artist_id,
+                              guint64 const                offset,
+                              guint64 const                limit)
+{
+
+  GeeCollection *const albums = get_albums_by_artist (self, artist_id);
+  guint64 const n_albums = GEE_COLLECTION_SIZE (albums);
+  gsize const slice_length = CLAMP (n_albums - offset, 0, limit);
+
+  g_debug (
+    "artist_id=%s"
+    ", offset=%" G_GSIZE_FORMAT
+    ", limit=%" G_GSIZE_FORMAT
+    ", slice_length=%" G_GSIZE_FORMAT
+    ", n_tracks=%" G_GUINT64_FORMAT,
+    artist_id,
+    offset,
+    limit,
+    slice_length,
+    n_albums
+  );
+
+  if (offset >= n_albums) {
+    g_debug ("offset is over the edge, returning empty list");
+    g_dbus_method_invocation_return_value (invo, g_variant_new ("(as)", NULL));
+    g_object_unref (albums);
+    return TRUE;
+  }
+
+  g_autofree gchar const **albums_array = (gchar const **)
+    gee_collection_to_array (albums, NULL);
+
+  g_autofree gchar const **slice_array = g_memdup (
+    &albums_array[offset],
+    slice_length * sizeof (gchar const *)
+  );
+
+  GVariant *const slice = g_variant_new_strv (
+    slice_array,
+    slice_length
+  );
+
+  g_dbus_method_invocation_return_value (
+    invo,
+    g_variant_new_tuple (&slice, 1)
+  );
+
+  g_object_unref (albums);
+
+  return TRUE;
+
+}
+
+static GeeMultiMap *
+build_index_albums_by_artist (void)
+{
+
+  GeeTreeMultiMap *const albums_by_artist = gee_tree_multi_map_new (
+    G_TYPE_STRING,
+    (GBoxedCopyFunc) g_strdup,
+    g_free,
+    G_TYPE_STRING,
+    (GBoxedCopyFunc) g_strdup,
+    g_free,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  );
+
+  GeeMultiMap *const m = GEE_MULTI_MAP (albums_by_artist);
+
+  return m;
+
+}
+
 static GeeMultiMap *
 build_index_tracks_by_album (void)
 {
@@ -251,6 +349,13 @@ nul_music_service_util_get_skeleton (void)
     (GDestroyNotify) g_object_unref
   );
 
+  g_object_set_data_full (
+    G_OBJECT (music),
+    "albums-by-artist",
+    build_index_albums_by_artist (),
+    (GDestroyNotify) g_object_unref
+  );
+
   g_signal_connect (
     music,
     "handle-get-artists",
@@ -276,6 +381,13 @@ nul_music_service_util_get_skeleton (void)
     music,
     "handle-get-tracks-for-album",
     G_CALLBACK (handle_get_tracks_for_album),
+    NULL
+  );
+
+  g_signal_connect (
+    music,
+    "handle-get-albums-for-artist",
+    G_CALLBACK (handle_get_albums_for_artist),
     NULL
   );
 
