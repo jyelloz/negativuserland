@@ -47,4 +47,4 @@ $(BUILD_NINJAFILE):
 .DEFAULT: configure
 	$(BUILD_CMD) -t $@
 
-.PHONY: clean help configure check distclean remove-builddir builddir
+.PHONY: clean help configure check distclean remove-builddir builddir builddir-ninja
