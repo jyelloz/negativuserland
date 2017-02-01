@@ -1,9 +1,11 @@
 #include "nul-music-service-util.h"
 
 #include "nul-music-service.h"
+#include "nul-external-autocleanups.h"
 
 #include <glib.h>
 #include <gee.h>
+#include <tracker-sparql.h>
 
 #include <string.h>
 
