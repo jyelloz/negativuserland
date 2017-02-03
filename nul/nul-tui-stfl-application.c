@@ -85,7 +85,7 @@ artists_ready_cb (NulMusicService       *const proxy,
                   NulTuiStflApplication *const self)
 {
 
-  g_autofree gchar **artists = NULL;
+  g_autoptr(GVariant) artists;
   struct stfl_form *const form = self->form;
   struct stfl_ipool *const ipool = self->ipool;
 
@@ -98,9 +98,26 @@ artists_ready_cb (NulMusicService       *const proxy,
     L"list[artists]"
   );
 
-  for (gchar **artist = artists; artist && *artist; artist++) {
+  g_autoptr(GVariant) artist;
+  g_autoptr(GVariantIter) iter = g_variant_iter_new (artists);
 
-    g_autofree wchar_t const *line = create_listitem (ipool, *artist);
+  while ((artist = g_variant_iter_next_value (iter))) {
+
+    g_auto(GVariantDict) artist_dict;
+    g_variant_dict_init (&artist_dict, artist);
+
+    g_autoptr(GVariant) artist_name_value = g_variant_dict_lookup_value (
+      &artist_dict,
+      "name",
+      G_VARIANT_TYPE_STRING
+    );
+
+    gchar const *const artist_name = g_variant_get_string (
+      artist_name_value,
+      NULL
+    );
+
+    g_autofree wchar_t const *line = create_listitem (ipool, artist_name);
 
     stfl_modify (
       form,
@@ -121,7 +138,7 @@ albums_ready_cb (NulMusicService       *const proxy,
                  NulTuiStflApplication *const self)
 {
 
-  g_autofree gchar **albums = NULL;
+  g_autoptr(GVariant) albums;
   struct stfl_form *const form = self->form;
   struct stfl_ipool *const ipool = self->ipool;
 
@@ -134,9 +151,26 @@ albums_ready_cb (NulMusicService       *const proxy,
     L"list[albums]"
   );
 
-  for (gchar **album = albums; album && *album; album++) {
+  g_autoptr(GVariant) album;
+  g_autoptr(GVariantIter) iter = g_variant_iter_new (albums);
 
-    g_autofree wchar_t const *line = create_listitem (ipool, *album);
+  while ((album = g_variant_iter_next_value (iter))) {
+
+    g_auto(GVariantDict) album_dict;
+    g_variant_dict_init (&album_dict, album);
+
+    g_autoptr(GVariant) album_name_value = g_variant_dict_lookup_value (
+      &album_dict,
+      "name",
+      G_VARIANT_TYPE_STRING
+    );
+
+    gchar const *const album_name = g_variant_get_string (
+      album_name_value,
+      NULL
+    );
+
+    g_autofree wchar_t const *line = create_listitem (ipool, album_name);
 
     stfl_modify (
       form,
