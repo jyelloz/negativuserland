@@ -9,7 +9,7 @@
     <method name="GetArtists">
       <arg name="offset" type="t" />
       <arg name="limit" type="t" />
-      <arg name="artists" type="as" direction="out" />
+      <arg name="artists" type="aa{sv}" direction="out" />
     </method>
     <method name="GetAlbums">
       <arg name="offset" type="t" />
