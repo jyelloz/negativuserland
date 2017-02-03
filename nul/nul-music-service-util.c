@@ -9,42 +9,301 @@
 
 #include <string.h>
 
-#include "artists.c"
-#include "albums.c"
-#include "tracks.c"
-
 #define GEE_COLLECTION_SIZE(c) (GEE_IS_COLLECTION ((c)) ? \
                                 gee_collection_get_size ((c)) : 0)
 
-static GeeCollection *
-get_tracks_by_album (NulMusicService *const self,
-                     gchar const     *const album_id)
+#define LIMIT_OFFSET_TEMPLATE \
+  "LIMIT %" G_GUINT64_FORMAT " OFFSET %" G_GUINT64_FORMAT
+
+gchar const get_artists_sparql[] =
+"SELECT "
+"?artist "
+"tracker:id(?artist) as ?id "
+"nmm:artistName(?artist) as ?name "
+"WHERE { "
+"?artist a nmm:Artist "
+"} "
+LIMIT_OFFSET_TEMPLATE;
+
+gchar const get_tracks_sparql[] =
+"SELECT "
+"?track "
+"tracker:id(?track) as ?id "
+"?url "
+"nie:title(?track) as ?title "
+"nmm:trackNumber(?track) as ?track_number "
+"nmm:setNumber(?disc) as ?disc_number "
+"WHERE { "
+"?track a nmm:MusicPiece ; "
+"nie:url ?url . "
+"OPTIONAL { ?track nmm:musicAlbumDisc ?disc } "
+"} "
+"ORDER BY ?disc_number ?track_number "
+LIMIT_OFFSET_TEMPLATE;
+
+gchar const get_albums_sparql[] =
+"SELECT "
+"?album "
+"tracker:id(?album) as ?id "
+"?title "
+"WHERE { "
+"?album a nmm:MusicAlbum ; "
+"nie:title ?title . "
+"} "
+LIMIT_OFFSET_TEMPLATE;
+
+gchar const get_albums_for_artist_sparql[] =
+"SELECT "
+"?album "
+"tracker:id(?album) as ?id "
+"nie:title(?album) as ?title "
+"WHERE { "
+"?album a nmm:MusicAlbum ; "
+"nie:title ?title ; "
+"nie:url ?url ; "
+"nmm:albumArtist \"urn:artist:%s\" . "
+"} "
+LIMIT_OFFSET_TEMPLATE;
+
+gchar const get_tracks_for_album_sparql[] =
+"SELECT "
+"?track "
+"tracker:id(?track) as ?id "
+"?url "
+"nie:title(?track) as ?title "
+"nmm:trackNumber(?track) as ?track_number "
+"nmm:setNumber(?disc) as ?disc_number "
+"WHERE { "
+"?track a nmm:MusicPiece ; "
+"nie:title ?title ; "
+"nie:url ?url ; "
+"nmm:musicAlbum \"urn:album:%s\" . "
+"OPTIONAL { ?track nmm:musicAlbumDisc ?disc } "
+"} "
+"ORDER BY ?disc_number ?track_number "
+LIMIT_OFFSET_TEMPLATE;
+
+static inline void
+insert_string_value (TrackerSparqlCursor *const cursor,
+                     GVariantDict        *const dict,
+                     gchar const         *const key,
+                     gint const                 column)
 {
 
-  GeeMultiMap *const tracks_by_album = GEE_MULTI_MAP (
-    g_object_get_data (
-      G_OBJECT (self),
-      "tracks-by-album"
-    )
+  GVariant *const value = g_variant_new_printf (
+    "%s",
+    tracker_sparql_cursor_get_string (cursor, column, NULL)
   );
 
-  return gee_multi_map_get (tracks_by_album, album_id);
+  g_variant_dict_insert_value (dict, key, value);
 
 }
 
-static GeeCollection *
-get_albums_by_artist (NulMusicService *const self,
-                      gchar const     *const artist_id)
+static inline void
+insert_integer_value (TrackerSparqlCursor *const cursor,
+                      GVariantDict        *const dict,
+                      gchar const         *const key,
+                      gint const                 column)
 {
 
-  GeeMultiMap *const albums_by_artist = GEE_MULTI_MAP (
-    g_object_get_data (
-      G_OBJECT (self),
-      "albums-by-artist"
-    )
+  GVariant *const value = g_variant_new_int64 (
+    tracker_sparql_cursor_get_integer (cursor, column)
   );
 
-  return gee_multi_map_get (albums_by_artist, artist_id);
+  g_variant_dict_insert_value (dict, key, value);
+
+}
+
+static GVariant *
+artist_cursor_to_variant_dict (TrackerSparqlCursor *const cursor)
+{
+
+  GVariantDict dict;
+  g_variant_dict_init (&dict, NULL);
+
+  insert_string_value (cursor, &dict, "urn", 0);
+  insert_integer_value (cursor, &dict, "id", 1);
+  insert_string_value (cursor, &dict, "name", 2);
+
+  return g_variant_dict_end (&dict);
+
+}
+
+static GVariant *
+album_cursor_to_variant_dict (TrackerSparqlCursor *const cursor)
+{
+
+  GVariantDict dict;
+  g_variant_dict_init (&dict, NULL);
+
+  insert_string_value (cursor, &dict, "urn", 0);
+  insert_integer_value (cursor, &dict, "id", 1);
+  insert_string_value (cursor, &dict, "name", 2);
+
+  return g_variant_dict_end (&dict);
+
+}
+
+static GVariant *
+artist_album_cursor_to_variant_dict (TrackerSparqlCursor *const cursor)
+{
+
+  GVariantDict dict;
+  g_variant_dict_init (&dict, NULL);
+
+  insert_string_value (cursor, &dict, "urn", 0);
+  insert_integer_value (cursor, &dict, "id", 1);
+  insert_string_value (cursor, &dict, "title", 2);
+
+  return g_variant_dict_end (&dict);
+
+}
+
+static GVariant *
+album_track_cursor_to_variant_dict (TrackerSparqlCursor *const cursor)
+{
+
+  GVariantDict dict;
+  g_variant_dict_init (&dict, NULL);
+
+  insert_string_value (cursor, &dict, "urn", 0);
+  insert_integer_value (cursor, &dict, "id", 1);
+  insert_string_value (cursor, &dict, "url", 2);
+  insert_string_value (cursor, &dict, "title", 3);
+  insert_integer_value (cursor, &dict, "track-number", 4);
+  insert_integer_value (cursor, &dict, "disc-number", 5);
+
+  return g_variant_dict_end (&dict);
+
+}
+
+static GeeList *
+artists_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
+{
+
+  g_return_val_if_fail (cursor, NULL);
+
+  GeeLinkedList *const list = gee_linked_list_new (
+    G_TYPE_VARIANT,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  );
+
+  GeeCollection *const c = GEE_COLLECTION (list);
+
+  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
+    GVariant *const row = artist_cursor_to_variant_dict (cursor);
+    gee_collection_add (c, row);
+  }
+
+  return GEE_LIST (list);
+
+}
+
+static GeeList *
+tracks_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
+{
+
+  g_return_val_if_fail (cursor, NULL);
+
+  GeeLinkedList *const list = gee_linked_list_new (
+    G_TYPE_VARIANT,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  );
+
+  GeeCollection *const c = GEE_COLLECTION (list);
+
+  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
+    GVariant *const row = album_track_cursor_to_variant_dict (cursor);
+    gee_collection_add (c, row);
+  }
+
+  return GEE_LIST (list);
+
+}
+
+static GeeList *
+albums_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
+{
+
+  g_return_val_if_fail (cursor, NULL);
+
+  GeeLinkedList *const list = gee_linked_list_new (
+    G_TYPE_VARIANT,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  );
+
+  GeeCollection *const c = GEE_COLLECTION (list);
+
+  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
+    GVariant *const row = album_cursor_to_variant_dict (cursor);
+    gee_collection_add (c, row);
+  }
+
+  return GEE_LIST (list);
+
+}
+
+static GeeList *
+artist_album_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
+{
+
+  g_return_val_if_fail (cursor, NULL);
+
+  GeeLinkedList *const list = gee_linked_list_new (
+    G_TYPE_VARIANT,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  );
+
+  GeeCollection *const c = GEE_COLLECTION (list);
+
+  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
+    GVariant *const row = artist_album_cursor_to_variant_dict (cursor);
+    gee_collection_add (c, row);
+  }
+
+  return GEE_LIST (list);
+
+}
+
+static GeeList *
+album_track_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
+{
+
+  g_return_val_if_fail (cursor, NULL);
+
+  GeeLinkedList *const list = gee_linked_list_new (
+    G_TYPE_VARIANT,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+  );
+
+  GeeCollection *const c = GEE_COLLECTION (list);
+
+  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
+    GVariant *const row = album_track_cursor_to_variant_dict (cursor);
+    gee_collection_add (c, row);
+  }
+
+  return GEE_LIST (list);
 
 }
 
@@ -55,31 +314,45 @@ handle_get_artists (NulMusicService       *const self,
                     guint64 const                limit)
 {
 
-  gsize const slice_length = MIN (ARTISTS_LENGTH - offset, limit);
-
-  g_debug (
-    "offset=%lu, limit=%lu, slice_length=%lu, n_artists=%lu",
-    offset,
+  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
+    NULL,
+    NULL
+  );
+  g_autofree gchar *sparql = g_strdup_printf (
+    get_artists_sparql,
     limit,
-    slice_length,
-    ARTISTS_LENGTH
+    offset
   );
 
-  if (offset >= ARTISTS_LENGTH) {
-    g_debug ("offset is over the edge, returning empty list");
-    g_dbus_method_invocation_return_value (invo, g_variant_new ("(as)", NULL));
+  g_debug ("running query %s", sparql);
+
+  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
+    conn,
+    sparql,
+    NULL,
+    NULL
+  );
+
+  if (cursor == NULL) {
+    g_debug ("no results, returning empty list");
+    g_dbus_method_invocation_return_value (
+      invo,
+      g_variant_new ("(aa{sv})", NULL)
+    );
     return TRUE;
   }
 
-  g_autofree gchar const **slice_array = g_new (const gchar *, slice_length);
-  for (guint i = 0; i < slice_length; i++) {
-    struct artist_t const artist = artists[offset + i];
-    slice_array[i] = artist.artist;
-  }
+  g_autoptr(GeeList) items = artists_cursor_to_gee_list (cursor);
+  gint array_length;
+  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
+    GEE_COLLECTION (items),
+    &array_length
+  );
 
-  GVariant *const slice = g_variant_new_strv (
-    slice_array,
-    slice_length
+  GVariant *const slice = g_variant_new_array (
+    G_VARIANT_TYPE_VARDICT,
+    array,
+    array_length
   );
 
   g_dbus_method_invocation_return_value (
@@ -98,31 +371,45 @@ handle_get_albums (NulMusicService       *const self,
                    guint64 const                limit)
 {
 
-  gsize const slice_length = MIN (ALBUMS_LENGTH - offset, limit);
-
-  g_debug (
-    "offset=%lu, limit=%lu, slice_length=%lu, n_albums=%lu",
-    offset,
+  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
+    NULL,
+    NULL
+  );
+  g_autofree gchar *sparql = g_strdup_printf (
+    get_albums_sparql,
     limit,
-    slice_length,
-    ALBUMS_LENGTH
+    offset
   );
 
-  if (offset >= ALBUMS_LENGTH) {
-    g_debug ("offset is over the edge, returning empty list");
-    g_dbus_method_invocation_return_value (invo, g_variant_new ("(as)", NULL));
+  g_debug ("running query %s", sparql);
+
+  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
+    conn,
+    sparql,
+    NULL,
+    NULL
+  );
+
+  if (cursor == NULL) {
+    g_debug ("no results, returning empty list");
+    g_dbus_method_invocation_return_value (
+      invo,
+      g_variant_new ("(aa{sv})", NULL)
+    );
     return TRUE;
   }
 
-  g_autofree gchar const **slice_array = g_new0 (const gchar *, slice_length);
-  for (guint i = 0; i < slice_length; i++) {
-    struct album_t const album = albums[offset + i];
-    slice_array[i] = album.album;
-  }
+  g_autoptr(GeeList) items = albums_cursor_to_gee_list (cursor);
+  gint array_length;
+  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
+    GEE_COLLECTION (items),
+    &array_length
+  );
 
-  GVariant *const slice = g_variant_new_strv (
-    slice_array,
-    slice_length
+  GVariant *const slice = g_variant_new_array (
+    G_VARIANT_TYPE_VARDICT,
+    array,
+    array_length
   );
 
   g_dbus_method_invocation_return_value (
@@ -141,31 +428,45 @@ handle_get_tracks (NulMusicService       *const self,
                    guint64 const                limit)
 {
 
-  gsize const slice_length = MIN (TRACKS_LENGTH - offset, limit);
-
-  g_debug (
-    "offset=%lu, limit=%lu, slice_length=%lu, n_tracks=%lu",
-    offset,
+  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
+    NULL,
+    NULL
+  );
+  g_autofree gchar *sparql = g_strdup_printf (
+    get_tracks_sparql,
     limit,
-    slice_length,
-    TRACKS_LENGTH
+    offset
   );
 
-  if (offset >= TRACKS_LENGTH) {
-    g_debug ("offset is over the edge, returning empty list");
-    g_dbus_method_invocation_return_value (invo, g_variant_new ("(as)", NULL));
+  g_debug ("running query %s", sparql);
+
+  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
+    conn,
+    sparql,
+    NULL,
+    NULL
+  );
+
+  if (cursor == NULL) {
+    g_debug ("no results, returning empty list");
+    g_dbus_method_invocation_return_value (
+      invo,
+      g_variant_new ("(aa{sv})", NULL)
+    );
     return TRUE;
   }
 
-  g_autofree gchar const **slice_array = g_new0 (const gchar *, slice_length);
-  for (guint i = 0; i < slice_length; i++) {
-    struct track_t const track = tracks[offset + i];
-    slice_array[i] = track.url;
-  }
+  g_autoptr(GeeList) items = tracks_cursor_to_gee_list (cursor);
+  gint array_length;
+  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
+    GEE_COLLECTION (items),
+    &array_length
+  );
 
-  GVariant *const slice = g_variant_new_strv (
-    slice_array,
-    slice_length
+  GVariant *const slice = g_variant_new_array (
+    G_VARIANT_TYPE_VARDICT,
+    array,
+    array_length
   );
 
   g_dbus_method_invocation_return_value (
@@ -185,49 +486,56 @@ handle_get_tracks_for_album (NulMusicService       *const self,
                              guint64 const                limit)
 {
 
-  GeeCollection *const album_tracks = get_tracks_by_album (self, album_id);
-  guint64 const n_album_tracks = GEE_COLLECTION_SIZE (album_tracks);
-  gsize const slice_length = CLAMP (n_album_tracks - offset, 0, limit);
-
-  g_debug (
-    "album_id=%s"
-    ", offset=%" G_GSIZE_FORMAT
-    ", limit=%" G_GSIZE_FORMAT
-    ", slice_length=%" G_GSIZE_FORMAT
-    ", n_tracks=%" G_GUINT64_FORMAT,
-    album_id,
-    offset,
+  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
+    NULL,
+    NULL
+  );
+  g_autofree gchar const *album_id_safe = tracker_sparql_escape_uri_printf (
+    "%s",
+    album_id
+  );
+  g_autofree gchar *sparql = g_strdup_printf (
+    get_tracks_for_album_sparql,
+    album_id_safe,
     limit,
-    slice_length,
-    n_album_tracks
+    offset
   );
 
-  if (offset >= n_album_tracks) {
-    g_debug ("offset is over the edge, returning empty list");
-    g_dbus_method_invocation_return_value (invo, g_variant_new ("(as)", NULL));
-    g_object_unref (album_tracks);
+  g_debug ("running query %s", sparql);
+
+  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
+    conn,
+    sparql,
+    NULL,
+    NULL
+  );
+
+  if (cursor == NULL) {
+    g_debug ("no results, returning empty list");
+    g_dbus_method_invocation_return_value (
+      invo,
+      g_variant_new ("(aa{sv})", NULL)
+    );
     return TRUE;
   }
 
-  g_autofree gchar const **album_tracks_array = (gchar const **)
-    gee_collection_to_array (album_tracks, NULL);
-
-  g_autofree gchar const **slice_array = g_memdup (
-    &album_tracks_array[offset],
-    slice_length * sizeof (gchar const *)
+  g_autoptr(GeeList) items = album_track_cursor_to_gee_list (cursor);
+  gint array_length;
+  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
+    GEE_COLLECTION (items),
+    &array_length
   );
 
-  GVariant *const slice = g_variant_new_strv (
-    slice_array,
-    slice_length
+  GVariant *const slice = g_variant_new_array (
+    G_VARIANT_TYPE_VARDICT,
+    array,
+    array_length
   );
 
   g_dbus_method_invocation_return_value (
     invo,
     g_variant_new_tuple (&slice, 1)
   );
-
-  g_object_unref (album_tracks);
 
   return TRUE;
 
@@ -242,41 +550,50 @@ handle_get_albums_for_artist (NulMusicService       *const self,
                               guint64 const                limit)
 {
 
-  GeeCollection *const albums = get_albums_by_artist (self, artist_id);
-  guint64 const n_albums = GEE_COLLECTION_SIZE (albums);
-  gsize const slice_length = CLAMP (n_albums - offset, 0, limit);
-
-  g_debug (
-    "artist_id=%s"
-    ", offset=%" G_GSIZE_FORMAT
-    ", limit=%" G_GSIZE_FORMAT
-    ", slice_length=%" G_GSIZE_FORMAT
-    ", n_tracks=%" G_GUINT64_FORMAT,
-    artist_id,
-    offset,
+  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
+    NULL,
+    NULL
+  );
+  g_autofree gchar const *artist_id_safe = tracker_sparql_escape_uri_printf (
+    "%s",
+    artist_id
+  );
+  g_autofree gchar *sparql = g_strdup_printf (
+    get_albums_for_artist_sparql,
+    artist_id_safe,
     limit,
-    slice_length,
-    n_albums
+    offset
   );
 
-  if (offset >= n_albums) {
-    g_debug ("offset is over the edge, returning empty list");
-    g_dbus_method_invocation_return_value (invo, g_variant_new ("(as)", NULL));
-    g_object_unref (albums);
+  g_debug ("running query %s", sparql);
+
+  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
+    conn,
+    sparql,
+    NULL,
+    NULL
+  );
+
+  if (cursor == NULL) {
+    g_debug ("no results, returning empty list");
+    g_dbus_method_invocation_return_value (
+      invo,
+      g_variant_new ("(aa{sv})", NULL)
+    );
     return TRUE;
   }
 
-  g_autofree gchar const **albums_array = (gchar const **)
-    gee_collection_to_array (albums, NULL);
-
-  g_autofree gchar const **slice_array = g_memdup (
-    &albums_array[offset],
-    slice_length * sizeof (gchar const *)
+  g_autoptr(GeeList) items = artist_album_cursor_to_gee_list (cursor);
+  gint array_length;
+  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
+    GEE_COLLECTION (items),
+    &array_length
   );
 
-  GVariant *const slice = g_variant_new_strv (
-    slice_array,
-    slice_length
+  GVariant *const slice = g_variant_new_array (
+    G_VARIANT_TYPE_VARDICT,
+    array,
+    array_length
   );
 
   g_dbus_method_invocation_return_value (
@@ -284,57 +601,7 @@ handle_get_albums_for_artist (NulMusicService       *const self,
     g_variant_new_tuple (&slice, 1)
   );
 
-  g_object_unref (albums);
-
   return TRUE;
-
-}
-
-static GeeMultiMap *
-build_index_albums_by_artist (void)
-{
-
-  GeeTreeMultiMap *const albums_by_artist = gee_tree_multi_map_new (
-    G_TYPE_STRING,
-    (GBoxedCopyFunc) g_strdup,
-    g_free,
-    G_TYPE_STRING,
-    (GBoxedCopyFunc) g_strdup,
-    g_free,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-  );
-
-  GeeMultiMap *const m = GEE_MULTI_MAP (albums_by_artist);
-
-  return m;
-
-}
-
-static GeeMultiMap *
-build_index_tracks_by_album (void)
-{
-
-  GeeTreeMultiMap *const tracks_by_album = gee_tree_multi_map_new (
-    G_TYPE_STRING,
-    (GBoxedCopyFunc) g_strdup,
-    g_free,
-    G_TYPE_STRING,
-    (GBoxedCopyFunc) g_strdup,
-    g_free,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-  );
-
-  return GEE_MULTI_MAP (tracks_by_album);
 
 }
 
@@ -343,20 +610,6 @@ nul_music_service_util_get_skeleton (void)
 {
 
   NulMusicService *const music = nul_music_service_skeleton_new ();
-
-  g_object_set_data_full (
-    G_OBJECT (music),
-    "tracks-by-album",
-    build_index_tracks_by_album (),
-    (GDestroyNotify) g_object_unref
-  );
-
-  g_object_set_data_full (
-    G_OBJECT (music),
-    "albums-by-artist",
-    build_index_albums_by_artist (),
-    (GDestroyNotify) g_object_unref
-  );
 
   g_signal_connect (
     music,
@@ -395,19 +648,19 @@ nul_music_service_util_get_skeleton (void)
 
   g_object_set (
     music,
-    "artists-count", ARTISTS_LENGTH,
+    "artists-count", 0,
     NULL
   );
 
   g_object_set (
     music,
-    "albums-count", ALBUMS_LENGTH,
+    "albums-count", 0,
     NULL
   );
 
   g_object_set (
     music,
-    "tracks-count", TRACKS_LENGTH,
+    "tracks-count", 0,
     NULL
   );
 
