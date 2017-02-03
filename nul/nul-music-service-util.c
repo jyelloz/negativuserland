@@ -15,6 +15,13 @@
 #define LIMIT_OFFSET_TEMPLATE \
   "LIMIT %" G_GUINT64_FORMAT " OFFSET %" G_GUINT64_FORMAT
 
+gchar const get_artists_count_sparql[] =
+"SELECT "
+"COUNT(?artist) "
+"WHERE { "
+"?artist a nmm:Artist "
+"} ";
+
 gchar const get_artists_sparql[] =
 "SELECT "
 "?artist "
@@ -605,6 +612,38 @@ handle_get_albums_for_artist (NulMusicService       *const self,
 
 }
 
+static gboolean
+update_artists_count (NulMusicService *const self)
+{
+
+  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
+    NULL,
+    NULL
+  );
+
+  g_debug ("running query %s", get_artists_count_sparql);
+
+  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
+    conn,
+    get_artists_count_sparql,
+    NULL,
+    NULL
+  );
+
+  tracker_sparql_cursor_next (cursor, NULL, NULL);
+
+  gint64 const count = tracker_sparql_cursor_get_integer (cursor, 0);
+
+  g_object_set (
+    self,
+    "artists-count", count,
+    NULL
+  );
+
+  return G_SOURCE_REMOVE;
+
+}
+
 GDBusInterfaceSkeleton *
 nul_music_service_util_get_skeleton (void)
 {
@@ -646,11 +685,7 @@ nul_music_service_util_get_skeleton (void)
     NULL
   );
 
-  g_object_set (
-    music,
-    "artists-count", 0,
-    NULL
-  );
+  g_idle_add ((GSourceFunc) update_artists_count, music);
 
   g_object_set (
     music,
