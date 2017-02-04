@@ -136,22 +136,55 @@ nul_ui_artists_unregister (NulUiArtists *const self)
 
 void
 nul_ui_artists_update (NulUiArtists  *const self,
-                       gchar        **const artists)
+                       GVariant      *const artists)
 {
 
   GtkListStore *const store = self->store;
 
   gtk_list_store_clear (store);
 
-  for (gchar **artist = artists; artist && *artist; artist++) {
+  g_autoptr(GVariantIter) artists_iter = g_variant_iter_new (artists);
+  g_autoptr(GVariant) artist;
+
+  gint64 artist_id;
+  gchar const *artist_name;
+  gchar const *artist_urn;
+
+  while ((artist = g_variant_iter_next_value (artists_iter))) {
+
+    g_auto(GVariantDict) artist_dict;
     GtkTreeIter iter;
+
+    g_variant_dict_init (&artist_dict, artist);
+    g_variant_dict_lookup (
+      &artist_dict,
+      "name",
+      "s",
+      &artist_name
+    );
+    g_variant_dict_lookup (
+      &artist_dict,
+      "urn",
+      "s",
+      &artist_urn
+    );
+    g_variant_dict_lookup (
+      &artist_dict,
+      "id",
+      "x",
+      &artist_id
+    );
+
     gtk_list_store_append (store, &iter);
     gtk_list_store_set (
       store,
       &iter,
-      0, *artist,
+      0, artist_id,
+      1, artist_urn,
+      2, artist_name,
       -1
     );
+
   }
 
   update_stats (self, NULL, NULL);
@@ -178,7 +211,7 @@ artists_ready_cb (NulMusicService *const proxy,
                   NulUiArtists    *const self)
 {
 
-  g_autofree gchar **artists = NULL;
+  g_autoptr(GVariant) artists;
 
   nul_music_service_call_get_artists_finish (proxy, &artists, result, NULL);
 

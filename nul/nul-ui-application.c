@@ -63,7 +63,7 @@ artists_ready_cb (NulMusicService  *const proxy,
                   NulUiApplication *const self)
 {
 
-  g_autofree gchar **artists = NULL;
+  g_autoptr(GVariant) artists;
   GtkStack *const stack = GTK_STACK (self->music_screen);
 
   nul_music_service_call_get_artists_finish (proxy, &artists, result, NULL);

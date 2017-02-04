@@ -27,7 +27,7 @@ nul_ui_artists_unregister (NulUiArtists *const self);
 
 void
 nul_ui_artists_update (NulUiArtists  *const self,
-                       gchar        **const artists);
+                       GVariant      *const artists);
 
 void
 nul_ui_artists_free (NulUiArtists *const self);
