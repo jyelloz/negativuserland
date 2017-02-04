@@ -15,6 +15,8 @@
 #define LIMIT_OFFSET_TEMPLATE \
   "LIMIT %" G_GUINT64_FORMAT " OFFSET %" G_GUINT64_FORMAT
 
+typedef GVariant * (*CursorConvertItemFunc) (TrackerSparqlCursor *);
+
 gchar const get_artists_count_sparql[] =
 "SELECT "
 "COUNT(?artist) "
@@ -198,11 +200,13 @@ album_track_cursor_to_variant_dict (TrackerSparqlCursor *const cursor)
 
 }
 
-static GeeList *
-artists_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
+static inline GeeList *
+cursor_to_gee_list (TrackerSparqlCursor  *const cursor,
+                    CursorConvertItemFunc const func)
 {
 
   g_return_val_if_fail (cursor, NULL);
+  g_return_val_if_fail (func, NULL);
 
   GeeLinkedList *const list = gee_linked_list_new (
     G_TYPE_VARIANT,
@@ -216,116 +220,42 @@ artists_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
   GeeCollection *const c = GEE_COLLECTION (list);
 
   while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
-    GVariant *const row = artist_cursor_to_variant_dict (cursor);
+    GVariant *const row = func (cursor);
     gee_collection_add (c, row);
   }
 
   return GEE_LIST (list);
 
+}
+
+static GeeList *
+artists_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
+{
+  return cursor_to_gee_list (cursor, artist_cursor_to_variant_dict);
 }
 
 static GeeList *
 tracks_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
 {
-
-  g_return_val_if_fail (cursor, NULL);
-
-  GeeLinkedList *const list = gee_linked_list_new (
-    G_TYPE_VARIANT,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-  );
-
-  GeeCollection *const c = GEE_COLLECTION (list);
-
-  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
-    GVariant *const row = album_track_cursor_to_variant_dict (cursor);
-    gee_collection_add (c, row);
-  }
-
-  return GEE_LIST (list);
-
+  return cursor_to_gee_list (cursor, album_track_cursor_to_variant_dict);
 }
 
 static GeeList *
 albums_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
 {
-
-  g_return_val_if_fail (cursor, NULL);
-
-  GeeLinkedList *const list = gee_linked_list_new (
-    G_TYPE_VARIANT,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-  );
-
-  GeeCollection *const c = GEE_COLLECTION (list);
-
-  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
-    GVariant *const row = album_cursor_to_variant_dict (cursor);
-    gee_collection_add (c, row);
-  }
-
-  return GEE_LIST (list);
-
+  return cursor_to_gee_list (cursor, album_cursor_to_variant_dict);
 }
 
 static GeeList *
 artist_album_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
 {
-
-  g_return_val_if_fail (cursor, NULL);
-
-  GeeLinkedList *const list = gee_linked_list_new (
-    G_TYPE_VARIANT,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-  );
-
-  GeeCollection *const c = GEE_COLLECTION (list);
-
-  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
-    GVariant *const row = artist_album_cursor_to_variant_dict (cursor);
-    gee_collection_add (c, row);
-  }
-
-  return GEE_LIST (list);
-
+  return cursor_to_gee_list (cursor, artist_album_cursor_to_variant_dict);
 }
 
 static GeeList *
 album_track_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
 {
-
-  g_return_val_if_fail (cursor, NULL);
-
-  GeeLinkedList *const list = gee_linked_list_new (
-    G_TYPE_VARIANT,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-  );
-
-  GeeCollection *const c = GEE_COLLECTION (list);
-
-  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
-    GVariant *const row = album_track_cursor_to_variant_dict (cursor);
-    gee_collection_add (c, row);
-  }
-
-  return GEE_LIST (list);
-
+  return cursor_to_gee_list (cursor, album_track_cursor_to_variant_dict);
 }
 
 static gboolean
