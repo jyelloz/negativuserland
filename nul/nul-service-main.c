@@ -1,3 +1,5 @@
+#include <locale.h>
+
 #include <glib.h>
 #include <gio/gio.h>
 
@@ -6,6 +8,8 @@
 gint
 main (gint const argc, gchar **const argv)
 {
+
+  setlocale (LC_ALL, "");
 
   g_autoptr(GApplication) app = nul_service_application_new ();
 
