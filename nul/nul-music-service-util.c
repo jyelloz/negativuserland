@@ -22,6 +22,20 @@ gchar const get_artists_count_sparql[] =
 "?artist a nmm:Artist "
 "} ";
 
+gchar const get_albums_count_sparql[] =
+"SELECT "
+"COUNT(?album) "
+"WHERE { "
+"?album a nmm:MusicAlbum "
+"} ";
+
+gchar const get_tracks_count_sparql[] =
+"SELECT "
+"COUNT(?track) "
+"WHERE { "
+"?track a nmm:MusicPiece "
+"} ";
+
 gchar const get_artists_sparql[] =
 "SELECT "
 "?artist "
@@ -612,8 +626,8 @@ handle_get_albums_for_artist (NulMusicService       *const self,
 
 }
 
-static gboolean
-update_artists_count (NulMusicService *const self)
+static inline gint64
+load_integer_value (gchar const *const sparql)
 {
 
   g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
@@ -621,22 +635,62 @@ update_artists_count (NulMusicService *const self)
     NULL
   );
 
-  g_debug ("running query %s", get_artists_count_sparql);
+  g_debug ("running query %s", sparql);
 
   g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
     conn,
-    get_artists_count_sparql,
+    sparql,
     NULL,
     NULL
   );
 
   tracker_sparql_cursor_next (cursor, NULL, NULL);
 
-  gint64 const count = tracker_sparql_cursor_get_integer (cursor, 0);
+  return tracker_sparql_cursor_get_integer (cursor, 0);
+
+}
+
+static gboolean
+update_artists_count (NulMusicService *const self)
+{
+
+  gint64 const count = load_integer_value (get_artists_count_sparql);
 
   g_object_set (
     self,
     "artists-count", count,
+    NULL
+  );
+
+  return G_SOURCE_REMOVE;
+
+}
+
+static gboolean
+update_albums_count (NulMusicService *const self)
+{
+
+  gint64 const count = load_integer_value (get_albums_count_sparql);
+
+  g_object_set (
+    self,
+    "albums-count", count,
+    NULL
+  );
+
+  return G_SOURCE_REMOVE;
+
+}
+
+static gboolean
+update_tracks_count (NulMusicService *const self)
+{
+
+  gint64 const count = load_integer_value (get_tracks_count_sparql);
+
+  g_object_set (
+    self,
+    "tracks-count", count,
     NULL
   );
 
@@ -686,18 +740,8 @@ nul_music_service_util_get_skeleton (void)
   );
 
   g_idle_add ((GSourceFunc) update_artists_count, music);
-
-  g_object_set (
-    music,
-    "albums-count", 0,
-    NULL
-  );
-
-  g_object_set (
-    music,
-    "tracks-count", 0,
-    NULL
-  );
+  g_idle_add ((GSourceFunc) update_albums_count, music);
+  g_idle_add ((GSourceFunc) update_tracks_count, music);
 
   return G_DBUS_INTERFACE_SKELETON (music);
 
