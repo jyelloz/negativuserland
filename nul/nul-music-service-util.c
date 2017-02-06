@@ -258,6 +258,50 @@ album_track_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
   return cursor_to_gee_list (cursor, album_track_cursor_to_variant_dict);
 }
 
+#define RETURN_EMPTY_VLIST(cursor, invo) \
+  G_STMT_START \
+    if (return_empty_result((cursor), (invo), "(aa{sv})")) \
+      return TRUE; \
+  G_STMT_END
+
+static inline gboolean
+return_empty_result (TrackerSparqlCursor   *const cursor,
+                     GDBusMethodInvocation *const invo,
+                     const gchar           *const signature)
+{
+
+  if (TRACKER_SPARQL_IS_CURSOR (cursor)) {
+    return FALSE;
+  }
+
+  g_debug ("no results, returning empty list");
+  g_dbus_method_invocation_return_value (invo, g_variant_new (signature, NULL));
+  return TRUE;
+
+}
+
+static TrackerSparqlCursor *
+do_sparql_query (gchar const           *const sparql,
+                 GCancellable          *const cancellable,
+                 GError               **const error)
+{
+
+  g_debug ("running query %s", sparql);
+
+  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
+    cancellable,
+    error
+  );
+
+  return tracker_sparql_connection_query (
+    conn,
+    sparql,
+    cancellable,
+    error
+  );
+
+}
+
 static gboolean
 handle_get_artists (NulMusicService       *const self,
                     GDBusMethodInvocation *const invo,
@@ -265,33 +309,14 @@ handle_get_artists (NulMusicService       *const self,
                     guint64 const                limit)
 {
 
-  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
-    NULL,
-    NULL
-  );
   g_autofree gchar *sparql = g_strdup_printf (
     get_artists_sparql,
     limit,
     offset
   );
 
-  g_debug ("running query %s", sparql);
-
-  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
-    conn,
-    sparql,
-    NULL,
-    NULL
-  );
-
-  if (cursor == NULL) {
-    g_debug ("no results, returning empty list");
-    g_dbus_method_invocation_return_value (
-      invo,
-      g_variant_new ("(aa{sv})", NULL)
-    );
-    return TRUE;
-  }
+  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
+  RETURN_EMPTY_VLIST (cursor, invo);
 
   g_autoptr(GeeList) items = artists_cursor_to_gee_list (cursor);
   gint array_length;
@@ -322,33 +347,14 @@ handle_get_albums (NulMusicService       *const self,
                    guint64 const                limit)
 {
 
-  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
-    NULL,
-    NULL
-  );
   g_autofree gchar *sparql = g_strdup_printf (
     get_albums_sparql,
     limit,
     offset
   );
 
-  g_debug ("running query %s", sparql);
-
-  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
-    conn,
-    sparql,
-    NULL,
-    NULL
-  );
-
-  if (cursor == NULL) {
-    g_debug ("no results, returning empty list");
-    g_dbus_method_invocation_return_value (
-      invo,
-      g_variant_new ("(aa{sv})", NULL)
-    );
-    return TRUE;
-  }
+  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
+  RETURN_EMPTY_VLIST (cursor, invo);
 
   g_autoptr(GeeList) items = albums_cursor_to_gee_list (cursor);
   gint array_length;
@@ -379,33 +385,14 @@ handle_get_tracks (NulMusicService       *const self,
                    guint64 const                limit)
 {
 
-  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
-    NULL,
-    NULL
-  );
   g_autofree gchar *sparql = g_strdup_printf (
     get_tracks_sparql,
     limit,
     offset
   );
 
-  g_debug ("running query %s", sparql);
-
-  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
-    conn,
-    sparql,
-    NULL,
-    NULL
-  );
-
-  if (cursor == NULL) {
-    g_debug ("no results, returning empty list");
-    g_dbus_method_invocation_return_value (
-      invo,
-      g_variant_new ("(aa{sv})", NULL)
-    );
-    return TRUE;
-  }
+  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
+  RETURN_EMPTY_VLIST (cursor, invo);
 
   g_autoptr(GeeList) items = tracks_cursor_to_gee_list (cursor);
   gint array_length;
@@ -437,10 +424,6 @@ handle_get_tracks_for_album (NulMusicService       *const self,
                              guint64 const                limit)
 {
 
-  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
-    NULL,
-    NULL
-  );
   g_autofree gchar const *album_id_safe = tracker_sparql_escape_uri_printf (
     "%s",
     album_id
@@ -452,23 +435,8 @@ handle_get_tracks_for_album (NulMusicService       *const self,
     offset
   );
 
-  g_debug ("running query %s", sparql);
-
-  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
-    conn,
-    sparql,
-    NULL,
-    NULL
-  );
-
-  if (cursor == NULL) {
-    g_debug ("no results, returning empty list");
-    g_dbus_method_invocation_return_value (
-      invo,
-      g_variant_new ("(aa{sv})", NULL)
-    );
-    return TRUE;
-  }
+  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
+  RETURN_EMPTY_VLIST (cursor, invo);
 
   g_autoptr(GeeList) items = album_track_cursor_to_gee_list (cursor);
   gint array_length;
@@ -501,10 +469,6 @@ handle_get_albums_for_artist (NulMusicService       *const self,
                               guint64 const                limit)
 {
 
-  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
-    NULL,
-    NULL
-  );
   g_autofree gchar const *artist_id_safe = tracker_sparql_escape_uri_printf (
     "%s",
     artist_id
@@ -516,23 +480,8 @@ handle_get_albums_for_artist (NulMusicService       *const self,
     offset
   );
 
-  g_debug ("running query %s", sparql);
-
-  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
-    conn,
-    sparql,
-    NULL,
-    NULL
-  );
-
-  if (cursor == NULL) {
-    g_debug ("no results, returning empty list");
-    g_dbus_method_invocation_return_value (
-      invo,
-      g_variant_new ("(aa{sv})", NULL)
-    );
-    return TRUE;
-  }
+  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
+  RETURN_EMPTY_VLIST (cursor, invo);
 
   g_autoptr(GeeList) items = artist_album_cursor_to_gee_list (cursor);
   gint array_length;
