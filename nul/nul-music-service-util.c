@@ -509,15 +509,7 @@ static inline gint64
 load_integer_value (gchar const *const sparql)
 {
 
-  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
-    NULL,
-    NULL
-  );
-
-  g_debug ("running query %s", sparql);
-
-  g_autoptr(TrackerSparqlCursor) cursor = tracker_sparql_connection_query (
-    conn,
+  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (
     sparql,
     NULL,
     NULL
