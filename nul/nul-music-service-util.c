@@ -1,10 +1,12 @@
 #include "nul-music-service-util.h"
 
 #include "nul-music-service.h"
+#include "nul-sparql-query-util.h"
 #include "nul-external-autocleanups.h"
 
 #include <glib.h>
 #include <gee.h>
+#include <gio/gio.h>
 #include <tracker-sparql.h>
 
 #include <string.h>
@@ -281,9 +283,9 @@ return_empty_result (TrackerSparqlCursor   *const cursor,
 }
 
 static TrackerSparqlCursor *
-do_sparql_query (gchar const           *const sparql,
-                 GCancellable          *const cancellable,
-                 GError               **const error)
+do_sparql_query (gchar const   *const sparql,
+                 GCancellable  *const cancellable,
+                 GError       **const error)
 {
 
   g_debug ("running query %s", sparql);
@@ -505,67 +507,129 @@ handle_get_albums_for_artist (NulMusicService       *const self,
 
 }
 
-static inline gint64
-load_integer_value (gchar const *const sparql)
+static void
+update_artists_count_cb (GObject         *const object,
+                         GAsyncResult    *const result,
+                         NulMusicService *const music)
 {
 
-  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (
-    sparql,
-    NULL,
-    NULL
+  g_autoptr(GError) error = NULL;
+
+  gssize const count = nul_sparql_query_util_load_int_finish (
+    result,
+    &error
   );
 
-  tracker_sparql_cursor_next (cursor, NULL, NULL);
+  if (error) {
+    g_error ("failed to get count: %s", error->message);
+    return;
+  }
 
-  return tracker_sparql_cursor_get_integer (cursor, 0);
-
-}
-
-static gboolean
-update_artists_count (NulMusicService *const self)
-{
-
-  gint64 const count = load_integer_value (get_artists_count_sparql);
+  g_debug ("count is %" G_GINT64_FORMAT, count);
 
   g_object_set (
-    self,
+    music,
     "artists-count", count,
     NULL
   );
 
-  return G_SOURCE_REMOVE;
+}
+
+static void
+update_artists_count_async (NulMusicService *const self,
+                            GCancellable    *const cancellable)
+{
+
+  nul_sparql_query_util_load_int_async (
+    g_strdup (get_artists_count_sparql),
+    cancellable,
+    (GAsyncReadyCallback) update_artists_count_cb,
+    self
+  );
 
 }
 
-static gboolean
-update_albums_count (NulMusicService *const self)
+static void
+update_albums_count_cb (GObject         *const object,
+                        GAsyncResult    *const result,
+                        NulMusicService *const music)
 {
 
-  gint64 const count = load_integer_value (get_albums_count_sparql);
+  g_autoptr(GError) error = NULL;
+
+  gssize const count = nul_sparql_query_util_load_int_finish (
+    result,
+    &error
+  );
+
+  if (error) {
+    g_error ("failed to get count: %s", error->message);
+    return;
+  }
+
+  g_debug ("count is %" G_GINT64_FORMAT, count);
 
   g_object_set (
-    self,
+    music,
     "albums-count", count,
     NULL
   );
 
-  return G_SOURCE_REMOVE;
+}
+
+static void
+update_albums_count_async (NulMusicService *const self,
+                            GCancellable    *const cancellable)
+{
+
+  nul_sparql_query_util_load_int_async (
+    g_strdup (get_albums_count_sparql),
+    cancellable,
+    (GAsyncReadyCallback) update_albums_count_cb,
+    self
+  );
 
 }
 
-static gboolean
-update_tracks_count (NulMusicService *const self)
+static void
+update_tracks_count_cb (GObject         *const object,
+                        GAsyncResult    *const result,
+                        NulMusicService *const music)
 {
 
-  gint64 const count = load_integer_value (get_tracks_count_sparql);
+  g_autoptr(GError) error = NULL;
+
+  gssize const count = nul_sparql_query_util_load_int_finish (
+    result,
+    &error
+  );
+
+  if (error) {
+    g_error ("failed to get count: %s", error->message);
+    return;
+  }
+
+  g_debug ("count is %" G_GINT64_FORMAT, count);
 
   g_object_set (
-    self,
+    music,
     "tracks-count", count,
     NULL
   );
 
-  return G_SOURCE_REMOVE;
+}
+
+static void
+update_tracks_count_async (NulMusicService *const self,
+                           GCancellable    *const cancellable)
+{
+
+  nul_sparql_query_util_load_int_async (
+    g_strdup (get_tracks_count_sparql),
+    cancellable,
+    (GAsyncReadyCallback) update_tracks_count_cb,
+    self
+  );
 
 }
 
@@ -610,9 +674,9 @@ nul_music_service_util_get_skeleton (void)
     NULL
   );
 
-  g_idle_add ((GSourceFunc) update_artists_count, music);
-  g_idle_add ((GSourceFunc) update_albums_count, music);
-  g_idle_add ((GSourceFunc) update_tracks_count, music);
+  update_artists_count_async (music, NULL);
+  update_albums_count_async (music, NULL);
+  update_tracks_count_async (music, NULL);
 
   return G_DBUS_INTERFACE_SKELETON (music);
 
