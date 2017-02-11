@@ -541,7 +541,7 @@ update_artists_count_async (NulMusicService *const self,
 {
 
   nul_sparql_query_util_load_int_async (
-    g_strdup (get_artists_count_sparql),
+    get_artists_count_sparql,
     cancellable,
     (GAsyncReadyCallback) update_artists_count_cb,
     self
@@ -583,7 +583,7 @@ update_albums_count_async (NulMusicService *const self,
 {
 
   nul_sparql_query_util_load_int_async (
-    g_strdup (get_albums_count_sparql),
+    get_albums_count_sparql,
     cancellable,
     (GAsyncReadyCallback) update_albums_count_cb,
     self
@@ -625,7 +625,7 @@ update_tracks_count_async (NulMusicService *const self,
 {
 
   nul_sparql_query_util_load_int_async (
-    g_strdup (get_tracks_count_sparql),
+    get_tracks_count_sparql,
     cancellable,
     (GAsyncReadyCallback) update_tracks_count_cb,
     self
