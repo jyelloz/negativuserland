@@ -13,7 +13,7 @@ typedef struct _SparqlQueryWork {
 } SparqlQueryWork;
 
 static inline SparqlQueryWork *
-get_query_work (GTask *const task)
+sparql_query_work_get (GTask *const task)
 {
   return (SparqlQueryWork *) g_task_get_task_data (task);
 }
@@ -43,7 +43,7 @@ do_sparql_query_async_cursor_cb (GObject      *const object,
 
   g_autoptr(GError) error = NULL;
 
-  SparqlQueryWork *const work = get_query_work (task);
+  SparqlQueryWork *const work = sparql_query_work_get (task);
   TrackerSparqlConnection *const conn = work->connection;
 
   TrackerSparqlCursor *const cur = tracker_sparql_connection_query_finish (
@@ -79,7 +79,7 @@ do_sparql_query_async_connection_cb (GObject      *const object,
     return;
   }
 
-  SparqlQueryWork *const work = get_query_work (task);
+  SparqlQueryWork *const work = sparql_query_work_get (task);
   work->connection = conn;
 
   tracker_sparql_connection_query_async (
