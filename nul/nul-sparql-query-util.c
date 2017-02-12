@@ -9,7 +9,6 @@
 typedef struct _SparqlQueryWork {
   gchar *sparql;
   TrackerSparqlConnection *connection;
-  TrackerSparqlCursor *cursor;
 } SparqlQueryWork;
 
 static inline SparqlQueryWork *
@@ -29,7 +28,6 @@ sparql_query_work_free (SparqlQueryWork *const work)
   }
 
   g_object_unref (work->connection);
-  g_object_unref (work->cursor);
   g_free (work->sparql);
   g_free (work);
 
