@@ -331,7 +331,7 @@ query_cb (GObject      *const object,
 
 }
 
-static gboolean
+static inline gboolean
 handle_query_async (NulMusicService       *const self,
                     GDBusMethodInvocation *const invo,
                     gchar const           *const sparql,
