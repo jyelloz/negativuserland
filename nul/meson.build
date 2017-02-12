@@ -6,7 +6,6 @@ nul_ui_deps = [
 
 nul_service_deps = [
   deps,
-  dependency('gee-0.8'),
   dependency('tracker-sparql-1.0'),
   libnul_dbus_gen_dep,
 ]
