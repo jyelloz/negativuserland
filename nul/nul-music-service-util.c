@@ -350,11 +350,7 @@ handle_query_async (NulMusicService       *const self,
     self
   );
 
-  g_task_set_task_data (
-    task,
-    work,
-    (GDestroyNotify) async_sparql_work_free
-  );
+  g_task_set_task_data (task, work, (GDestroyNotify) async_sparql_work_free);
 
   nul_sparql_query_util_query_async (
     sparql,
