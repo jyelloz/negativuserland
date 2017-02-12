@@ -1,10 +1,11 @@
 #include "nul-sparql-query-util.h"
-#include "nul-external-autocleanups.h"
 
 #include <glib.h>
 #include <gio/gio.h>
 
 #include <tracker-sparql.h>
+
+#include "nul-external-autocleanups.h"
 
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN

@@ -2,13 +2,13 @@
 
 #include "nul-music-service.h"
 #include "nul-sparql-query-util.h"
-#include "nul-external-autocleanups.h"
-
 #include <glib.h>
 #include <gio/gio.h>
 #include <tracker-sparql.h>
 
 #include <string.h>
+
+#include "nul-external-autocleanups.h"
 
 #define LIMIT_OFFSET_TEMPLATE \
   "LIMIT %" G_GUINT64_FORMAT " OFFSET %" G_GUINT64_FORMAT
