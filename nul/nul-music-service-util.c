@@ -542,7 +542,7 @@ update_albums_count_cb (GObject         *const object,
 
 static void
 update_albums_count_async (NulMusicService *const self,
-                            GCancellable    *const cancellable)
+                           GCancellable    *const cancellable)
 {
 
   nul_sparql_query_util_load_int_async (
