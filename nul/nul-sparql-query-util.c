@@ -119,7 +119,7 @@ nul_sparql_query_util_query_finish (GAsyncResult  *const result,
                                     GError       **const error)
 {
 
-  GTask *const task = G_TASK (result);
+  g_autoptr(GTask) task = G_TASK (result);
 
   g_return_val_if_fail (g_task_is_valid (task, NULL), NULL);
 
