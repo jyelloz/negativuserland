@@ -6,6 +6,11 @@
 
 #include <tracker-sparql.h>
 
+#ifdef G_LOG_DOMAIN
+#undef G_LOG_DOMAIN
+#endif
+#define G_LOG_DOMAIN "NulSparqlQueryUtil"
+
 typedef struct _SparqlQueryWork {
   gchar *sparql;
   TrackerSparqlConnection *connection;
