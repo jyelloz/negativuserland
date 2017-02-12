@@ -5,17 +5,15 @@
 #include "nul-external-autocleanups.h"
 
 #include <glib.h>
-#include <gee.h>
 #include <gio/gio.h>
 #include <tracker-sparql.h>
 
 #include <string.h>
 
-#define GEE_COLLECTION_SIZE(c) (GEE_IS_COLLECTION ((c)) ? \
-                                gee_collection_get_size ((c)) : 0)
-
 #define LIMIT_OFFSET_TEMPLATE \
   "LIMIT %" G_GUINT64_FORMAT " OFFSET %" G_GUINT64_FORMAT
+
+#define VARDICT_ARRAY ((GVariantType *) "aa{sv}")
 
 typedef GVariant * (*CursorConvertItemFunc) (TrackerSparqlCursor *);
 
@@ -185,7 +183,7 @@ artist_album_cursor_to_variant_dict (TrackerSparqlCursor *const cursor)
 }
 
 static GVariant *
-album_track_cursor_to_variant_dict (TrackerSparqlCursor *const cursor)
+track_cursor_to_variant_dict (TrackerSparqlCursor *const cursor)
 {
 
   GVariantDict dict;
@@ -202,105 +200,170 @@ album_track_cursor_to_variant_dict (TrackerSparqlCursor *const cursor)
 
 }
 
-static inline GeeList *
-cursor_to_gee_list (TrackerSparqlCursor  *const cursor,
-                    CursorConvertItemFunc const func)
+typedef struct _AsyncSparqlWork {
+  gchar *sparql;
+  TrackerSparqlCursor *cursor;
+  GVariantBuilder *builder;
+  GVariant *variant;
+  GDBusMethodInvocation *invo;
+  CursorConvertItemFunc func;
+} AsyncSparqlWork;
+
+static inline AsyncSparqlWork *
+async_sparql_work_get (GTask *const task)
+{
+  return g_task_get_task_data (task);
+}
+
+static void
+async_sparql_work_free (AsyncSparqlWork *const work)
 {
 
-  g_return_val_if_fail (cursor, NULL);
-  g_return_val_if_fail (func, NULL);
+  g_debug ("freeing AsyncSparqlWork#%p", work);
 
-  GeeLinkedList *const list = gee_linked_list_new (
-    G_TYPE_VARIANT,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
-  );
-
-  GeeCollection *const c = GEE_COLLECTION (list);
-
-  while (tracker_sparql_cursor_next (cursor, NULL, NULL)) {
-    GVariant *const row = func (cursor);
-    gee_collection_add (c, row);
+  if (work == NULL) {
+    return;
   }
 
-  return GEE_LIST (list);
+  g_variant_builder_unref (work->builder);
+  g_variant_unref (work->variant);
+  g_object_unref (work->cursor);
+  g_free (work->sparql);
+  g_free (work);
 
 }
 
-static GeeList *
-artists_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
-{
-  return cursor_to_gee_list (cursor, artist_cursor_to_variant_dict);
-}
-
-static GeeList *
-tracks_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
-{
-  return cursor_to_gee_list (cursor, album_track_cursor_to_variant_dict);
-}
-
-static GeeList *
-albums_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
-{
-  return cursor_to_gee_list (cursor, album_cursor_to_variant_dict);
-}
-
-static GeeList *
-artist_album_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
-{
-  return cursor_to_gee_list (cursor, artist_album_cursor_to_variant_dict);
-}
-
-static GeeList *
-album_track_cursor_to_gee_list (TrackerSparqlCursor *const cursor)
-{
-  return cursor_to_gee_list (cursor, album_track_cursor_to_variant_dict);
-}
-
-#define RETURN_EMPTY_VLIST(cursor, invo) \
-  G_STMT_START \
-    if (return_empty_result((cursor), (invo), "(aa{sv})")) \
-      return TRUE; \
-  G_STMT_END
-
-static inline gboolean
-return_empty_result (TrackerSparqlCursor   *const cursor,
-                     GDBusMethodInvocation *const invo,
-                     const gchar           *const signature)
+static void
+done_cb (GObject         *const object,
+         GAsyncResult    *const result,
+         NulMusicService *const music)
 {
 
-  if (TRACKER_SPARQL_IS_CURSOR (cursor)) {
-    return FALSE;
-  }
+  g_autoptr(GError) error = NULL;
+  g_autoptr(GTask) task = G_TASK (result);
 
-  g_debug ("no results, returning empty list");
-  g_dbus_method_invocation_return_value (invo, g_variant_new (signature, NULL));
-  return TRUE;
-
-}
-
-static TrackerSparqlCursor *
-do_sparql_query (gchar const   *const sparql,
-                 GCancellable  *const cancellable,
-                 GError       **const error)
-{
-
-  g_debug ("running query %s", sparql);
-
-  g_autoptr(TrackerSparqlConnection) conn = tracker_sparql_connection_get (
-    cancellable,
-    error
+  AsyncSparqlWork *const work = (AsyncSparqlWork *) g_task_propagate_pointer (
+    task,
+    &error
   );
 
-  return tracker_sparql_connection_query (
-    conn,
+  GDBusMethodInvocation *const invo = work->invo;
+  GVariant *const variant = work->variant;
+
+  g_dbus_method_invocation_return_value (
+    invo,
+    g_variant_new_tuple (&variant, 1)
+  );
+
+}
+
+static void
+next_cb (GObject      *const object,
+         GAsyncResult *const result,
+         GTask        *const task)
+{
+
+  g_autoptr(GError) error = NULL;
+
+  AsyncSparqlWork *const work = async_sparql_work_get (task);
+  TrackerSparqlCursor *const cursor = work->cursor;
+
+  gboolean const more = tracker_sparql_cursor_next_finish (
+    cursor,
+    result,
+    &error
+  );
+
+  if (error) {
+    g_debug ("error: %s", error->message);
+    g_task_return_error (task, g_error_copy (error));
+    return;
+  }
+
+  if (!more) {
+    GVariant *const variant = g_variant_builder_end (work->builder);
+    g_debug (
+      "end of data after %" G_GSIZE_FORMAT " rows",
+      g_variant_n_children (variant)
+    );
+    work->variant = g_variant_ref_sink (variant);
+    g_task_return_pointer (task, work, NULL);
+    return;
+  }
+
+  g_variant_builder_add_value (
+    work->builder,
+    work->func (cursor)
+  );
+
+  tracker_sparql_cursor_next_async (
+    cursor,
+    g_task_get_cancellable (task),
+    (GAsyncReadyCallback) next_cb,
+    task
+  );
+
+}
+
+static void
+query_cb (GObject      *const object,
+          GAsyncResult *const result,
+          GTask        *const task)
+{
+
+  g_autoptr(GError) error = NULL;
+
+  g_autoptr(TrackerSparqlCursor) cursor = nul_sparql_query_util_query_finish (
+    result,
+    &error
+  );
+
+  AsyncSparqlWork *const work = async_sparql_work_get (task);
+  work->cursor = g_object_ref_sink (cursor);
+  work->builder = g_variant_builder_new (VARDICT_ARRAY);
+
+  tracker_sparql_cursor_next_async (
+    cursor,
+    g_task_get_cancellable (task),
+    (GAsyncReadyCallback) next_cb,
+    task
+  );
+
+}
+
+static gboolean
+handle_query_async (NulMusicService       *const self,
+                    GDBusMethodInvocation *const invo,
+                    gchar const           *const sparql,
+                    CursorConvertItemFunc  const convert_item_func)
+{
+
+  AsyncSparqlWork *const work = g_new0 (AsyncSparqlWork, 1);
+  work->sparql = g_strdup (sparql);
+  work->invo = invo;
+  work->func = convert_item_func;
+
+  GTask *const task = g_task_new (
+    NULL,
+    NULL,
+    (GAsyncReadyCallback) done_cb,
+    self
+  );
+
+  g_task_set_task_data (
+    task,
+    work,
+    (GDestroyNotify) async_sparql_work_free
+  );
+
+  nul_sparql_query_util_query_async (
     sparql,
-    cancellable,
-    error
+    g_task_get_cancellable (task),
+    (GAsyncReadyCallback) query_cb,
+    task
   );
+
+  return TRUE;
 
 }
 
@@ -317,28 +380,7 @@ handle_get_artists (NulMusicService       *const self,
     offset
   );
 
-  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
-  RETURN_EMPTY_VLIST (cursor, invo);
-
-  g_autoptr(GeeList) items = artists_cursor_to_gee_list (cursor);
-  gint array_length;
-  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
-    GEE_COLLECTION (items),
-    &array_length
-  );
-
-  GVariant *const slice = g_variant_new_array (
-    G_VARIANT_TYPE_VARDICT,
-    array,
-    array_length
-  );
-
-  g_dbus_method_invocation_return_value (
-    invo,
-    g_variant_new_tuple (&slice, 1)
-  );
-
-  return TRUE;
+  return handle_query_async (self, invo, sparql, artist_cursor_to_variant_dict);
 
 }
 
@@ -355,28 +397,7 @@ handle_get_albums (NulMusicService       *const self,
     offset
   );
 
-  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
-  RETURN_EMPTY_VLIST (cursor, invo);
-
-  g_autoptr(GeeList) items = albums_cursor_to_gee_list (cursor);
-  gint array_length;
-  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
-    GEE_COLLECTION (items),
-    &array_length
-  );
-
-  GVariant *const slice = g_variant_new_array (
-    G_VARIANT_TYPE_VARDICT,
-    array,
-    array_length
-  );
-
-  g_dbus_method_invocation_return_value (
-    invo,
-    g_variant_new_tuple (&slice, 1)
-  );
-
-  return TRUE;
+  return handle_query_async (self, invo, sparql, album_cursor_to_variant_dict);
 
 }
 
@@ -393,28 +414,7 @@ handle_get_tracks (NulMusicService       *const self,
     offset
   );
 
-  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
-  RETURN_EMPTY_VLIST (cursor, invo);
-
-  g_autoptr(GeeList) items = tracks_cursor_to_gee_list (cursor);
-  gint array_length;
-  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
-    GEE_COLLECTION (items),
-    &array_length
-  );
-
-  GVariant *const slice = g_variant_new_array (
-    G_VARIANT_TYPE_VARDICT,
-    array,
-    array_length
-  );
-
-  g_dbus_method_invocation_return_value (
-    invo,
-    g_variant_new_tuple (&slice, 1)
-  );
-
-  return TRUE;
+  return handle_query_async (self, invo, sparql, track_cursor_to_variant_dict);
 
 }
 
@@ -437,28 +437,7 @@ handle_get_tracks_for_album (NulMusicService       *const self,
     offset
   );
 
-  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
-  RETURN_EMPTY_VLIST (cursor, invo);
-
-  g_autoptr(GeeList) items = album_track_cursor_to_gee_list (cursor);
-  gint array_length;
-  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
-    GEE_COLLECTION (items),
-    &array_length
-  );
-
-  GVariant *const slice = g_variant_new_array (
-    G_VARIANT_TYPE_VARDICT,
-    array,
-    array_length
-  );
-
-  g_dbus_method_invocation_return_value (
-    invo,
-    g_variant_new_tuple (&slice, 1)
-  );
-
-  return TRUE;
+  return handle_query_async (self, invo, sparql, track_cursor_to_variant_dict);
 
 }
 
@@ -482,28 +461,12 @@ handle_get_albums_for_artist (NulMusicService       *const self,
     offset
   );
 
-  g_autoptr(TrackerSparqlCursor) cursor = do_sparql_query (sparql, NULL, NULL);
-  RETURN_EMPTY_VLIST (cursor, invo);
-
-  g_autoptr(GeeList) items = artist_album_cursor_to_gee_list (cursor);
-  gint array_length;
-  g_autofree GVariant **array = (GVariant **) gee_collection_to_array (
-    GEE_COLLECTION (items),
-    &array_length
-  );
-
-  GVariant *const slice = g_variant_new_array (
-    G_VARIANT_TYPE_VARDICT,
-    array,
-    array_length
-  );
-
-  g_dbus_method_invocation_return_value (
+  return handle_query_async (
+    self,
     invo,
-    g_variant_new_tuple (&slice, 1)
+    sparql,
+    artist_album_cursor_to_variant_dict
   );
-
-  return TRUE;
 
 }
 
