@@ -8,7 +8,7 @@ executable(
   'nul-player-gst.c',
   'nul-player-application.c',
   'nul-player-main.c',
-  include_directories: include_directories(['.']),
+  include_directories: [nul_inc, include_directories('.')],
   c_args: ['-DG_LOG_DOMAIN="NulPlayer"'],
   dependencies: nul_player_deps,
 )

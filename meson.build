@@ -42,8 +42,11 @@ configure_file(
 
 add_global_arguments(
   '-include', 'config.h',
+  '-include', 'nul-macros.h',
   language: 'c',
 )
+
+nul_inc = include_directories('.', 'include')
 
 deps = [
   dependency('glib-2.0', version: '>= 2.44'),

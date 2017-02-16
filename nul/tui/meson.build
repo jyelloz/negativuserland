@@ -12,5 +12,6 @@ if get_option('enable_stfl')
     nul_tui_resources,
     c_args: ['-D_POSIX_SOURCE'],
     dependencies: nul_tui_stfl_deps,
+    include_directories: [nul_inc],
   )
 endif

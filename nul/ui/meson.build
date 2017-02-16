@@ -14,6 +14,6 @@ executable(
   'nul-ui-main-menu.c',
   'nul-ui-main.c',
   nul_ui_resources,
-  include_directories: include_directories(['.']),
+  include_directories: [nul_inc, include_directories('.')],
   dependencies: nul_ui_deps,
 )
