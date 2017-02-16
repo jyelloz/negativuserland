@@ -1,5 +1,7 @@
 #mesondefine GETTEXT_PACKAGE
+#ifndef G_LOG_DOMAIN
 #mesondefine G_LOG_DOMAIN
+#endif
 #mesondefine LOCALEDIR
 #mesondefine PACKAGE
 #mesondefine PACKAGE_BUGREPORT
