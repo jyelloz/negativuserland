@@ -54,4 +54,5 @@ deps = [
 
 subdir('data')
 subdir('dbus')
+subdir('player')
 subdir('nul')
