@@ -190,22 +190,35 @@ music_service_ready_cb (NulMusicService       *const proxy,
                         GAsyncResult          *const result,
                         NulTuiStflApplication *const self)
 {
+
+  struct stfl_form *const form = self->form;
+  struct stfl_ipool *const ipool = self->ipool;
+
+  gchar const *const lower_box_h_ascii = stfl_ipool_fromwc (
+    ipool,
+    stfl_get (form, L"lower_box:h")
+  );
+
+  guint64 const lower_box_h = g_ascii_strtoull (lower_box_h_ascii, NULL, 0) - 1;
+
   nul_music_service_call_get_artists (
     proxy,
     0,
-    25,
+    lower_box_h,
     NULL,
     (GAsyncReadyCallback) artists_ready_cb,
     self
   );
+
   nul_music_service_call_get_albums (
     proxy,
     0,
-    25,
+    lower_box_h,
     NULL,
     (GAsyncReadyCallback) albums_ready_cb,
     self
   );
+
 }
 
 static void
