@@ -1,0 +1,19 @@
+nul_ui_deps = [
+  deps,
+  dependency('gtk+-3.0'),
+  libnul_dbus_gen_dep,
+]
+
+executable(
+  'nul-ui',
+  'nul-ui-window.c',
+  'nul-ui-application.c',
+  'nul-ui-pagination-util.c',
+  'nul-ui-service-state-stack.c',
+  'nul-ui-artists.c',
+  'nul-ui-main-menu.c',
+  'nul-ui-main.c',
+  nul_ui_resources,
+  include_directories: include_directories(['.']),
+  dependencies: nul_ui_deps,
+)
