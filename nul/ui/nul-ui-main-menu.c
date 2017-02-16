@@ -122,12 +122,12 @@ row_activated_cb (GtkListBox    *const box,
 void
 nul_ui_main_menu_free (NulUiMainMenu *const self)
 {
-  g_object_unref (self->connected_state);
-  g_object_unref (self->music_screen);
-  g_object_unref (self->geolocation);
-  g_object_unref (self->automotive);
-  g_object_unref (self->settings);
-  g_object_unref (self->main_menu);
+  g_clear_object (&self->connected_state);
+  g_clear_object (&self->music_screen);
+  g_clear_object (&self->geolocation);
+  g_clear_object (&self->automotive);
+  g_clear_object (&self->settings);
+  g_clear_object (&self->main_menu);
 
   g_free (self);
 }

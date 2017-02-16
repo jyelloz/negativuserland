@@ -29,6 +29,6 @@ nul_ui_service_state_stack_disconnect (NulUiServiceStateStack *const self)
 void
 nul_ui_service_state_stack_free (NulUiServiceStateStack *const self)
 {
-  g_object_unref (self->stack);
+  g_clear_object (&self->stack);
   g_free (self);
 }

@@ -195,11 +195,11 @@ void
 nul_ui_artists_free (NulUiArtists *const self)
 {
 
-  g_object_unref (self->box);
-  g_object_unref (self->tree);
-  g_object_unref (self->store);
-  g_object_unref (self->prev);
-  g_object_unref (self->next);
+  g_clear_object (&self->box);
+  g_clear_object (&self->tree);
+  g_clear_object (&self->store);
+  g_clear_object (&self->prev);
+  g_clear_object (&self->next);
 
   g_free (self);
 
