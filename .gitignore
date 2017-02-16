@@ -2,3 +2,5 @@
 \#*#
 /build
 /.gdb_history
+/.buildconfig
+/compile_commands.json
