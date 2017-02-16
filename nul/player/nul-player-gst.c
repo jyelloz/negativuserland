@@ -95,6 +95,8 @@ nul_player_gst_finalize (GObject *const object)
 
   NulPlayerGst *const self = NUL_PLAYER_GST (object);
 
+  g_clear_object (&self->pipeline);
+
   gobj_class->finalize (object);
 
 }
