@@ -9,9 +9,7 @@
 #define gobj_class G_OBJECT_CLASS (nul_player_gst_parent_class)
 
 static gchar const *pipeline_launcher[] = {
-  "urisourcebin",
-  "decodebin",
-  "alsasink",
+  "playbin",
   NULL
 };
 
@@ -19,10 +17,14 @@ struct _NulPlayerGst
 {
   GObject parent_instance;
   GstPipeline *pipeline;
+  gchar const **track;
 };
 
 static void
 initable_iface_init (GInitableIface *const iface);
+
+static void
+about_to_finish_cb (GstElement *const playbin, NulPlayerGst *const self);
 
 G_DEFINE_TYPE_WITH_CODE (
   NulPlayerGst,
@@ -40,6 +42,73 @@ nul_player_gst_new (GError **const error)
     error,
     NULL
   );
+}
+
+void
+nul_player_gst_play (NulPlayerGst *const self)
+{
+
+  g_return_if_fail (self && NUL_PLAYER_IS_GST (self));
+
+  GstPipeline *const pl = self->pipeline;
+
+  gchar const *uri = *self->track;
+
+  g_object_set (
+    G_OBJECT (pl),
+    "uri", uri,
+    NULL
+  );
+
+  gst_element_set_state (GST_ELEMENT (pl), GST_STATE_PLAYING);
+
+}
+
+void
+nul_player_gst_pause (NulPlayerGst *const self)
+{
+
+  g_return_if_fail (self && NUL_PLAYER_IS_GST (self));
+
+  GstPipeline *const pl = self->pipeline;
+
+  gst_element_set_state (GST_ELEMENT (pl), GST_STATE_PAUSED);
+
+}
+
+void
+nul_player_gst_stop (NulPlayerGst *const self)
+{
+
+  g_return_if_fail (self && NUL_PLAYER_IS_GST (self));
+
+  GstPipeline *const pl = self->pipeline;
+
+  gst_element_set_state (GST_ELEMENT (pl), GST_STATE_NULL);
+
+}
+
+static void
+about_to_finish_cb (GstElement   *const playbin,
+                    NulPlayerGst *const self)
+{
+
+  self->track++;
+
+  gchar const *const uri = *self->track;
+
+  if (uri == NULL) {
+    return;
+  }
+
+  nul_debug ("new uri=%s", uri);
+
+  g_object_set (
+    playbin,
+    "uri", uri,
+    NULL
+  );
+
 }
 
 static GstPipeline *
@@ -66,11 +135,10 @@ initable_init (GInitable     *const initable,
                GError       **const error)
 {
 
-  g_debug ("initable_init media player");
   NulPlayerGst *const self = NUL_PLAYER_GST (initable);
   g_autoptr(GError) inner_error = NULL;
 
-  self->pipeline = build_pipeline (&inner_error);
+  GstPipeline *const pl = self->pipeline = build_pipeline (&inner_error);
 
   if (inner_error) {
     if (error) {
@@ -78,6 +146,13 @@ initable_init (GInitable     *const initable,
     }
     return FALSE;
   }
+
+  g_signal_connect (
+    pl,
+    "about-to-finish",
+    G_CALLBACK (about_to_finish_cb),
+    self
+  );
 
   return TRUE;
 

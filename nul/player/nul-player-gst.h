@@ -19,6 +19,15 @@ G_DECLARE_FINAL_TYPE (
 NulPlayerGst *
 nul_player_gst_new (GError **const error);
 
+void
+nul_player_gst_play (NulPlayerGst *const self);
+
+void
+nul_player_gst_pause (NulPlayerGst *const self);
+
+void
+nul_player_gst_stop (NulPlayerGst *const self);
+
 G_END_DECLS
 
 #endif /* NUL_PLAYER_GST_H */
