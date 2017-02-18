@@ -102,7 +102,7 @@ activate (GApplication *const app)
 
 #define B_OBJ(name) gtk_builder_get_object ((builder), (name))
 
-  g_debug ("ui activated");
+  nul_debug ("ui activated");
 
   GtkApplication *const gtk_app = GTK_APPLICATION (app);
   NulUiApplication *const self = NUL_UI_APPLICATION (app);
@@ -211,7 +211,7 @@ music_service_ready_cb (GObject          *const obj,
                         GAsyncResult     *const res,
                         NulUiApplication *const self)
 {
-  g_message ("music service ready");
+  nul_debug ("music service ready");
 
   NulMusicService *const music = self->music =
     nul_music_service_proxy_new_finish (res, NULL);
@@ -234,7 +234,7 @@ geolocation_service_ready_cb (GObject          *const obj,
                               GAsyncResult     *const res,
                               NulUiApplication *const self)
 {
-  g_message ("geolocation service ready");
+  nul_debug ("geolocation service ready");
   self->geolocation = nul_geolocation_service_proxy_new_finish (res, NULL);
 }
 
@@ -245,7 +245,7 @@ service_appeared_cb (GDBusConnection  *const conn,
                      NulUiApplication *const app)
 {
 
-  g_message ("service appeared");
+  nul_debug ("service appeared");
 
   nul_ui_service_state_stack_connect (app->service_state_stack);
 
@@ -277,7 +277,7 @@ service_vanished_cb (GDBusConnection  *const conn,
                      NulUiApplication *const app)
 {
 
-  g_message ("service vanished");
+  nul_debug ("service vanished");
 
   nul_ui_service_state_stack_disconnect (app->service_state_stack);
   nul_ui_artists_unregister (app->artists);
