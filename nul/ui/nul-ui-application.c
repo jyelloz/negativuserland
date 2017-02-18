@@ -33,6 +33,7 @@ struct _NulUiApplication
   NulUiArtists *artists;
 
   GtkWidget *music_screen;
+  GtkWidget *music_screen_stack;
 
   GtkLabel *artists_count_label;
   GtkLabel *albums_count_label;
@@ -64,7 +65,7 @@ artists_ready_cb (NulMusicService  *const proxy,
 {
 
   g_autoptr(GVariant) artists;
-  GtkStack *const stack = GTK_STACK (self->music_screen);
+  GtkStack *const stack = GTK_STACK (self->music_screen_stack);
 
   nul_music_service_call_get_artists_finish (proxy, &artists, result, NULL);
 
@@ -121,6 +122,7 @@ activate (GApplication *const app)
   GObject *const settings = B_OBJ ("settings-screen");
 
   GObject *const music_screen = B_OBJ ("music-screen");
+  GObject *const music_screen_stack = B_OBJ ("music-screen-stack");
   GObject *const window = B_OBJ ("main-window");
 
   self->service_state_stack = nul_ui_service_state_stack_new (
@@ -162,6 +164,7 @@ activate (GApplication *const app)
   );
 
   self->music_screen = GTK_WIDGET (music_screen);
+  self->music_screen_stack = GTK_WIDGET (music_screen_stack);
 
   g_signal_connect (
     GTK_LABEL (artists_button),
