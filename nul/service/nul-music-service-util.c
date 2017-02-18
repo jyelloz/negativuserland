@@ -2,11 +2,12 @@
 
 #include "nul-music-service.h"
 #include "nul-sparql-query-util.h"
+
+#include <string.h>
+
 #include <glib.h>
 #include <gio/gio.h>
 #include <tracker-sparql.h>
-
-#include <string.h>
 
 #include "nul-external-autocleanups.h"
 
