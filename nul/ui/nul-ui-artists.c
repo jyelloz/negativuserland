@@ -36,9 +36,9 @@ nul_ui_artists_new (GtkBox       *const box,
   g_return_val_if_fail (GTK_IS_BOX (box), NULL);
   g_return_val_if_fail (GTK_IS_TREE_VIEW (tree), NULL);
   g_return_val_if_fail (GTK_IS_LIST_STORE (store), NULL);
+  g_return_val_if_fail (GTK_IS_LABEL (status), NULL);
   g_return_val_if_fail (GTK_IS_BUTTON (prev), NULL);
   g_return_val_if_fail (GTK_IS_BUTTON (next), NULL);
-  g_return_val_if_fail (GTK_IS_LABEL (status), NULL);
 
   NulUiArtists *const self = g_new0 (NulUiArtists, 1);
 
@@ -76,7 +76,9 @@ update_stats (NulUiArtists     *const self,
               gpointer          const user_data)
 {
 
-  guint64 const artists_count = nul_music_service_get_artists_count (self->music);
+  guint64 const artists_count = nul_music_service_get_artists_count (
+    self->music
+  );
   guint64 const limit = self->limit;
   guint64 const offset = self->page * limit;
   guint64 const slice = MIN (artists_count - offset, limit);
@@ -135,8 +137,8 @@ nul_ui_artists_unregister (NulUiArtists *const self)
 }
 
 void
-nul_ui_artists_update (NulUiArtists  *const self,
-                       GVariant      *const artists)
+nul_ui_artists_update (NulUiArtists *const self,
+                       GVariant     *const artists)
 {
 
   GtkListStore *const store = self->store;
