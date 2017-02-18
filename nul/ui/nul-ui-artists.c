@@ -14,6 +14,7 @@ struct _NulUiArtists {
   NulMusicService *music;
 
   guint music_watcher;
+  guint row_activated_watcher;
 
   int page;
   int limit;
@@ -117,6 +118,92 @@ update_stats (NulUiArtists     *const self,
 
 }
 
+static inline gchar *
+get_row_artist_name (GtkTreeModel *const model,
+                     GtkTreeIter  *const iter)
+{
+
+  gchar const *artist_name;
+
+  gtk_tree_model_get (
+    model,
+    iter,
+    2, &artist_name,
+    -1
+  );
+
+  return g_strdup_printf ("%s", artist_name);
+
+}
+
+static inline guint64
+get_row_artist_id (GtkTreeModel *const model,
+                   GtkTreeIter  *const iter)
+{
+
+  gint64 artist_id;
+
+  gtk_tree_model_get (
+    model,
+    iter,
+    0, &artist_id,
+    -1
+  );
+
+  return artist_id;
+
+}
+
+static void
+activate_music_artist_albums (GSimpleAction *const action,
+                              GVariant      *const parameter,
+                              gpointer       const user_data)
+{
+  guint64 const artist_id = g_variant_get_uint64 (parameter);
+  nul_debug ("activating artist#%" G_GUINT64_FORMAT, artist_id);
+}
+
+static void
+row_activated_cb (GtkTreeView       *const view,
+                  GtkTreePath       *const path,
+                  GtkTreeViewColumn *const column,
+                  NulUiArtists      *const self)
+{
+
+  gint *const indices = gtk_tree_path_get_indices (path);
+  g_autofree gchar const *path_string = gtk_tree_path_to_string (path);
+  const gint selected_index = indices == NULL ? -1 : *indices;
+  GtkTreeModel *const model = gtk_tree_view_get_model (view);
+  GtkWindow *const win = GTK_WINDOW (
+    gtk_widget_get_toplevel (GTK_WIDGET (view))
+  );
+
+  nul_debug ("row activated: %d", selected_index);
+
+  GtkTreeIter iter;
+
+  if (!gtk_tree_model_get_iter (model, &iter, path)) {
+    nul_critical ("could not get iterator for path %s", path_string);
+    return;
+  }
+
+  g_autofree gchar *artist_name = get_row_artist_name (model, &iter);
+  guint64 const artist_id = get_row_artist_id (model, &iter);
+
+  nul_debug (
+    "artist=`%s', artist_id=%" G_GUINT64_FORMAT,
+    artist_name,
+    artist_id
+  );
+
+  g_action_group_activate_action (
+    G_ACTION_GROUP (win),
+    "win.music-artist-albums",
+    g_variant_new_uint64 (artist_id)
+  );
+
+}
+
 void
 nul_ui_artists_register (NulUiArtists    *const self,
                          NulMusicService *const proxy)
@@ -136,6 +223,13 @@ nul_ui_artists_register (NulUiArtists    *const self,
     self
   );
 
+  self->row_activated_watcher = g_signal_connect (
+    self->tree,
+    "row-activated",
+    G_CALLBACK (row_activated_cb),
+    self
+  );
+
 }
 
 void
@@ -143,7 +237,9 @@ nul_ui_artists_unregister (NulUiArtists *const self)
 {
 
   guint const music_watcher = self->music_watcher;
+  guint const row_activated_watcher = self->row_activated_watcher;
   NulMusicService *const music = self->music;
+  GtkTreeView *const tree = self->tree;
 
   if (!NUL_IS_MUSIC_SERVICE (music)) {
     g_return_if_fail (music_watcher == 0);
@@ -152,10 +248,13 @@ nul_ui_artists_unregister (NulUiArtists *const self)
   g_return_if_fail (music_watcher > 0);
 
   g_signal_handler_disconnect (music, music_watcher);
+  g_clear_object (&self->music);
   g_object_unref (music);
 
-  self->music = NULL;
+  g_signal_handler_disconnect (tree, row_activated_watcher);
+
   self->music_watcher = 0;
+  self->row_activated_watcher = 0;
 
 }
 
@@ -234,6 +333,8 @@ nul_ui_artists_register_actions (NulUiArtists *const self,
 void
 nul_ui_artists_free (NulUiArtists *const self)
 {
+
+  nul_debug ("freeing NulUiArtists#%p", self);
 
   g_clear_object (&self->box);
   g_clear_object (&self->tree);
