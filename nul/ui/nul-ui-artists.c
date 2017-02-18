@@ -76,6 +76,9 @@ nul_ui_artists_new (GtkBox       *const box,
     self
   );
 
+  gtk_widget_set_sensitive (GTK_WIDGET (prev), FALSE);
+  gtk_widget_set_sensitive (GTK_WIDGET (next), FALSE);
+
   return self;
 
 }
@@ -101,6 +104,16 @@ update_stats (NulUiArtists     *const self,
   );
 
   gtk_label_set_text (self->status, status_text);
+
+  gtk_widget_set_sensitive (
+    GTK_WIDGET (self->prev),
+    offset > 0
+  );
+
+  gtk_widget_set_sensitive (
+    GTK_WIDGET (self->next),
+    (offset + limit) < artists_count
+  );
 
 }
 
