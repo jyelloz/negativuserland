@@ -32,7 +32,7 @@ GApplication *
 nul_player_application_new (void)
 {
   return g_object_new (
-    NUL_TYPE_PLAYER_APPLICATION,
+    NUL_PLAYER_TYPE_APPLICATION,
     "application-id", NUL_APP_ID,
     "flags", NUL_APP_FLAGS,
     NULL

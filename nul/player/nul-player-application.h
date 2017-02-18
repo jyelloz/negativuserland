@@ -6,13 +6,13 @@
 
 G_BEGIN_DECLS
 
-#define NUL_TYPE_PLAYER_APPLICATION (nul_player_application_get_type ())
+#define NUL_PLAYER_TYPE_APPLICATION (nul_player_application_get_type ())
 
 G_DECLARE_FINAL_TYPE (
   NulPlayerApplication,
   nul_player_application,
-  NUL,
-  PLAYER_APPLICATION,
+  NUL_PLAYER,
+  APPLICATION,
   GApplication
 )
 
