@@ -170,6 +170,10 @@ nul_player_gst_finalize (GObject *const object)
 
   NulPlayerGst *const self = NUL_PLAYER_GST (object);
 
+  if (GST_IS_ELEMENT (self->pipeline)) {
+    gst_element_set_state (GST_ELEMENT (self->pipeline), GST_STATE_NULL);
+  }
+
   g_clear_object (&self->pipeline);
 
   gobj_class->finalize (object);
