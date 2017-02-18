@@ -22,13 +22,13 @@
       <arg name="tracks" type="aa{sv}" direction="out" />
     </method>
     <method name="GetTracksForAlbum">
-      <arg name="album_id" type="s" />
+      <arg name="album_id" type="t" />
       <arg name="offset" type="t" />
       <arg name="limit" type="t" />
       <arg name="tracks" type="aa{sv}" direction="out" />
     </method>
     <method name="GetAlbumsForArtist">
-      <arg name="artist_id" type="s" />
+      <arg name="artist_id" type="t" />
       <arg name="offset" type="t" />
       <arg name="limit" type="t" />
       <arg name="albums" type="aa{sv}" direction="out" />
