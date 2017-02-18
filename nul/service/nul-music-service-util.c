@@ -68,10 +68,9 @@ gchar const get_albums_sparql[] =
 "SELECT "
 "?album "
 "tracker:id(?album) as ?id "
-"?title "
+"nie:title(?album) as ?title "
 "WHERE { "
-"?album a nmm:MusicAlbum ; "
-"nie:title ?title . "
+"?album a nmm:MusicAlbum . "
 "} "
 LIMIT_OFFSET_TEMPLATE;
 
