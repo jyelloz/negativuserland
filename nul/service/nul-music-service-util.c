@@ -314,6 +314,10 @@ query_cb (GObject      *const object,
     &error
   );
 
+  if (error) {
+    nul_error ("failed to execute query: %s", error->message);
+  }
+
   AsyncSparqlWork *const work = async_sparql_work_get (task);
   work->cursor = g_object_ref_sink (cursor);
   work->builder = g_variant_builder_new (VARDICT_ARRAY);
