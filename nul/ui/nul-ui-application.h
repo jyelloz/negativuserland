@@ -6,7 +6,7 @@
 
 G_BEGIN_DECLS
 
-#define NUL_TYPE_UI_APPLICATION (nul_ui_application_get_type ())
+#define NUL_UI_TYPE_APPLICATION (nul_ui_application_get_type ())
 
 G_DECLARE_FINAL_TYPE (
   NulUiApplication,
