@@ -45,6 +45,8 @@ nul_player_application_finalize (GObject *const object)
 
   NulPlayerApplication *const self = NUL_PLAYER_APPLICATION (object);
 
+  g_clear_object (&self->player);
+
   gobj_class->finalize (object);
 
 }
@@ -56,8 +58,6 @@ dbus_register (GApplication    *const app,
                GError         **const err)
 {
 
-  NulPlayerApplication *const self = NUL_PLAYER_APPLICATION (app);
-
   return gapp_class->dbus_register (app, conn, path, err);
 
 }
@@ -67,8 +67,6 @@ dbus_unregister (GApplication    *const app,
                  GDBusConnection *const conn,
                  gchar const     *const path)
 {
-
-  NulPlayerApplication *const self = NUL_PLAYER_APPLICATION (app);
 
   gapp_class->dbus_unregister (app, conn, path);
 
@@ -83,13 +81,31 @@ startup (GApplication *const app)
   nul_debug ("starting up");
   NulPlayerApplication *const self = NUL_PLAYER_APPLICATION (app);
 
-  self->player = nul_player_gst_new (&error);
+  g_autoptr(NulPlayerGst) player = self->player = g_object_ref (
+    nul_player_gst_new (&error)
+  );
 
   if (error) {
     nul_error ("failed to initialize player: %s", error->message);
   }
 
   gapp_class->startup (app);
+
+  nul_debug ("playing player");
+  nul_player_gst_play (player);
+
+}
+
+static void
+shutdown (GApplication *const app)
+{
+
+  nul_debug ("shutting down");
+
+  NulPlayerApplication *const self = NUL_PLAYER_APPLICATION (app);
+  g_clear_object (&self->player);
+
+  gapp_class->shutdown (app);
 
 }
 
@@ -112,6 +128,7 @@ nul_player_application_class_init (NulPlayerApplicationClass *const cls)
   app_class->dbus_unregister = dbus_unregister;
   app_class->activate = activate;
   app_class->startup = startup;
+  app_class->shutdown = shutdown;
 
 }
 
