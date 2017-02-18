@@ -11,8 +11,8 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (
   NulUiApplication,
   nul_ui_application,
-  NUL,
-  UI_APPLICATION,
+  NUL_UI,
+  APPLICATION,
   GtkApplication
 )
 
