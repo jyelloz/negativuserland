@@ -82,9 +82,8 @@ gchar const get_albums_for_artist_sparql[] =
 "nie:title(?album) as ?title "
 "WHERE { "
 "?album a nmm:MusicAlbum ; "
-"nie:title ?title ; "
-"nie:url ?url ; "
-"nmm:albumArtist \"urn:artist:%s\" . "
+"nmm:albumArtist ?album_artist . "
+"FILTER (tracker:id(?album_artist) = %" G_GUINT64_FORMAT ") . "
 "} "
 LIMIT_OFFSET_TEMPLATE;
 
@@ -92,15 +91,13 @@ gchar const get_tracks_for_album_sparql[] =
 "SELECT "
 "?track "
 "tracker:id(?track) as ?id "
-"?url "
+"nie:url(?track) as ?url "
 "nie:title(?track) as ?title "
 "nmm:trackNumber(?track) as ?track_number "
 "nmm:setNumber(?disc) as ?disc_number "
 "WHERE { "
-"?track a nmm:MusicPiece ; "
-"nie:title ?title ; "
-"nie:url ?url ; "
-"nmm:musicAlbum \"urn:album:%s\" . "
+"?track a nmm:MusicPiece . "
+"FILTER (tracker:id(?album) = %" G_GUINT64_FORMAT " . "
 "OPTIONAL { ?track nmm:musicAlbumDisc ?disc } "
 "} "
 "ORDER BY ?disc_number ?track_number "
@@ -417,18 +414,14 @@ handle_get_tracks (NulMusicService       *const self,
 static gboolean
 handle_get_tracks_for_album (NulMusicService       *const self,
                              GDBusMethodInvocation *const invo,
-                             gchar   const         *const album_id,
+                             guint64 const                album_id,
                              guint64 const                offset,
                              guint64 const                limit)
 {
 
-  g_autofree gchar const *album_id_safe = tracker_sparql_escape_uri_printf (
-    "%s",
-    album_id
-  );
   g_autofree gchar *sparql = g_strdup_printf (
     get_tracks_for_album_sparql,
-    album_id_safe,
+    album_id,
     limit,
     offset
   );
@@ -441,18 +434,14 @@ handle_get_tracks_for_album (NulMusicService       *const self,
 static gboolean
 handle_get_albums_for_artist (NulMusicService       *const self,
                               GDBusMethodInvocation *const invo,
-                              gchar   const         *const artist_id,
+                              guint64 const                artist_id,
                               guint64 const                offset,
                               guint64 const                limit)
 {
 
-  g_autofree gchar const *artist_id_safe = tracker_sparql_escape_uri_printf (
-    "%s",
-    artist_id
-  );
   g_autofree gchar *sparql = g_strdup_printf (
     get_albums_for_artist_sparql,
-    artist_id_safe,
+    artist_id,
     limit,
     offset
   );
