@@ -1,6 +1,7 @@
 #include "nul-ui-artists.h"
 #include "nul-music-service.h"
 
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 
 struct _NulUiArtists {
@@ -23,6 +24,15 @@ static void
 prev_page_cb (GtkButton *const button, NulUiArtists *const self);
 static void
 next_page_cb (GtkButton *const button, NulUiArtists *const self);
+
+static void
+activate_music_artist_albums (GSimpleAction *const action,
+                              GVariant      *const parameter,
+                              gpointer       const user_data);
+
+static GActionEntry const entries[] = {
+  {"music-artist-albums", activate_music_artist_albums, "t", NULL, NULL},
+};
 
 NulUiArtists *
 nul_ui_artists_new (GtkBox       *const box,
@@ -190,6 +200,21 @@ nul_ui_artists_update (NulUiArtists *const self,
   }
 
   update_stats (self, NULL, NULL);
+
+}
+
+void
+nul_ui_artists_register_actions (NulUiArtists *const self,
+                                 GActionMap   *const map,
+                                 GActionGroup *const group)
+{
+
+  g_action_map_add_action_entries (
+    map,
+    entries,
+    G_N_ELEMENTS (entries),
+    self
+  );
 
 }
 

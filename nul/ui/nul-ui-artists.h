@@ -2,6 +2,7 @@
 #define NUL_UI_ARTISTS_H
 
 #include <glib.h>
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 
 #include "nul-music-service.h"
@@ -24,6 +25,11 @@ nul_ui_artists_register (NulUiArtists    *const self,
 
 void
 nul_ui_artists_unregister (NulUiArtists *const self);
+
+void
+nul_ui_artists_register_actions (NulUiArtists *const self,
+                                 GActionMap   *const map,
+                                 GActionGroup *const group);
 
 void
 nul_ui_artists_update (NulUiArtists *const self,

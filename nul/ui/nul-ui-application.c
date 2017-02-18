@@ -155,6 +155,12 @@ activate (GApplication *const app)
     G_ACTION_GROUP (window)
   );
 
+  nul_ui_artists_register_actions (
+    self->artists,
+    G_ACTION_MAP (window),
+    G_ACTION_GROUP (window)
+  );
+
   self->music_screen = GTK_WIDGET (music_screen);
 
   g_signal_connect (
