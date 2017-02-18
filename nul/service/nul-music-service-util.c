@@ -219,7 +219,7 @@ static void
 async_sparql_work_free (AsyncSparqlWork *const work)
 {
 
-  g_debug ("freeing AsyncSparqlWork#%p", work);
+  nul_debug ("freeing AsyncSparqlWork#%p", work);
 
   if (work == NULL) {
     return;
@@ -275,14 +275,14 @@ next_cb (GObject      *const object,
   );
 
   if (error) {
-    g_debug ("error: %s", error->message);
+    nul_debug ("error: %s", error->message);
     g_task_return_error (task, g_error_copy (error));
     return;
   }
 
   if (!more) {
     GVariant *const variant = g_variant_builder_end (work->builder);
-    g_debug (
+    nul_debug (
       "end of data after %" G_GSIZE_FORMAT " rows",
       g_variant_n_children (variant)
     );
@@ -480,11 +480,11 @@ update_artists_count_cb (GObject         *const object,
   );
 
   if (error) {
-    g_error ("failed to get count: %s", error->message);
+    nul_error ("failed to get count: %s", error->message);
     return;
   }
 
-  g_debug ("count is %" G_GINT64_FORMAT, count);
+  nul_debug ("count is %" G_GINT64_FORMAT, count);
 
   g_object_set (
     music,
@@ -522,11 +522,11 @@ update_albums_count_cb (GObject         *const object,
   );
 
   if (error) {
-    g_error ("failed to get count: %s", error->message);
+    nul_error ("failed to get count: %s", error->message);
     return;
   }
 
-  g_debug ("count is %" G_GINT64_FORMAT, count);
+  nul_debug ("count is %" G_GINT64_FORMAT, count);
 
   g_object_set (
     music,
@@ -564,11 +564,11 @@ update_tracks_count_cb (GObject         *const object,
   );
 
   if (error) {
-    g_error ("failed to get count: %s", error->message);
+    nul_error ("failed to get count: %s", error->message);
     return;
   }
 
-  g_debug ("count is %" G_GINT64_FORMAT, count);
+  nul_debug ("count is %" G_GINT64_FORMAT, count);
 
   g_object_set (
     music,

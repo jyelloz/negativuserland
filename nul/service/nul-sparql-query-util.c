@@ -27,7 +27,7 @@ static void
 sparql_query_work_free (SparqlQueryWork *const work)
 {
 
-  g_debug ("freeing work at %p", work);
+  nul_debug ("freeing SparqlQueryWork#%p", work);
 
   if (work == NULL) {
     return;
@@ -103,7 +103,7 @@ nul_sparql_query_util_query_async (gchar const         *const sparql,
                                    gpointer             const user_data)
 {
 
-  g_debug ("scheduling query %s", sparql);
+  nul_debug ("scheduling query %s", sparql);
 
   GTask *const task = g_task_new (NULL, cancellable, callback, user_data);
 
@@ -148,7 +148,7 @@ load_integer_value_next_cb (TrackerSparqlCursor *const cursor,
   );
 
   if (!more) {
-    g_warning ("no more rows to load");
+    nul_warning ("no more rows to load");
     g_task_return_int (task, -1);
     return;
   }

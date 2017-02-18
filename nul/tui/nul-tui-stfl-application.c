@@ -328,7 +328,7 @@ dbus_unregister (GApplication    *const app,
 static void
 activate (GApplication *const app)
 {
-  g_debug ("service activated");
+  nul_debug ("service activated");
 }
 
 static inline wchar_t const *
@@ -347,7 +347,7 @@ get_stfl_resource (struct stfl_ipool *const ipool,
   gconstpointer const stfl_data = g_bytes_get_data (stfl, NULL);
 
   if (stfl == NULL) {
-    g_error ("failed to load STFL resource `%s': %s", path, error->message);
+    nul_error ("failed to load STFL resource `%s': %s", path, error->message);
     return NULL;
   }
 

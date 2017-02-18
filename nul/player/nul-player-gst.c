@@ -161,7 +161,7 @@ initable_init (GInitable     *const initable,
 static void
 nul_player_gst_init (NulPlayerGst *const self)
 {
-  g_debug ("init media player");
+  nul_debug ("init media player");
 }
 
 static void

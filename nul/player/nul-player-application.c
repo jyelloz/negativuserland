@@ -80,13 +80,13 @@ startup (GApplication *const app)
 
   g_autoptr(GError) error = NULL;
 
-  g_debug ("starting up");
+  nul_debug ("starting up");
   NulPlayerApplication *const self = NUL_PLAYER_APPLICATION (app);
 
   self->player = nul_player_gst_new (&error);
 
   if (error) {
-    g_error ("failed to initialize player: %s", error->message);
+    nul_error ("failed to initialize player: %s", error->message);
   }
 
   gapp_class->startup (app);
@@ -96,7 +96,7 @@ startup (GApplication *const app)
 static void
 activate (GApplication *const app)
 {
-  g_debug ("player activated");
+  nul_debug ("player activated");
 }
 
 static void
@@ -119,7 +119,7 @@ static void
 nul_player_application_init (NulPlayerApplication *const self)
 {
 
-  g_debug ("initing application");
+  nul_debug ("initing application");
 
   GApplication *const app = G_APPLICATION (self);
 

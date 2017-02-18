@@ -62,7 +62,7 @@ cleanup_stdin_channel (GIOChannel *const channel)
     return;
   }
 
-  g_warning ("failed to shut down stdin channel: %s", error->message);
+  nul_warning ("failed to shut down stdin channel: %s", error->message);
 
 }
 

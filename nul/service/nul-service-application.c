@@ -92,7 +92,7 @@ dbus_unregister (GApplication    *const app,
 static void
 activate (GApplication *const app)
 {
-  g_debug ("service activated");
+  nul_debug ("service activated");
 }
 
 static void
