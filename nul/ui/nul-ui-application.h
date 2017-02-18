@@ -19,6 +19,12 @@ G_DECLARE_FINAL_TYPE (
 GtkApplication *
 nul_ui_application_new (void);
 
+GtkBuilder *
+nul_ui_application_get_builder (NulUiApplication *const self);
+
+GtkBuilder *
+nul_ui_application_get_builder_default (void);
+
 G_END_DECLS
 
 #endif /* NUL_UI_APPLICATION_H */

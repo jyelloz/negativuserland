@@ -39,6 +39,8 @@ struct _NulUiApplication
   GtkLabel *albums_count_label;
   GtkLabel *tracks_count_label;
 
+  GtkBuilder *builder;
+
 };
 
 G_DEFINE_TYPE (
@@ -56,6 +58,22 @@ nul_ui_application_new (void)
     "flags", NUL_APP_FLAGS,
     NULL
   );
+}
+
+GtkBuilder *
+nul_ui_application_get_builder (NulUiApplication *const self)
+{
+  g_return_val_if_fail (NUL_UI_IS_APPLICATION (self), NULL);
+  return self->builder;
+}
+
+GtkBuilder *
+nul_ui_application_get_builder_default (void)
+{
+  NulUiApplication *const app = NUL_UI_APPLICATION (
+    g_application_get_default ()
+  );
+  return app == NULL ? NULL : nul_ui_application_get_builder (app);
 }
 
 static void
@@ -108,9 +126,11 @@ activate (GApplication *const app)
   GtkApplication *const gtk_app = GTK_APPLICATION (app);
   NulUiApplication *const self = NUL_UI_APPLICATION (app);
 
-  g_autoptr(GtkBuilder) builder = gtk_builder_new_from_resource (
+  GtkBuilder *const builder = gtk_builder_new_from_resource (
     "/org/negativuserland/Ui/negativuserland.ui"
   );
+
+  self->builder = builder;
 
   GObject *const service_state_stack = B_OBJ ("service-state-stack");
   GObject *const connected_state = B_OBJ ("connected-state");
@@ -362,6 +382,8 @@ nul_ui_application_finalize (GObject *const object)
   g_clear_pointer (&self->service_state_stack, nul_ui_service_state_stack_free);
   g_clear_pointer (&self->main_menu, nul_ui_main_menu_free);
   g_clear_pointer (&self->artists, nul_ui_artists_free);
+
+  g_clear_object (&self->builder);
 
   gobj_class->finalize (object);
 
