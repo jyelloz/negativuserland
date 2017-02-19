@@ -40,7 +40,7 @@ GApplication *
 nul_tui_stfl_application_new (void)
 {
   return g_object_new (
-    NUL_TYPE_TUI_STFL_APPLICATION,
+    NUL_TUI_TYPE_STFL_APPLICATION,
     "application-id", NUL_APP_ID,
     "flags", NUL_APP_FLAGS,
     NULL

@@ -6,13 +6,13 @@
 
 G_BEGIN_DECLS
 
-#define NUL_TYPE_SERVICE_APPLICATION (nul_service_application_get_type ())
+#define NUL_SERVICE_TYPE_APPLICATION (nul_service_application_get_type ())
 
 G_DECLARE_FINAL_TYPE (
   NulServiceApplication,
   nul_service_application,
-  NUL,
-  SERVICE_APPLICATION,
+  NUL_SERVICE,
+  APPLICATION,
   GApplication
 )
 

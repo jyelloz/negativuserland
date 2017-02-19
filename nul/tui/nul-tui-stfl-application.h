@@ -6,13 +6,13 @@
 
 G_BEGIN_DECLS
 
-#define NUL_TYPE_TUI_STFL_APPLICATION (nul_tui_stfl_application_get_type ())
+#define NUL_TUI_TYPE_STFL_APPLICATION (nul_tui_stfl_application_get_type ())
 
 G_DECLARE_FINAL_TYPE (
   NulTuiStflApplication,
   nul_tui_stfl_application,
-  NUL,
-  TUI_STFL_APPLICATION,
+  NUL_TUI,
+  STFL_APPLICATION,
   GApplication
 )
 
