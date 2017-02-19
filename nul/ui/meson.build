@@ -6,7 +6,6 @@ nul_ui_deps = [
 
 executable(
   'nul-ui',
-  'nul-ui-window.c',
   'nul-ui-application.c',
   'nul-ui-pagination-util.c',
   'nul-ui-service-state-stack.c',
