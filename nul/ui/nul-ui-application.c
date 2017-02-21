@@ -160,7 +160,7 @@ activate (GApplication *const app)
 
   self->artists = nul_ui_artists_new (
     GTK_BOX (B_OBJ ("artists-list-box")),
-    GTK_TREE_VIEW  (B_OBJ ("artists-list")),
+    GTK_TREE_VIEW (B_OBJ ("artists-list")),
     GTK_LIST_STORE (B_OBJ ("artists-liststore")),
     GTK_LABEL (B_OBJ ("artists-page-status-label")),
     GTK_BUTTON (B_OBJ ("artists-page-prev-button")),
