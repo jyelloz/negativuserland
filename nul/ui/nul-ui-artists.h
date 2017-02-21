@@ -9,7 +9,15 @@
 
 G_BEGIN_DECLS
 
-typedef struct _NulUiArtists NulUiArtists;
+#define NUL_UI_TYPE_ARTISTS (nul_ui_artists_get_type ())
+
+G_DECLARE_FINAL_TYPE (
+  NulUiArtists,
+  nul_ui_artists,
+  NUL_UI,
+  ARTISTS,
+  GObject
+)
 
 NulUiArtists *
 nul_ui_artists_new (GtkBox       *const box,
@@ -34,9 +42,6 @@ nul_ui_artists_register_actions (NulUiArtists *const self,
 void
 nul_ui_artists_update (NulUiArtists *const self,
                        GVariant     *const artists);
-
-void
-nul_ui_artists_free (NulUiArtists *const self);
 
 G_END_DECLS
 

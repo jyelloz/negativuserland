@@ -4,7 +4,12 @@
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
+#define gobj_class G_OBJECT_CLASS (nul_ui_artists_parent_class)
+
 struct _NulUiArtists {
+
+  GObject parent_instance;
+
   GtkBox *box;
   GtkTreeView *tree;
   GtkListStore *store;
@@ -21,6 +26,12 @@ struct _NulUiArtists {
 
 };
 
+G_DEFINE_TYPE (
+  NulUiArtists,
+  nul_ui_artists,
+  G_TYPE_OBJECT
+)
+
 static void
 prev_page_cb (GtkButton *const button, NulUiArtists *const self);
 static void
@@ -34,6 +45,37 @@ activate_music_artist_albums (GSimpleAction *const action,
 static GActionEntry const entries[] = {
   {"music-artist-albums", activate_music_artist_albums, "t", NULL, NULL},
 };
+
+static void
+nul_ui_artists_finalize (GObject *const object)
+{
+
+  NulUiArtists *const self = NUL_UI_ARTISTS (object);
+
+  g_clear_object (&self->box);
+  g_clear_object (&self->tree);
+  g_clear_object (&self->store);
+  g_clear_object (&self->prev);
+  g_clear_object (&self->next);
+
+  gobj_class->finalize (object);
+
+}
+
+static void
+nul_ui_artists_class_init (NulUiArtistsClass *const cls)
+{
+
+  GObjectClass *const object_class = G_OBJECT_CLASS (cls);
+
+  object_class->finalize = nul_ui_artists_finalize;
+
+}
+
+static void
+nul_ui_artists_init (NulUiArtists *const self)
+{
+}
 
 NulUiArtists *
 nul_ui_artists_new (GtkBox       *const box,
@@ -51,7 +93,10 @@ nul_ui_artists_new (GtkBox       *const box,
   g_return_val_if_fail (GTK_IS_BUTTON (prev), NULL);
   g_return_val_if_fail (GTK_IS_BUTTON (next), NULL);
 
-  NulUiArtists *const self = g_new0 (NulUiArtists, 1);
+  NulUiArtists *const self = g_object_new (
+    NUL_UI_TYPE_ARTISTS,
+    NULL
+  );
 
   self->box = g_object_ref (box);
   self->tree = g_object_ref (tree);
@@ -198,7 +243,7 @@ row_activated_cb (GtkTreeView       *const view,
 
   g_action_group_activate_action (
     G_ACTION_GROUP (win),
-    "win.music-artist-albums",
+    "music-artist-albums",
     g_variant_new_uint64 (artist_id)
   );
 
@@ -327,22 +372,6 @@ nul_ui_artists_register_actions (NulUiArtists *const self,
     G_N_ELEMENTS (entries),
     self
   );
-
-}
-
-void
-nul_ui_artists_free (NulUiArtists *const self)
-{
-
-  nul_debug ("freeing NulUiArtists#%p", self);
-
-  g_clear_object (&self->box);
-  g_clear_object (&self->tree);
-  g_clear_object (&self->store);
-  g_clear_object (&self->prev);
-  g_clear_object (&self->next);
-
-  g_free (self);
 
 }
 
