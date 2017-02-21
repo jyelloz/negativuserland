@@ -31,6 +31,7 @@ struct _NulUiApplication
   NulUiServiceStateStack *service_state_stack;
   NulUiMainMenu *main_menu;
   NulUiArtists *artists;
+  NulUiArtistAlbums *artist_albums;
 
   GtkWidget *music_screen;
   GtkWidget *music_screen_stack;
@@ -149,13 +150,13 @@ activate (GApplication *const app)
    GTK_STACK (service_state_stack)
   );
 
-  self->main_menu = nul_ui_main_menu_new (
-    GTK_LIST_BOX (main_menu),
-    GTK_WIDGET (music_screen),
-    GTK_WIDGET (geolocation),
-    GTK_WIDGET (automotive),
-    GTK_WIDGET (settings),
-    GTK_STACK (connected_state)
+  self->artist_albums = nul_ui_artist_albums_new (
+    GTK_BOX (B_OBJ ("artist-albums-list-box")),
+    GTK_TREE_VIEW (B_OBJ ("artist-albums-list")),
+    GTK_LIST_STORE (B_OBJ ("artist-albums-liststore")),
+    GTK_LABEL (B_OBJ ("artist-albums-page-status-label")),
+    GTK_BUTTON (B_OBJ ("artist-albums-page-prev-button")),
+    GTK_BUTTON (B_OBJ ("artist-albums-page-next-button"))
   );
 
   self->artists = nul_ui_artists_new (
@@ -165,6 +166,17 @@ activate (GApplication *const app)
     GTK_LABEL (B_OBJ ("artists-page-status-label")),
     GTK_BUTTON (B_OBJ ("artists-page-prev-button")),
     GTK_BUTTON (B_OBJ ("artists-page-next-button"))
+  );
+
+  self->main_menu = nul_ui_main_menu_new (
+    GTK_LIST_BOX (main_menu),
+    GTK_WIDGET (music_screen),
+    GTK_WIDGET (geolocation),
+    GTK_WIDGET (automotive),
+    GTK_WIDGET (settings),
+    GTK_STACK (connected_state),
+    self->artists,
+    self->artist_albums
   );
 
   self->artists_count_label = GTK_LABEL (B_OBJ ("artists-count-label"));
@@ -179,6 +191,12 @@ activate (GApplication *const app)
 
   nul_ui_artists_register_actions (
     self->artists,
+    G_ACTION_MAP (window),
+    G_ACTION_GROUP (window)
+  );
+
+  nul_ui_artist_albums_register_actions (
+    self->artist_albums,
     G_ACTION_MAP (window),
     G_ACTION_GROUP (window)
   );
@@ -388,6 +406,7 @@ nul_ui_application_finalize (GObject *const object)
   g_clear_pointer (&self->service_state_stack, nul_ui_service_state_stack_free);
   g_clear_pointer (&self->main_menu, nul_ui_main_menu_free);
   g_clear_object (&self->artists);
+  g_clear_object (&self->artist_albums);
 
   g_clear_object (&self->builder);
 
