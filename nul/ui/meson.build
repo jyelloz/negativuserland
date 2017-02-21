@@ -10,6 +10,7 @@ executable(
   'nul-ui-pagination-util.c',
   'nul-ui-service-state-stack.c',
   'nul-ui-artists.c',
+  'nul-ui-artist-albums.c',
   'nul-ui-main-menu.c',
   'nul-ui-main.c',
   nul_ui_resources,
