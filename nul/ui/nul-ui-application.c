@@ -242,8 +242,14 @@ music_service_ready_cb (GObject          *const obj,
 {
   nul_debug ("music service ready");
 
+  g_autoptr(GError) error = NULL;
+
   NulMusicService *const music = self->music =
-    nul_music_service_proxy_new_finish (res, NULL);
+    nul_music_service_proxy_new_finish (res, &error);
+
+  if (error) {
+    nul_error ("failed to get music dbus proxy: %s", error->message);
+  }
 
   update_stats_view (self);
 
