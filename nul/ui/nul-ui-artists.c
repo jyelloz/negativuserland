@@ -37,13 +37,7 @@ prev_page_cb (GtkButton *const button, NulUiArtists *const self);
 static void
 next_page_cb (GtkButton *const button, NulUiArtists *const self);
 
-static void
-activate_music_artist_albums (GSimpleAction *const action,
-                              GVariant      *const parameter,
-                              gpointer       const user_data);
-
 static GActionEntry const entries[] = {
-  {"music-artist-albums", activate_music_artist_albums, "t", NULL, NULL},
 };
 
 static void
@@ -197,15 +191,6 @@ get_row_artist_id (GtkTreeModel *const model,
 
   return artist_id;
 
-}
-
-static void
-activate_music_artist_albums (GSimpleAction *const action,
-                              GVariant      *const parameter,
-                              gpointer       const user_data)
-{
-  guint64 const artist_id = g_variant_get_uint64 (parameter);
-  nul_debug ("activating artist#%" G_GUINT64_FORMAT, artist_id);
 }
 
 static void
