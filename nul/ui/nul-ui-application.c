@@ -381,7 +381,7 @@ nul_ui_application_finalize (GObject *const object)
 
   g_clear_pointer (&self->service_state_stack, nul_ui_service_state_stack_free);
   g_clear_pointer (&self->main_menu, nul_ui_main_menu_free);
-  g_clear_pointer (&self->artists, nul_ui_artists_free);
+  g_clear_object (&self->artists);
 
   g_clear_object (&self->builder);
 
