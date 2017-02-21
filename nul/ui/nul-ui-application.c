@@ -71,10 +71,15 @@ nul_ui_application_get_builder (NulUiApplication *const self)
 GtkBuilder *
 nul_ui_application_get_builder_default (void)
 {
-  NulUiApplication *const app = NUL_UI_APPLICATION (
-    g_application_get_default ()
-  );
+  NulUiApplication *const app = nul_ui_application_get_default ();
   return app == NULL ? NULL : nul_ui_application_get_builder (app);
+}
+
+NulMusicService *
+nul_ui_application_get_music (NulUiApplication *const self)
+{
+  g_return_val_if_fail (NUL_UI_IS_APPLICATION (self), NULL);
+  return self->music;
 }
 
 static void
