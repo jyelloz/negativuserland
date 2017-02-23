@@ -12,6 +12,7 @@ executable(
   'nul-ui-artists.c',
   'nul-ui-artist-albums.c',
   'nul-ui-main-menu.c',
+  'nul-ui-page-browser.c',
   'nul-ui-main.c',
   nul_ui_resources,
   include_directories: [nul_inc, include_directories('.')],
