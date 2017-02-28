@@ -3,7 +3,8 @@
 #include "nul-external-autocleanups.h"
 
 #define get_priv(self) \
-  nul_ui_page_browser_get_instance_private (NUL_UI_PAGE_BROWSER (self))
+  ((NulUiPageBrowserPrivate *) \
+    nul_ui_page_browser_get_instance_private (NUL_UI_PAGE_BROWSER (self)))
 
 typedef struct
 {
@@ -28,6 +29,8 @@ enum {
   PROP_0,
   N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS];
 
 static void
 child_activated_cb (GtkFlowBox       *const flow,
