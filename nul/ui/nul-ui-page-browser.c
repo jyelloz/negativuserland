@@ -24,6 +24,11 @@ G_DEFINE_ABSTRACT_TYPE (
   GTK_TYPE_BOX
 );
 
+enum {
+  PROP_0,
+  N_PROPS
+};
+
 static void
 child_activated_cb (GtkFlowBox       *const flow,
                     GtkFlowBoxChild  *const child,
@@ -49,10 +54,53 @@ child_activated_cb (GtkFlowBox       *const flow,
 }
 
 static void
+get_property (GObject    *const object,
+              guint const       prop_id,
+              GValue     *const value,
+              GParamSpec *const pspec)
+{
+
+  switch (prop_id) {
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+  }
+
+}
+static void
+set_property (GObject      *const object,
+              guint const         prop_id,
+              GValue const *const value,
+              GParamSpec   *const pspec)
+{
+  switch (prop_id) {
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+  }
+}
+
+
+static void
 nul_ui_page_browser_class_init (NulUiPageBrowserClass *const cls)
 {
 
+  GObjectClass *const gobject_class = G_OBJECT_CLASS (cls);
   GtkWidgetClass *const widget_class = GTK_WIDGET_CLASS (cls);
+
+  gobject_class->get_property = get_property;
+  gobject_class->set_property = set_property;
+
+  properties[PROP_PAGE] = g_param_spec_int (
+    "page", "Page", "Page",
+    0, G_MAXINT,
+    0,
+    G_PARAM_STATIC_STRINGS | G_PARAM_READABLE
+  );
+
+  g_object_class_install_properties (
+    gobject_class,
+    N_PROPS,
+    properties
+  );
 
   gtk_widget_class_set_template_from_resource (
     widget_class,
