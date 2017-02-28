@@ -32,7 +32,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="action_name">prev</property>
+            <signal name="clicked" handler="prev_cb" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -58,7 +58,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="action_name">next</property>
+            <signal name="clicked" handler="next_cb" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
