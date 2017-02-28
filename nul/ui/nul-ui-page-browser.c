@@ -16,6 +16,7 @@ typedef struct
   GtkFlowBox *flow;
   GListStore *model;
 
+  int page;
 
 } NulUiPageBrowserPrivate;
 
@@ -27,10 +28,26 @@ G_DEFINE_ABSTRACT_TYPE (
 
 enum {
   PROP_0,
-  N_PROPS
+  PROP_PAGE,
+  N_PROPS,
 };
 
 static GParamSpec *properties[N_PROPS];
+
+static inline gint
+get_page (NulUiPageBrowser *const self)
+{
+  return get_priv (self)->page;
+}
+
+static inline void
+set_page (NulUiPageBrowser *const self,
+          gint const              page)
+{
+  g_return_if_fail (page >= 0);
+  get_priv (self)->page = MAX (0, page);
+  g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_PAGE]);
+}
 
 static void
 child_activated_cb (GtkFlowBox       *const flow,
@@ -63,7 +80,12 @@ get_property (GObject    *const object,
               GParamSpec *const pspec)
 {
 
+  NulUiPageBrowserPrivate *const priv = get_priv (object);
+
   switch (prop_id) {
+    case PROP_PAGE:
+      g_value_set_int (value, priv->page);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
   }
@@ -174,13 +196,6 @@ nul_ui_page_browser_init (NulUiPageBrowser *const self)
       G_OBJECT_TYPE_NAME (self),
       self
     )
-  );
-
-  g_signal_connect (
-    self,
-    "map",
-    G_CALLBACK (map_cb),
-    NULL
   );
 
   gtk_flow_box_bind_model (
