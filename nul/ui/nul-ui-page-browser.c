@@ -107,6 +107,7 @@ get_property (GObject    *const object,
   }
 
 }
+
 static void
 set_property (GObject      *const object,
               guint const         prop_id,
