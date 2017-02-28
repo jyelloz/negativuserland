@@ -50,6 +50,22 @@ set_page (NulUiPageBrowser *const self,
 }
 
 static void
+prev_cb (GtkButton        *const button,
+         NulUiPageBrowser *const self)
+{
+  nul_debug ("prev");
+  set_page (self, get_page (self) - 1);
+}
+
+static void
+next_cb (GtkButton        *const button,
+         NulUiPageBrowser *const self)
+{
+  nul_debug ("next");
+  set_page (self, get_page (self) + 1);
+}
+
+static void
 child_activated_cb (GtkFlowBox       *const flow,
                     GtkFlowBoxChild  *const child,
                     NulUiPageBrowser *const self)
@@ -158,6 +174,16 @@ nul_ui_page_browser_class_init (NulUiPageBrowserClass *const cls)
 
   gtk_widget_class_bind_template_callback (
     widget_class,
+    prev_cb
+  );
+
+  gtk_widget_class_bind_template_callback (
+    widget_class,
+    next_cb
+  );
+
+  gtk_widget_class_bind_template_callback (
+    widget_class,
     child_activated_cb
   );
 
@@ -168,7 +194,7 @@ append (GListStore  *const model,
         gchar const *const text)
 {
   GObject *const obj = g_object_new (G_TYPE_OBJECT, NULL);
-  g_object_set_data (obj, "text", text);
+  g_object_set_data_full (obj, "text", g_strdup (text), g_free);
   g_list_store_append (model, obj);
 }
 
@@ -177,6 +203,16 @@ create_widget (GObject          *const item,
                NulUiPageBrowser *const self)
 {
   return gtk_label_new (g_object_get_data (item, "text"));
+}
+
+static gboolean
+page_to_prev_sensitive (GBinding     *const binding,
+                        GValue const *const from,
+                        GValue       *const to,
+                        gpointer      const user_data)
+{
+  g_value_set_boolean (to, g_value_get_int (from) > 0);
+  return TRUE;
 }
 
 static void
@@ -203,6 +239,18 @@ nul_ui_page_browser_init (NulUiPageBrowser *const self)
     G_LIST_MODEL (model),
     (GtkFlowBoxCreateWidgetFunc) create_widget,
     self,
+    NULL
+  );
+
+  g_object_bind_property_full (
+    self,
+    "page",
+    priv->prev_button,
+    "sensitive",
+    G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
+    page_to_prev_sensitive,
+    NULL,
+    NULL,
     NULL
   );
 
