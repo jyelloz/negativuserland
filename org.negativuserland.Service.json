@@ -1,0 +1,19 @@
+{
+    "app-id": "org.negativuserland.Service",
+    "runtime": "org.gnome.Sdk",
+    "runtime-version": "master",
+    "sdk": "org.gnome.Sdk",
+    "command": "nul-service",
+    "buildsystem": "meson",
+    "build-options": {
+        "cflags": "-O2 -g",
+        "cxxflags": "-O2 -g",
+        "env": {
+            "V": "1"
+        }
+    },
+    "finish-args": [ ],
+    "cleanup": [ ],
+    "modules": [
+    ]
+}
